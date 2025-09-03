@@ -1,0 +1,141 @@
+@font-face {
+    font-family: 'customfont';
+    src: url('fonts/noto-sans-jp-v54-japanese_latin-900.woff2') format('woff2');
+    font-weight: 900;
+}
+@font-face {
+    font-family: 'customfont';
+    src: url('fonts/noto-sans-jp-v54-japanese_latin-800.woff2') format('woff2');
+    font-weight: 800;
+}
+@font-face {
+    font-family: 'customfont';
+    src: url('fonts/noto-sans-jp-v54-japanese_latin-700.woff2') format('woff2');
+    font-weight: 700;
+}
+@font-face {
+    font-family: 'customfont';
+    src: url('fonts/noto-sans-jp-v54-japanese_latin-600.woff2') format('woff2');
+    font-weight: 600;
+}
+@font-face {
+    font-family: 'customfont';
+    src: url('fonts/noto-sans-jp-v54-japanese_latin-500.woff2') format('woff2');
+    font-weight: 500;
+}
+@font-face {
+    font-family: 'customfont';
+    src: url('fonts/noto-sans-jp-v54-japanese_latin-regular.woff2') format('woff2');
+    font-weight: 400;
+}
+@font-face {
+    font-family: 'customfont';
+    src: url('fonts/noto-sans-jp-v54-japanese_latin-300.woff2') format('woff2');
+    font-weight: 300;
+}
+@font-face {
+    font-family: 'customfont';
+    src: url('fonts/noto-sans-jp-v54-japanese_latin-200.woff2') format('woff2');
+    font-weight: 200;
+}
+@font-face {
+    font-family: 'customfont';
+    src: url('fonts/noto-sans-jp-v54-japanese_latin-100.woff2') format('woff2');
+    font-weight: 100;
+}
+
+.reveal * {
+    font-family:'customfont' !important;
+}
+
+.reveal p {
+    font-weight: 600;
+}
+
+
+.slides .title {
+    font-weight: 800;
+    font-size: 2em;
+}
+
+.slides .subtitle {
+    padding-top: 0.66em;
+    font-weight: 100;
+}
+
+.slides .small {
+    font-weight: 100;
+    font-size: max(0.5em,32px);
+}
+
+.slides .smaller {
+    font-weight: 300;
+    font-size: max(0.9em,32px);
+}
+
+.slides .bigger{
+    font-size: 1.1em;
+    font-weight: 900;
+}
+
+.slides .colored{
+    color: #C00000;
+}
+
+.slides .deemphasize{
+    color: #555;
+}
+
+.slides .left{
+    float: left;
+}
+
+.slides .columns-2x1{
+	display:grid;
+	grid-template-columns: 50% 50%;
+	place-items: center;
+}
+
+
+.slides .columns-3x1{
+	display:grid;
+	grid-template-columns: auto auto auto;
+	place-items: center;
+}
+
+#profile-urls li {
+    margin-bottom: 0.5em;
+    list-style: none;
+    display: grid;
+    grid-template-columns: 2em auto;
+    grid-template-rows: 1.5em;
+    gap: 0.5em;
+    font-size: 32px;
+}
+
+#profile-urls li::before {
+  content: '';
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+#profile-urls .icon-github::before {
+    background-image: url("imgs/profile/github.svg");
+}
+
+#profile-urls .icon-x::before {
+    background-image: url("imgs/profile/x.svg");
+}
+
+#profile-urls .icon-zenn::before {
+    background-image: url("imgs/profile/zenn.svg");
+}
+
+#profile-urls .icon-connpass::before {
+    background-image: url("imgs/profile/connpass.svg");
+}
+
+#profile-urls .icon-sessionize::before {
+    background-image: url("imgs/profile/sessionize.svg");
+}
