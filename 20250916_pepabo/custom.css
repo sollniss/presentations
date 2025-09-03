@@ -44,98 +44,127 @@
     font-weight: 100;
 }
 
-.reveal * {
-    font-family:'customfont' !important;
+:root {
+  --r-main-font: customfont;
+  --r-heading-font: customfont;
+
+  --col-inline-code-bg: rgb(35, 35, 35);
+  --col-subtle: #555;
+  --col-tinted: #777;
+  --col-highlight: #C00000;
 }
 
-.reveal p {
-    font-weight: 600;
-}
+.slides {
+    .weak {
+        font-weight: 100;
+        font-size: var(--r-main-font-size);
+    }
+    .weaker {
+        font-weight: 300;
+        font-size: max(0.9em,32px);
+    }
+    .smallest {
+        font-size: 32px;
+    }
+    .bigger{
+        font-size: 1.1em;
+    }
+    .highlight{
+        color: var(--col-highlight);
+    }
+    .subtle{
+        color: var(--col-subtle);
+    }
+    .tinted{
+        color: var(--col-tinted);
+    }
+    .left{
+        float: left;
+    }
+    .columns-2x1{
+        display:grid;
+        grid-template-columns: 50% 50%;
+        place-items: center;
+    }
+    .columns-3x1{
+        display:grid;
+        grid-template-columns: auto auto auto;
+        place-items: center;
+    }
+    .code {
+        color: #cccccc; 
+        font-family: Consolas, 'Courier New', monospace !important; 
+        font-weight: normal; 
+        font-size: 14px; 
+        line-height: 1.25em; 
+        text-align: left;
+        width: fit-content;
+    }
+    .inline-code {
+        color: #cccccc; 
+        font-family: Consolas, 'Courier New', monospace !important; 
+        font-weight: normal; 
+        padding: 0.2em;
+        background-color: var(--col-inline-code-bg);
+        border-radius: 0.2em;
+    }
+    .occasion {
+        padding-top: 1em;
+        display: grid;
+        grid-template-columns: auto 3px auto;
+        grid-template-rows: minmax(1.5em, auto);
+        gap: 0.5em;
+        align-items: center;
 
-
-.slides .title {
-    font-weight: 800;
-    font-size: 2em;
-}
-
-.slides .subtitle {
-    padding-top: 0.66em;
-    font-weight: 100;
-}
-
-.slides .small {
-    font-weight: 100;
-    font-size: max(0.5em,32px);
-}
-
-.slides .smaller {
-    font-weight: 300;
-    font-size: max(0.9em,32px);
-}
-
-.slides .bigger{
-    font-size: 1.1em;
-    font-weight: 900;
-}
-
-.slides .colored{
-    color: #C00000;
-}
-
-.slides .deemphasize{
-    color: #555;
-}
-
-.slides .left{
-    float: left;
-}
-
-.slides .columns-2x1{
-	display:grid;
-	grid-template-columns: 50% 50%;
-	place-items: center;
-}
-
-
-.slides .columns-3x1{
-	display:grid;
-	grid-template-columns: auto auto auto;
-	place-items: center;
-}
-
-#profile-urls li {
-    margin-bottom: 0.5em;
-    list-style: none;
-    display: grid;
-    grid-template-columns: 2em auto;
-    grid-template-rows: 1.5em;
-    gap: 0.5em;
-    font-size: 32px;
-}
-
-#profile-urls li::before {
-  content: '';
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-#profile-urls .icon-github::before {
-    background-image: url("imgs/profile/github.svg");
-}
-
-#profile-urls .icon-x::before {
-    background-image: url("imgs/profile/x.svg");
-}
-
-#profile-urls .icon-zenn::before {
-    background-image: url("imgs/profile/zenn.svg");
-}
-
-#profile-urls .icon-connpass::before {
-    background-image: url("imgs/profile/connpass.svg");
-}
-
-#profile-urls .icon-sessionize::before {
-    background-image: url("imgs/profile/sessionize.svg");
+        time {
+            grid-column: 1;
+            text-align: right;
+        }
+        &::after {
+            content: "";
+            grid-column: 2;
+            grid-row: 1;
+            background-color: var(--col-subtle);
+            width: 100%;
+            height: 100%;
+        }
+        .event {
+            grid-column: 3;
+            text-align: left;
+        }
+    }
+    .profile-urls {
+        li {
+            margin-bottom: 0.5em;
+            list-style: none;
+            display: grid;
+            grid-template-columns: 2em auto;
+            grid-template-rows: 1.5em;
+            gap: 0.5em;
+            font-size: 32px;
+            align-items: center;
+        }
+        li::before {
+            content: '';
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            align-self: normal;
+        }
+        .icon-github::before {
+            background-image: url("imgs/profile/github.svg");
+        }
+        .icon-x::before {
+            background-image: url("imgs/profile/x.svg");
+        }
+        .icon-zenn::before {
+            background-image: url("imgs/profile/zenn.svg");
+        }
+        .icon-connpass::before {
+            background-image: url("imgs/profile/connpass.svg");
+        }
+        .icon-sessionize::before {
+            background-image: url("imgs/profile/sessionize.svg");
+        }
+    }
 }

@@ -4,14 +4,14 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>go:fix を知っていますか？ - Dennis Metzger</title>
+		<title>go fix を知っていますか？ - Dennis Metzger</title>
 
 		<link rel="stylesheet" href="static/revealjs/dist/reset.css">
 		<link rel="stylesheet" href="static/revealjs/dist/reveal.css">
 		<link rel="stylesheet" href="static/revealjs/dist/theme/black.css">
 
 		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="static/revealjs/plugin/highlight/monokai.css">
+		<!--<link rel="stylesheet" href="static/revealjs/plugin/highlight/monokai.css">-->
 
 		<link rel="stylesheet" href="custom.css">
 	</head>
@@ -19,14 +19,14 @@
 		<div class="reveal">
 			<div class="slides">
 				<section>
-					<h1 class="title">go:fix を知っていますか？</h1>
-					<p class="subtitle">Dennis Metzger <br>@ GMOペパボ & GO 〜 夏のGo祭り2025、あの夏〜</p>
-					<p class="small">2025-09-16</p>
+					<p class="r-fit-text"><strong>Gofix を知っていますか？</strong></p>
+					<div>Dennis Metzger</div>
+					<div class="occasion weak"><time>2025-09-16</time><div class="event">ペパボ & GO<br>〜 夏のGo祭り2025、あの夏〜</div></div>
 				</section>
 				<section style="text-align: left;">
-					<h2><ruby>Dennis<rp>(</rp><rt>デニス</rt><rp>)</rp> Metzger<rp>(</rp><rt> メッツガー</rt><rp>)</rp></ruby></h2>
+					<h2><ruby>Dennis<rp>(</rp><rt>デニス</rt><rp>)</rp></ruby> <ruby>Metzger<rp>(</rp><rt>メッツガー</rt><rp>)</rp></ruby></h2>
 					<p>Backend Engineer @ Finatext</p>
-					<ul id="profile-urls" class="small">
+					<ul class="profile-urls weak">
 						<li class="icon-github"><a href="https://github.com/sollniss" target="_blank">sollniss</a></li>
 						<li class="icon-x"><a href="https://x.com/d_mzgr" target="_blank">@d_mzgr</a></li>
 						<li class="icon-zenn"><a href="https://zenn.dev/d_mzgr" target="_blank">d_mzgr</a></li>
@@ -34,26 +34,163 @@
 						<li class="icon-sessionize"><a href="https://sessionize.com/dennis-metzger/" target="_blank">Dennis Metzger</a></li>
 					</ul>
 				</section>
-				<section>
-					<p>Test 2</p>
+				<section style="text-align: left;">
+					<p class="bigger"><strong><span class="inline-code">go fix</span> / <span class="inline-code">go tool fix</span></strong></p>
+					<ul style="line-height: 2em;">
+						<li>2011/04/15 にリリース - <a href="https://go.dev/blog/introducing-gofix" target="_blank">Introducing Gofix</a></li>
+						<li>Go std lib のマイグレーションを適用するツール</li>
+						<li><span class="inline-code">go fix</span> は <span class="inline-code">go tool fix</span> をラップしている</li>
+					</ul>
 				</section>
+				<section>
+					<div class="code" style="width: 100%; text-align: center; font-size: 42px;">
+						<div><span style="color: #c586c0;">import</span> <span style="color: #ce9178;">"golang.org/x/net/context"</span></div>
+					</div>
+					<span class="tinted" style="line-height: 3em">↓</span>
+					<div class="code" style="width: 100%; text-align: center; font-size: 42px;">
+						<div>$ go fix ./...</div>
+					</div>
+					<span class="tinted" style="line-height: 3em">↓</span>
+					<div class="code" style="width: 100%; text-align: center; font-size: 42px;">
+						<div><span style="color: #c586c0;">import</span> <span style="color: #ce9178;">"context"</span></div>
+					</div>
+				</section>
+				<section>
+					<p>
+						<span class="inline-code">go fix</span> は Go 1 互換性約束<br>
+						以前の時代のもの
+					</p>
+				</section>
+				<section>
+					ややこしいことに… （ちょっと脱線）
+				</section>
+				<section>
+					<span class="inline-code">gofix</span> という静的コード解析ツールもある
+				</section>
+				<section style="text-align: left;">
+					<p class="bigger"><span class="inline-code">gofix</span> とは</p>
+					<p>コードの置き換えを提案・実施するツール</p>
+				</section>
+				<section>
+					<div class="columns-2x1" style="gap: 1em; place-items: start; text-align: left;">
+						<div class="code" style="font-size: 32px;">
+							<div><span style="color: #569cd6;">package</span> <span style="color: #4ec9b0;">pkg</span></div>
+							<br />
+							<div><span style="color: #6a9955;">// Deprecated:</span></div>
+							<div><span style="color: #6a9955;">// prefer Pow(x, 2).</span></div>
+							<div><span style="color: #6a9955;">//go:fix inline</span></div>
+							<div><span style="color: #569cd6;">func</span> <span style="color: #dcdcaa;">Square</span><span style="color: #cccccc;">(</span><span style="color: #9cdcfe;">x</span> <span style="color: #4ec9b0;">int</span><span style="color: #cccccc;">) </span><span style="color: #4ec9b0;">int</span><span style="color: #cccccc;"> {</span></div>
+							<div><span style="color: #cccccc;">&nbsp; &nbsp; </span><span style="color: #c586c0;">return</span> <span style="color: #dcdcaa;">Pow</span><span style="color: #cccccc;">(</span><span style="color: #9cdcfe;">x</span><span style="color: #cccccc;">, </span><span style="color: #b5cea8;">2</span><span style="color: #cccccc;">)</span></div>
+							<div><span style="color: #cccccc;">}</span></div>
+						</div>
+						<div>
+							<div class="code" style="font-size: 32px">
+								<div><span style="color: #9cdcfe;">pkg</span><span style="color: #cccccc;">.</span><span style="color: #dcdcaa;">Square</span><span style="color: #cccccc;">(</span><span style="color: #b5cea8;">3</span><span style="color: #cccccc;">)</span></div>
+							</div>
+
+							<span class="tinted" style="line-height: 2em; padding-left: 3em;">↓</span>
+
+							<div class="code" style="width: 100%; font-size: 32px;">
+								<div>$ go run golang.org/x/tools/internal/gofix/cmd/gofix@latest -fix ./...</div>
+							</div>
+
+							<span class="tinted" style="line-height: 2em; padding-left: 3em;">↓</span>
+
+							<div class="code" style="font-size: 32px;">
+								<div><span style="color: #9cdcfe;">pkg</span><span style="color: #cccccc;">.</span><span style="color: #dcdcaa;">Pow</span><span style="color: #cccccc;">(</span><span style="color: #b5cea8;">3</span><span style="color: #cccccc;">, </span><span style="color: #b5cea8;">2</span><span style="color: #cccccc;">)</span></div>
+							</div>
+						</div>
+					</div>
+				</section>
+				<section>
+					<div class="columns-2x1" style="gap: 1em; place-items: start; text-align: left;">
+						<div class="code" style="font-size: 32px;">
+							<div><span style="color: #569cd6;">package</span> <span style="color: #4ec9b0;">pkg</span></div>
+							<br />
+							<div><span style="color: #c586c0;">import</span> <span style="color: #9cdcfe;">pkg2</span> <span style="color: #ce9178;">"pkg/v2"</span></div>
+							<br />
+							<div><span style="color: #6a9955;">//go:fix inline</span></div>
+							<div><span style="color: #569cd6;">func</span> <span style="color: #dcdcaa;">F</span><span style="color: #cccccc;">() {</span></div>
+							<div><span style="color: #cccccc;">&nbsp; &nbsp; </span><span style="color: #9cdcfe;">pkg2</span><span style="color: #cccccc;">.</span><span style="color: #dcdcaa;">F</span><span style="color: #cccccc;">(</span><span style="color: #569cd6;">nil</span><span style="color: #cccccc;">)</span></div>
+							<div><span style="color: #cccccc;">}</span></div>
+						</div>
+						<div>
+							<div class="code" style="font-size: 32px">
+								<div><span style="color: #c586c0;">import</span> <span style="color: #ce9178;">"pkg"</span></div>
+								<div><span style="color: #9cdcfe;">pkg</span><span style="color: #cccccc;">.</span><span style="color: #dcdcaa;">F</span><span style="color: #cccccc;">()</span></div>
+							</div>
+							<span class="tinted" style="line-height: 2em; padding-left: 3em;">↓</span>
+							<div class="code" style="width: 100%; font-size: 32px;">
+								<div>$ go run golang.org/x/tools/internal/gofix/cmd/gofix@latest -fix ./...</div>
+							</div>
+							<span class="tinted" style="line-height: 2em; padding-left: 3em;">↓</span>
+							<div class="code" style="font-size: 32px;">
+								<div><span style="color: #c586c0;">import</span> <span style="color: #ce9178;">"pkg/2"</span></div>
+								<div><span style="color: #9cdcfe;">pkg</span><span style="color: #cccccc;">.</span><span style="color: #dcdcaa;">F</span><span style="color: #cccccc;">(</span><span style="color: #569cd6;">nil</span><span style="color: #cccccc;">)</span></div>
+							</div>
+						</div>
+					</div>
+				</section>
+				<section>
+					<div class="columns-2x1" style="gap: 1em; place-items: start; text-align: left;">
+						<div class="code" style="font-size: 32px;">
+							<div><span style="color: #569cd6;">package</span> <span style="color: #4ec9b0;">pkg</span></div>
+							<br />
+							<div><span style="color: #6a9955;">//go:fix forward</span></div>
+							<div><span style="color: #569cd6;">const</span> <span style="color: #4fc1ff;">Ptr</span> <span style="color: #d4d4d4;">=</span> <span style="color: #9cdcfe;">Pointer</span></div>
+						</div>
+						<div>
+							<div class="code" style="font-size: 32px">
+								<div><span style="color: #9cdcfe;">pkg</span><span style="color: #cccccc;">.</span><span style="color: #9cdcfe;">Ptr</span></div>
+							</div>
+							<span class="tinted" style="line-height: 2em; padding-left: 3em;">↓</span>
+							<div class="code" style="width: 100%; font-size: 32px;">
+								<div>$ go run golang.org/x/tools/internal/gofix/cmd/gofix@latest -fix ./...</div>
+							</div>
+							<span class="tinted" style="line-height: 2em; padding-left: 3em;">↓</span>
+							<div class="code" style="font-size: 32px;">
+								<div><span style="color: #9cdcfe;">pkg</span><span style="color: #cccccc;">.</span><span style="color: #9cdcfe;">Pointer</span></div>
+							</div>
+						</div>
+					</div>
+				</section>
+				<section>
+					<h2>今後</h2>
+					<p><span class="inline-code">go fix</span> は一旦廃止予定</p>
+					<br>
+					<p>cmd/fix: remove all functionality <a href="https://github.com/golang/go/issues/73605"  target="_blank">#73605</a></p>
+					<br>
+					<br>
+					<p>しかし…</p>
+				</section>
+				<section>
+					<h2>今後</h2>
+					<p>
+						その後、<span class="inline-code">gofix</span> は <span class="inline-code">inline</span> にリネームされ、<br>
+						<span class="inline-code">go fix</span> はあらゆるモダナイゼーションを<br>適用するツールに生まれ変わる
+					</p>
+					<br>
+					<p>proposal: cmd/go: fix: apply fixes from modernizers and gofix analyzers <a href="https://github.com/golang/go/issues/71859"  target="_blank">#71859</a></p>
+				</section>
+				<section></section>
 			</div>
 		</div>
 
 		<script src="static/revealjs/dist/reveal.js"></script>
 		<script src="static/revealjs/plugin/notes/notes.js"></script>
-		<script src="static/revealjs/plugin/markdown/markdown.js"></script>
-		<script src="static/revealjs/plugin/highlight/highlight.js"></script>
+		<!--<script src="static/revealjs/plugin/markdown/markdown.js"></script>-->
+		<!--<script src="static/revealjs/plugin/highlight/highlight.js"></script>-->
 		<script>
 			Reveal.initialize({
 				hash: true,
+				hashOneBasedIndex: true,
 				transition: 'none',
 				progress: false,
 				slideNumber: true,
 				showSlideNumber: 'all',
 				controls: true,
 
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ],
+				plugins: [ /*RevealMarkdown, RevealHighlight,*/ RevealNotes ],
 			});
 		</script>
 	</body>
