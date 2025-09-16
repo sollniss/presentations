@@ -35,11 +35,12 @@
 					</ul>
 				</section>
 				<section style="text-align: left;">
-					<p class="bigger"><strong><span class="inline-code">go fix</span> / <span class="inline-code">go tool fix</span></strong></p>
+					<p class="bigger"><strong><span class="inline-code">go fix</span></strong></p>
 					<ul style="line-height: 2em;">
+						<li><a href="https://pkg.go.dev/cmd/go/internal/fix" target="_blank">cmd/go/internal/fix</a> / <a href="https://pkg.go.dev/cmd/fix" target="_blank">cmd/fix</a></li>
+						<li><span class="inline-code">go tool fix</span> をラップしている</li>
 						<li>2011/04/15 にリリース - <a href="https://go.dev/blog/introducing-gofix" target="_blank">Introducing Gofix</a></li>
 						<li>Go std lib のマイグレーションを適用するツール</li>
-						<li><span class="inline-code">go fix</span> は <span class="inline-code">go tool fix</span> をラップしている</li>
 					</ul>
 				</section>
 				<section>
@@ -56,10 +57,8 @@
 					</div>
 				</section>
 				<section>
-					<p>
-						<span class="inline-code">go fix</span> は Go 1 互換性約束<br>
-						以前の時代のもの
-					</p>
+					<p><span class="inline-code">go fix</span> は Go 1 互換性約束</p>
+					<p>以前の時代のもの</p>
 				</section>
 				<section>
 					ややこしいことに… （ちょっと脱線）
@@ -68,8 +67,13 @@
 					<span class="inline-code">gofix</span> という静的コード解析ツールもある
 				</section>
 				<section style="text-align: left;">
-					<p class="bigger"><span class="inline-code">gofix</span> とは</p>
-					<p>コードの置き換えを提案・実施するツール</p>
+					<p class="bigger"><strong><span class="inline-code">gofix</span></strong></p>
+					<ul style="line-height: 2em;">
+						<li><a href="https://pkg.go.dev/golang.org/x/tools/gopls/internal/analysis/gofix" target="_blank">x/tools/gopls/internal/analysis/gofix</a></li>
+						<li>コードの置き換えを提案・実施するツール</li>
+						<li><a href="https://github.com/golang/go/issues/32816"  target="_blank">#32816</a> で提案</li>
+						<li><span class="inline-code" style="color: #6a9955;">//go:fix</span> ディレクティブで利用可能</li>
+					</ul>
 				</section>
 				<section>
 					<div class="columns-2x1" style="gap: 1em; place-items: start; text-align: left;">
@@ -171,6 +175,17 @@
 					</p>
 					<br>
 					<p>proposal: cmd/go: fix: apply fixes from modernizers and gofix analyzers <a href="https://github.com/golang/go/issues/71859"  target="_blank">#71859</a></p>
+				</section>
+				<section>
+					<div class="columns-2x1">
+						<div>
+							<p>特にこのLLM時代に</p>
+							<p>コードのメンテナンスは</p>
+							<p>ツールにまかせて</p>
+							<p>おきましょう！</p>
+						</div>
+						<img style="margin:0" src="imgs/gopher_67.svg"/>
+					</div>
 				</section>
 				<section></section>
 			</div>
