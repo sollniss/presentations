@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<meta name="keywords" content="go,golang,gocon,登壇,発表,gofix,dennis,metzger,finatext,mercari" />
+		<meta name="description" content="関数の呼び出し漏れを検証するリンターはそう簡単には作れなかった"/>
+		<title>呼び出し漏れリンターを作ろうとした結果 - Dennis Metzger</title>
+
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:creator" content="@d_mzgr" />
+
+		<meta property="og:type" content="article" />
+		<meta property="og:title" content="呼び出し漏れリンターを作ろうとした結果 - Dennis Metzger" />
+		<meta property="og:description" content="関数の呼び出し漏れを検証するリンターはそう簡単には作れなかった"/>
+		<meta property="og:url" content="https://sollniss.github.io/presentations/20251014_GoNightTalks/" />
+		<meta property="og:image" content="https://sollniss.github.io/presentations/20251014_GoNightTalks/imgs/card/card.png" />
+
+		<link rel="stylesheet" href="static/revealjs/dist/reset.css">
+		<link rel="stylesheet" href="static/revealjs/dist/reveal.css">
+		<link rel="stylesheet" href="static/revealjs/dist/theme/black.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<!--<link rel="stylesheet" href="static/revealjs/plugin/highlight/monokai.css">-->
+
+		<link rel="stylesheet" href="custom.css">
+		<link rel="stylesheet" href="code.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<p class="r-fit-text"><strong>呼び出し漏れリンターを<br>作ろうとした結果</strong></p>
+					<div>Dennis Metzger</div>
+					<div class="occasion weak"><time>2025-10-14</time><div class="event">Go Night Talks - After Conference</div></div>
+				</section>
+				<section style="text-align: left;">
+					<h2><ruby>Dennis<rp>(</rp><rt>デニス</rt><rp>)</rp></ruby> <ruby>Metzger<rp>(</rp><rt>メッツガー</rt><rp>)</rp></ruby></h2>
+					<p>Backend Engineer @ Finatext</p>
+					<ul class="profile-urls weak">
+						<li class="icon-github"><a href="https://github.com/sollniss" target="_blank">sollniss</a></li>
+						<li class="icon-x"><a href="https://x.com/d_mzgr" target="_blank">@d_mzgr</a></li>
+						<li class="icon-zenn"><a href="https://zenn.dev/d_mzgr" target="_blank">d_mzgr</a></li>
+						<li class="icon-connpass"><a href="https://connpass.com/user/_____________________________/" target="_blank">sollniss</a></li>
+						<li class="icon-sessionize"><a href="https://sessionize.com/dennis-metzger/" target="_blank">Dennis Metzger</a></li>
+					</ul>
+				</section>
+				<section><img src="imgs/usecase_1.svg"/></section>
+				<section><img src="imgs/usecase_2.svg"/></section>
+				<section><img src="imgs/usecase_3.svg"/></section>
+				<section>
+					<p class="r-fit-text">
+						抽象構文木 (AST) <span class="tinted">→</span> 静的単一代入(SSA)形式 <span class="tinted">→</span> コールグラフ
+					</p>
+					<div class="columns-2x1" style="place-items: start;">
+						<div>
+							<img style="margin:0" src="imgs/cg_handler.svg"/>
+							<img style="margin:0" src="imgs/cg_repo.svg"/>
+						</div>
+						<div>
+							<img style="margin:0" src="imgs/cg_service.svg"/>
+							<img style="margin:0" src="imgs/cg_view.svg"/>
+							<img style="margin:0" src="imgs/cg_authz.svg"/>
+						</div>
+					</div>
+				</section>
+				<section>
+					<pre><code style="margin-left:auto;margin-right:auto;font-size:21px"><ol>
+					<li class="fragment custom highlight" data-fragment-index="1"><span class='semtok-variable semtok-mod-definition semtok-mod-struct'>fact</span> <span class='semtok-operator'>:=</span> <span class='semtok-type semtok-mod-struct'>typesFact</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span><span class='semtok-parameter semtok-mod-pointer'>pass</span>.<span class='semtok-variable semtok-mod-pointer'>TypesInfo</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span></li>
+					<li class="fragment custom highlight" data-fragment-index="1"><span class='semtok-parameter semtok-mod-pointer'>pass</span>.<span class='semtok-variable semtok-mod-signature'>ExportPackageFact</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-operator'>&amp;</span><span class='semtok-variable semtok-mod-struct'>fact</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+					<li class="fragment custom highlight" data-fragment-index="2"><span class='semtok-variable semtok-mod-definition semtok-mod-pointer'>prog</span> <span class='semtok-operator'>:=</span> <span class='semtok-namespace'>ssa</span>.<span class='semtok-function semtok-mod-signature'>NewProgram</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-pointer'>pass</span>.<span class='semtok-variable semtok-mod-pointer'>Fset</span>, <span class='semtok-namespace'>ssa</span>.<span class='semtok-variable semtok-mod-number semtok-mod-readonly'>InstantiateGenerics</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+					<li><span class='semtok-variable semtok-mod-definition semtok-mod-map'>seen</span> <span class='semtok-operator'>:=</span> <span class='semtok-function semtok-mod-defaultLibrary'>make</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-keyword'>map</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-bracket'>[</span><span class='semtok-operator'>*</span><span class='semtok-namespace'>types</span>.<span class='semtok-type semtok-mod-struct'>Package</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-bracket'>]</span><span class='semtok-keyword'>struct</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>{</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>}</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+					<li><span class='semtok-keyword'>var</span> <span class='semtok-variable semtok-mod-definition semtok-mod-signature'>addImports</span> <span class='semtok-keyword'>func</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-variable semtok-mod-definition semtok-mod-slice'>pp</span> <span class='semtok-bracket  semtok-mod-level3 semtok-mod-bracket'>[</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-bracket'>]</span><span class='semtok-operator'>*</span><span class='semtok-namespace'>types</span>.<span class='semtok-type semtok-mod-struct'>Package</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+					<li><span class='semtok-variable semtok-mod-signature'>addImports</span> <span class='semtok-operator'>=</span> <span class='semtok-keyword'>func</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-slice'>pp</span> <span class='semtok-bracket  semtok-mod-level3 semtok-mod-bracket'>[</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-bracket'>]</span><span class='semtok-operator'>*</span><span class='semtok-namespace'>types</span>.<span class='semtok-type semtok-mod-struct'>Package</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+					<li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-definition semtok-mod-number'>_</span>, <span class='semtok-variable semtok-mod-definition semtok-mod-pointer'>p</span> := <span class='semtok-keyword semtok-mod-control'>range</span> <span class='semtok-parameter semtok-mod-slice'>pp</span> <span class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>{</span></li>
+					<li>		<span class='semtok-keyword semtok-mod-control'>if</span> <span class='semtok-variable semtok-mod-definition semtok-mod-struct'>_</span>, <span class='semtok-variable semtok-mod-definition semtok-mod-bool'>ok</span> <span class='semtok-operator'>:=</span> <span class='semtok-variable semtok-mod-map'>seen</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-bracket'>[</span><span class='semtok-variable semtok-mod-pointer'>p</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-bracket'>]</span>; <span class='semtok-variable semtok-mod-bool'>ok</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+					<li>			<span class='semtok-keyword semtok-mod-control'>continue</span></li>
+					<li>		<span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+					<li>		<span class='semtok-variable semtok-mod-map'>seen</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-bracket'>[</span><span class='semtok-variable semtok-mod-pointer'>p</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-bracket'>]</span> <span class='semtok-operator'>=</span> <span class='semtok-keyword'>struct</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>{</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>}</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+					<li>		<span class='semtok-variable semtok-mod-definition semtok-mod-pointer'>tfact</span> <span class='semtok-operator'>:=</span> <span class='semtok-operator'>&amp;</span><span class='semtok-type semtok-mod-struct'>typesFact</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+					<li class="fragment custom highlight" data-fragment-index="3">		<span class='semtok-keyword semtok-mod-control'>if</span> <span class='semtok-variable semtok-mod-definition semtok-mod-bool'>ok</span> <span class='semtok-operator'>:=</span> <span class='semtok-parameter semtok-mod-pointer'>pass</span>.<span class='semtok-variable semtok-mod-signature'>ImportPackageFact</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-variable semtok-mod-pointer'>p</span>, <span class='semtok-variable semtok-mod-pointer'>tfact</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span>; <span class='semtok-operator'>!</span><span class='semtok-variable semtok-mod-bool'>ok</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+					<li class="fragment custom highlight" data-fragment-index="3">			<span class='semtok-variable semtok-mod-definition semtok-mod-pointer'>pkg</span> <span class='semtok-operator'>:=</span> <span class='semtok-variable semtok-mod-pointer'>prog</span>.<span class='semtok-method semtok-mod-signature'>CreatePackage</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-variable semtok-mod-pointer'>p</span>, <span class='semtok-variable semtok-mod-defaultLibrary semtok-mod-readonly'>nil</span>, <span class='semtok-variable semtok-mod-defaultLibrary semtok-mod-readonly'>nil</span>, <span class='semtok-variable semtok-mod-defaultLibrary semtok-mod-readonly'>true</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+					<li>			<span class='semtok-variable semtok-mod-pointer'>pkg</span>.<span class='semtok-method semtok-mod-signature'>Build</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+					<li>			<span class='semtok-keyword semtok-mod-control'>continue</span></li>
+					<li>		<span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+					<li>		<span class='semtok-variable semtok-mod-definition semtok-mod-slice'>files</span> <span class='semtok-operator'>:=</span> <span class='semtok-namespace'>slices</span>.<span class='semtok-function semtok-mod-signature'>Collect</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-namespace'>maps</span>.<span class='semtok-function semtok-mod-signature'>Keys</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-variable semtok-mod-pointer'>tfact</span>.<span class='semtok-variable semtok-mod-pointer'>typesInfo</span>.<span class='semtok-variable semtok-mod-map'>FileVersions</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span></li>
+					<li class="fragment custom highlight" data-fragment-index="4">		<span class='semtok-variable semtok-mod-definition semtok-mod-pointer'>pkg</span> <span class='semtok-operator'>:=</span> <span class='semtok-variable semtok-mod-pointer'>prog</span>.<span class='semtok-method semtok-mod-signature'>CreatePackage</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-variable semtok-mod-pointer'>p</span>, <span class='semtok-variable semtok-mod-slice'>files</span>, <span class='semtok-variable semtok-mod-pointer'>tfact</span>.<span class='semtok-variable semtok-mod-pointer'>typesInfo</span>, <span class='semtok-variable semtok-mod-defaultLibrary semtok-mod-readonly'>true</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span></li>
+					<li class="fragment custom highlight" data-fragment-index="5">		<span class='semtok-variable semtok-mod-signature'>addImports</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-variable semtok-mod-pointer'>p</span>.<span class='semtok-method semtok-mod-signature'>Imports</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span></li>
+					<li>		<span class='semtok-variable semtok-mod-pointer'>pkg</span>.<span class='semtok-method semtok-mod-signature'>Build</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span></li>
+					<li>	<span class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>}</span></li>
+					<li><span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span></li>
+					<li class="fragment custom highlight" data-fragment-index="2"><span class='semtok-variable semtok-mod-signature'>addImports</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-pointer'>pass</span>.<span class='semtok-variable semtok-mod-pointer'>Pkg</span>.<span class='semtok-method semtok-mod-signature'>Imports</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+					<li class="fragment custom highlight" data-fragment-index="2"><span class='semtok-variable semtok-mod-pointer'>prog</span>.<span class='semtok-method semtok-mod-signature'>CreatePackage</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-pointer'>pass</span>.<span class='semtok-variable semtok-mod-pointer'>Pkg</span>, <span class='semtok-parameter semtok-mod-pointer'>pass</span>.<span class='semtok-variable semtok-mod-slice'>Files</span>, <span class='semtok-parameter semtok-mod-pointer'>pass</span>.<span class='semtok-variable semtok-mod-pointer'>TypesInfo</span>, <span class='semtok-variable semtok-mod-defaultLibrary semtok-mod-readonly'>false</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+					<li class="fragment custom highlight" data-fragment-index="2"><span class='semtok-variable semtok-mod-pointer'>prog</span>.<span class='semtok-method semtok-mod-signature'>Build</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+					</ol></code></pre>
+				</section>
+				<section>
+					<img src="imgs/cg_all.svg" style="max-width:100%"/>
+				</section>
+				<section>
+					<img src="imgs/cg_color1.svg" style="max-width:100%"/>
+				</section>
+				<section>
+					<img src="imgs/cg_color2.svg" style="max-width:100%"/>
+				</section>
+				<section>
+					<img src="imgs/cg_color3.svg" style="max-width:100%"/>
+				</section>
+				<section>
+					<img src="imgs/cg_color4.svg" style="max-width:100%"/>
+				</section>
+				<section>
+					<div class="columns-2x1" style="place-items:start;gap:10%;font-size:36px;">
+						<pre style="margin: 0"><code style="font-size:36px">
+<span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Create</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>{</span>
+	<span class='semtok-variable'>product</span>.<span class='semtok-function'>Tx</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-keyword'>func</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span>
+		<span class='semtok-variable'>autz</span>.<span class='semtok-function'>CanAccess</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span></li>
+	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span>
+<span class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>}</span>
+
+<span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Update</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>{</span>
+	<span class='semtok-variable'>product</span>.<span class='semtok-function'>Tx</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-keyword'>func</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span>
+		<span class='semtok-comment'>// なし</span>
+	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span>
+<span class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>}</span>
+						</code></pre>
+						<pre style="margin: 0"><code style="font-size:36px">
+<span class='semtok-keyword'>package</span> <span class='semtok-namespace'>product</span>
+
+<span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Tx</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-signature'>f</span> <span class='semtok-keyword'>func</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>{</span></li>
+	<span class='semtok-parameter semtok-mod-signature'>f</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span></li>
+<span class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>}</span>
+						</code></pre>
+					</div>
+				</section>
+				<section>
+					<p>関数が引数のケース：想定</p>
+					<img src="imgs/cg_tx1.svg" style="max-height:5em;margin-top:0"/>
+					<div class="fragment" data-fragment-index="1">
+						<p>関数が引数のケース：実際</p>
+						<img src="imgs/cg_tx2.svg" style="max-height:5em;margin-top:0"/>
+					</div>
+				</section>
+				<section>
+					<p>想定だったとしても…</p>
+					<img src="imgs/cg_tx_color1.svg" style="margin-top:0"/>
+				</section>
+				<section>
+					<p>想定だったとしても…</p>
+					<img src="imgs/cg_tx_color2.svg" style="margin-top:0"/>
+				</section>
+				<section>
+					<p>想定だったとしても…</p>
+					<img src="imgs/cg_tx_color3.svg" style="margin-top:0"/>
+				</section>
+				<section>
+					<p>想定だったとしても…</p>
+					<img src="imgs/cg_tx_color4.svg" style="margin-top:0"/>
+				</section>
+				<section>
+					<p>想定だったとしても、検出漏れが発生する</p>
+					<img src="imgs/cg_tx_color5.svg" style="margin-top:0"/>
+				</section>
+				<section>
+					<p class="bigger"><strong>全プログラムポインタ解析</strong></p>
+					<p>ならできる？</p>
+				</section>
+				<section>
+					<p class="bigger"><strong>精密なポインター解析は決定不能</strong></p>
+					<p class="bigger"><strong>フローに依存しない潜在的なエイリアスの<br>精密な解析もNP困難</strong></p>
+				</section>
+				<section>
+					<p>つまり<br>
+					<span class="highlight">パフォーマンス</span>と<span class="highlight">正確さ</span>のバランス<br>
+					をとる必要がある</p>
+				</section>
+				<section>
+					<div class="columns-2x1">
+						<p>結論、<br>リンターだと厳しいかも</p>
+						<img style="margin:0" src="imgs/gopher.svg"/>
+					</div>
+				</section>
+				<section></section>
+			</div>
+		</div>
+
+		<script src="static/revealjs/dist/reveal.js"></script>
+		<script src="static/revealjs/plugin/notes/notes.js"></script>
+		<!--<script src="static/revealjs/plugin/markdown/markdown.js"></script>-->
+		<!--<script src="static/revealjs/plugin/highlight/highlight.js"></script>-->
+		<script>
+			Reveal.initialize({
+				hash: true,
+				hashOneBasedIndex: true,
+				transition: 'none',
+				progress: false,
+				slideNumber: true,
+				showSlideNumber: 'all',
+				controls: true,
+
+				plugins: [ /*RevealMarkdown, RevealHighlight,*/ RevealNotes ],
+			});
+		</script>
+	</body>
+</html>

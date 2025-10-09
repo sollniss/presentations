@@ -1,0 +1,83 @@
+/* VSCode Dark+ Theme Colors */
+
+.semtok-bracket.semtok-mod-level1 {
+    color: #ffd700;
+}
+
+.semtok-bracket.semtok-mod-level2 {
+    color: #da70d6;
+}
+
+.semtok-bracket.semtok-mod-level3 {
+    color: #179fff;
+}
+
+.semtok-bracket {
+    color: red;
+}
+
+.semtok-comment {
+    color: #6A9955;
+    font-style: italic;
+}
+
+.semtok-keyword {
+    color: #569cd6;
+}
+
+.semtok-string {
+    color: #ce9178;
+}
+
+.semtok-number {
+    color: #b5cea8;
+}
+
+.semtok-type {
+    color: #4EC9B0;
+}
+
+.semtok-function {
+    color: #DCDCAA;
+}
+
+.semtok-method {
+    color: #DCDCAA;
+}
+
+.semtok-variable {
+    color: #9CDCFE;
+}
+
+.semtok-parameter {
+    color: #9CDCFE;
+}
+
+.semtok-namespace {
+    color: #4EC9B0;
+}
+
+.semtok-operator {
+    color: #D4D4D4;
+}
+
+.semtok-label {
+    color: #C8C8C8;
+}
+
+.semtok-mod-format {
+    color: #569cd6;
+    font-weight: bold;
+}
+
+.semtok-variable.semtok-mod-readonly {
+    color: #4FC1FF;
+}
+
+.semtok-variable.semtok-mod-defaultLibrary.semtok-mod-readonly {
+    color: #569cd6;
+}
+
+.semtok-keyword.semtok-mod-control {
+    color: #C586C0;
+}
