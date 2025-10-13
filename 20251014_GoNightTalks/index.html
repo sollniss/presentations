@@ -50,6 +50,78 @@
 				<section><img src="imgs/usecase_2.svg"/></section>
 				<section><img src="imgs/usecase_3.svg"/></section>
 				<section>
+					<p>ソースコード</p>
+					<p class="tinted">↓</p>
+					<p>抽象構文木 (AST)</p>
+					<p class="tinted">↓</p>
+					<p>静的単一代入(SSA)形式</p>
+					<p class="tinted">↓</p>
+					<p>コールグラフ</p>
+				</section>
+				<section>
+					<h3 style="margin-bottom: 1em;">ソースコード</h3>
+					<pre style="margin-left: auto; margin-right: auto; max-width: 50%;"><code style="font-size:32px"><ol>
+						<li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Calc</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+						<li>	<span class='semtok-keyword semtok-mod-control'>if</span> <span class='semtok-parameter semtok-mod-number'>a</span> <span class='semtok-operator'>&gt;</span> <span class='semtok-parameter semtok-mod-number'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+						<li>		<span class='semtok-parameter semtok-mod-number'>a</span> <span class='semtok-operator'>-=</span> <span class='semtok-parameter semtok-mod-number'>b</span></li>
+						<li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span></li>
+						<li>	<span class='semtok-keyword semtok-mod-control'>return</span> <span class='semtok-parameter semtok-mod-number'>a</span></li>
+						<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+					</ol></code></pre>
+				</section>
+				<section>
+					<h3>AST</h3>
+					<div class="columns-2x1" style="place-items:start;font-family: Consolas, 'Courier New', monospace; font-weight: normal;">
+						<pre><code style="font-size:27px">
+<span style="color: #c586c0;">*</span><span style="color: #9cdcfe;">ast.FuncDecl</span>
+<span style="color: #cccccc;">	</span><span style="color: #569cd6;">Name</span><span style="color: #cccccc;">: </span><span style="color: #c586c0;">*</span><span style="color: #9cdcfe;">ast.Ident</span> <span style="color: #ce9178;">"Calc"</span>
+<span style="color: #cccccc;">	</span><span style="color: #569cd6;">Body</span><span style="color: #cccccc;">: </span><span style="color: #c586c0;">*</span><span style="color: #9cdcfe;">ast.BlockStmt</span>
+<span style="color: #cccccc;">		</span><span style="color: #b5cea8;">0</span><span style="color: #cccccc;">: </span><span style="color: #c586c0;">*</span><span style="color: #9cdcfe;">ast.IfStmt</span>
+<span style="color: #cccccc;">			</span><span style="color: #569cd6;">Cond</span><span style="color: #cccccc;">: </span><span style="color: #c586c0;">*</span><span style="color: #9cdcfe;">ast.BinaryExpr</span>
+<span style="color: #cccccc;">				</span><span style="color: #569cd6;">X</span><span style="color: #cccccc;">: </span><span style="color: #c586c0;">*</span><span style="color: #9cdcfe;">ast.Ident</span> <span style="color: #ce9178;">"a"</span>
+<span style="color: #cccccc;">				</span><span style="color: #569cd6;">Op</span><span style="color: #cccccc;">: </span><span style="color: #c586c0;">&gt;</span>
+<span style="color: #cccccc;">				</span><span style="color: #569cd6;">Y</span><span style="color: #cccccc;">: </span><span style="color: #c586c0;">*</span><span style="color: #9cdcfe;">ast.Ident</span> </span><span style="color: #ce9178;">"b"</span>
+<span style="color: #cccccc;">			</span><span style="color: #569cd6;">Body</span><span style="color: #cccccc;">: </span><span style="color: #c586c0;">*</span><span style="color: #9cdcfe;">ast.BlockStmt</span>
+<span style="color: #cccccc;">				</span><span style="color: #b5cea8;">0</span><span style="color: #cccccc;">: </span><span style="color: #c586c0;">*</span><span style="color: #9cdcfe;">ast.AssignStmt</span>
+<span style="color: #cccccc;">					</span><span style="color: #569cd6;">Lhs</span><span style="color: #cccccc;">: []</span><span style="color: #9cdcfe;">ast.Expr</span>
+<span style="color: #cccccc;">						</span><span style="color: #b5cea8;">0</span><span style="color: #cccccc;">: </span><span style="color: #c586c0;">*</span><span style="color: #9cdcfe;">ast.Ident</span> <span style="color: #ce9178;">"a"</span>
+<span style="color: #cccccc;">					</span><span style="color: #569cd6;">Tok</span><span style="color: #cccccc;">: </span><span style="color: #c586c0;">-=</span>
+<span style="color: #cccccc;">					</span><span style="color: #569cd6;">Rhs</span><span style="color: #cccccc;">: []</span><span style="color: #9cdcfe;">ast.Expr</span>
+<span style="color: #cccccc;">						</span><span style="color: #b5cea8;">0</span><span style="color: #cccccc;">: </span><span style="color: #c586c0;">*</span><span style="color: #9cdcfe;">ast.Ident</span> </span><span style="color: #ce9178;">"b"</span>
+<span style="color: #cccccc;">			</span><span style="color: #569cd6;">Else</span><span style="color: #cccccc;">: </span><span style="color: #ce9178;">nil</span>
+						</code></pre>
+						<div>
+							<pre><code style="font-size:27px"><ol>
+
+
+
+<span style="color: #b5cea8;">1</span><span style="color: #cccccc;">: </span><span style="color: #c586c0;">*</span><span style="color: #9cdcfe;">ast.ReturnStmt</span>
+<span style="color: #cccccc;">	</span><span style="color: #569cd6;">Results</span><span style="color: #cccccc;">: []</span><span style="color: #9cdcfe;">ast.Expr</span>
+<span style="color: #cccccc;">		</span><span style="color: #b5cea8;">0</span><span style="color: #cccccc;">: </span><span style="color: #c586c0;">*</span><span style="color: #9cdcfe;">ast.Ident</span> </span><span style="color: #ce9178;">"a"</span>
+							</code></pre>
+						</div>
+					</div>
+				</section>
+				<section>
+					<h3 style="margin-bottom: 1em;">SSA</h3>
+					<pre style="margin-left: auto; margin-right: auto; max-width: 50%;"><code style="font-size:32px"><ol>
+						<li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition'>Calc</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket semtok-mod-level1 semtok-mod-brace'>{</span></li>
+						<li>    <span class='semtok-label'>:0</span> <span class='semtok-bracket semtok-mod-level2 semtok-mod-brace'>{</span></li>
+						<li>        <span class='semtok-variable'>t0</span> := <span class='semtok-variable'>a</span> <span class='semtok-operator'>&gt;</span> <span class='semtok-variable'>b</span></li>
+						<li>        <span class='semtok-keyword semtok-mod-control'>if</span> <span class='semtok-variable'>t0</span> <span class='semtok-keyword semtok-mod-control'>goto</span> <span class='semtok-label'>1</span> <span class='semtok-keyword semtok-mod-control'>else</span> <span class='semtok-label'>2</span></li>
+						<li>    <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span></li>
+						<li>    <span class='semtok-label'>:1</span> <span class='semtok-bracket semtok-mod-level2 semtok-mod-brace'>{</span></li>
+						<li>        <span class='semtok-variable'>t1</span> := <span class='semtok-variable'>a</span> <span class='semtok-operator'>-</span> <span class='semtok-variable'>b</span></li>
+						<li>        <span class='semtok-keyword semtok-mod-control'>jump</span> <span class='semtok-label'>2</span></li>
+						<li>    <span class='semtok-bracket semtok-mod-level2 semtok-mod-brace'>}</span></li>
+						<li>    <span class='semtok-label'>:2</span> <span class='semtok-bracket semtok-mod-level2 semtok-mod-brace'>{</span></li>
+						<li>        <span class='semtok-variable'>t2</span> := <span class='semtok-keyword'>phi</span> <span class='semtok-bracket semtok-mod-level3 semtok-mod-bracket'>[</span><span class='semtok-label'>0</span>: <span class='semtok-variable'>a</span>, <span class='semtok-label'>1</span>: <span class='semtok-variable'>t1</span><span class='semtok-bracket semtok-mod-level3 semtok-mod-bracket'>]</span></li>
+						<li>        <span class='semtok-keyword semtok-mod-control'>return</span> <span class='semtok-variable'>t2</span></li>
+						<li>    <span class='semtok-bracket semtok-mod-level2 semtok-mod-brace'>}</span></li>
+						<li><span class='semtok-bracket semtok-mod-level1 semtok-mod-brace'>}</span></li>
+					</ol></code></pre>
+				</section>
+				<section>
 					<p class="r-fit-text">
 						抽象構文木 (AST) <span class="tinted">→</span> 静的単一代入(SSA)形式 <span class="tinted">→</span> コールグラフ
 					</p>
@@ -143,23 +215,23 @@
 					</div>
 				</section>
 				<section>
-					<p>想定だったとしても…</p>
+					<p>想定通りだったとしても…</p>
 					<img src="imgs/cg_tx_color1.svg" style="margin-top:0"/>
 				</section>
 				<section>
-					<p>想定だったとしても…</p>
+					<p>想定通りだったとしても…</p>
 					<img src="imgs/cg_tx_color2.svg" style="margin-top:0"/>
 				</section>
 				<section>
-					<p>想定だったとしても…</p>
+					<p>想定通りだったとしても…</p>
 					<img src="imgs/cg_tx_color3.svg" style="margin-top:0"/>
 				</section>
 				<section>
-					<p>想定だったとしても…</p>
+					<p>想定通りだったとしても…</p>
 					<img src="imgs/cg_tx_color4.svg" style="margin-top:0"/>
 				</section>
 				<section>
-					<p>想定だったとしても、検出漏れが発生する</p>
+					<p>想定通りだったとしても、検出漏れが発生する</p>
 					<img src="imgs/cg_tx_color5.svg" style="margin-top:0"/>
 				</section>
 				<section>
@@ -171,15 +243,22 @@
 					<p class="bigger"><strong>フローに依存しない潜在的なエイリアスの<br>精密な解析もNP困難</strong></p>
 				</section>
 				<section>
-					<p>つまり<br>
-					<span class="highlight">パフォーマンス</span>と<span class="highlight">正確さ</span>のバランス<br>
-					をとる必要がある</p>
-				</section>
-				<section>
 					<div class="columns-2x1">
 						<p>結論、<br>リンターだと厳しいかも</p>
 						<img style="margin:0" src="imgs/gopher.svg"/>
 					</div>
+				</section>
+				<section>
+						<p class="bigger"><strong>厳しいけれども、次の一歩へ</strong></p>
+						<div style="text-align: left; max-width: 80%; margin: 0 auto; margin-top: 2em; font-size: 0.8em;line-height: 1.5;">
+								<ul>
+										<li class="fragment" data-fragment-index="2">今回は、AST、SSA、コールグラフの知識という<span class="highlight">貴重な武器</span>を手に入れた</li>
+										<li class="fragment" data-fragment-index="3">これからは...</li>
+										<li class="fragment" data-fragment-index="4" style="margin-left: 2em;">パターン検出にスコープを限定する</li>
+										<li class="fragment" data-fragment-index="5" style="margin-left: 2em;">他のリンター開発へ転用する</li>
+								</ul>
+								<p class="fragment" data-fragment-index="6" style="text-align: center; margin-top: 1.5em; color: #42affa;"><strong>この課題を乗り越えるアイデアを、<br>ぜひ共有してください！</strong></p>
+						</div>
 				</section>
 				<section></section>
 			</div>
