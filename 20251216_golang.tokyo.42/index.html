@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<meta name="keywords" content="architecture,conference,dennis,metzger,finatext" />
+		<meta name="description" content="CSSで柔軟にカスタマイズできるコードハイライトツールの紹介"/>
+		<title>映えるGoコード: CSSで柔軟にカスタマイズできるコードハイライトツールの紹介 - Dennis Metzger</title>
+
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:creator" content="@d_mzgr" />
+
+		<meta property="og:type" content="article" />
+		<meta property="og:title" content="映えるGoコード: CSSで柔軟にカスタマイズできるコードハイライトツールの紹介 - Dennis Metzger" />
+		<meta property="og:description" content="CSSで柔軟にカスタマイズできるコードハイライトツールの紹介"/>
+		<meta property="og:url" content="https://sollniss.github.io/presentations/20251216_golang.tokyo.42/" />
+		<meta property="og:image" content="https://sollniss.github.io/presentations/20251216_golang.tokyo.42/imgs/card/card.png" />
+
+		<link rel="stylesheet" href="static/revealjs/dist/reset.css">
+		<link rel="stylesheet" href="static/revealjs/dist/reveal.css">
+		<link rel="stylesheet" href="static/revealjs/dist/theme/black.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="static/revealjs/plugin/highlight/tokyo-night-dark.css">
+
+		<link rel="stylesheet" href="custom.css">
+		<link rel="stylesheet" href="code.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<p class="r-fit-text"><strong>映えるGoコード</strong></p>
+					<p class="r-fit-text"><strong>CSSで柔軟にカスタマイズできるコードハイライトツールの紹介</strong></p>
+					<div>Dennis Metzger</div>
+					<div class="occasion weak"><time>2025-12-16</time><div class="event">golang.tokyo #42</div></div>
+				</section>
+				<section style="text-align: left;">
+					<h2><ruby>Dennis<rp>(</rp><rt>デニス</rt><rp>)</rp></ruby> <ruby>Metzger<rp>(</rp><rt>メッツガー</rt><rp>)</rp></ruby></h2>
+					<p>Backend Engineer @ Finatext</p>
+					<ul class="profile-urls weak">
+						<li class="icon-github"><a href="https://github.com/sollniss" target="_blank">sollniss</a></li>
+						<li class="icon-x"><a href="https://x.com/d_mzgr" target="_blank">@d_mzgr</a></li>
+						<li class="icon-zenn"><a href="https://zenn.dev/d_mzgr" target="_blank">d_mzgr</a></li>
+						<li class="icon-connpass"><a href="https://connpass.com/user/_____________________________/" target="_blank">sollniss</a></li>
+						<li class="icon-sessionize"><a href="https://sessionize.com/dennis-metzger/" target="_blank">Dennis Metzger</a></li>
+					</ul>
+				</section>
+				<section>
+					<pre style="width:100%; margin: 0; box-shadow: none;">
+					<code data-trim data-noescape data-line-numbers class="language-go"
+						 style="padding: 1em; border-radius: 1em; font-size: 32px; line-height: 1.2; max-height: 100%; padding: 1em 2em 1em 2em">
+						package main
+
+						import "fmt"
+
+						func main() {
+							ch := make(chan float64)
+							ch <- 1.0e10 // magic number
+							x, ok := <-ch
+							defer fmt.Println(`exiting now`)
+							go println(len("hello world!"))
+							return
+						}
+					</code>
+					</pre>
+				</section>
+				<section>
+					<pre style="width:100%; margin: 0; box-shadow: none;">
+					<code data-trim data-noescape data-line-numbers="9" class="language-go"
+						 style="padding: 1em; border-radius: 1em; font-size: 32px; line-height: 1.2; max-height: 100%; padding: 1em 2em 1em 2em">
+						package main
+
+						import "fmt"
+
+						func main() {
+							ch := make(chan float64)
+							ch <- 1.0e10 // magic number
+							x, ok := <-ch
+							defer fmt.Println(`exiting now`)
+							go println(len("hello world!"))
+							return
+						}
+					</code>
+					</pre>
+				</section>
+				<section>
+					<pre class="pre"><div class="code"><ol><li><span class='semtok-keyword'>package</span> <span class='semtok-namespace'>main</span></li>
+					<li></li>
+					<li><span class='semtok-keyword'>import</span> <span class='semtok-string'>&#34;</span><span class='semtok-namespace'>fmt</span><span class='semtok-string'>&#34;</span></li>
+					<li></li>
+					<li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>main</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+					<li>	<span class='semtok-variable semtok-mod-definition semtok-mod-chan'>ch</span> <span class='semtok-operator'>:=</span> <span class='semtok-function semtok-mod-defaultLibrary'>make</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-keyword'>chan</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>float64</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+					<li>	<span class='semtok-variable semtok-mod-chan'>ch</span> <span class='semtok-operator'>&lt;-</span> <span class='semtok-number'>1.0e10</span> <span class='semtok-comment'>// magic number</span></li>
+					<li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>x</span>, <span class='semtok-variable semtok-mod-definition semtok-mod-bool'>ok</span> <span class='semtok-operator'>:=</span> <span class='semtok-operator'>&lt;-</span><span class='semtok-variable semtok-mod-chan'>ch</span></li>
+					<li>	<span class='semtok-keyword semtok-mod-control'>defer</span> <span class='semtok-namespace'>fmt</span>.<span class='semtok-function semtok-mod-signature'>Println</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-string'>`exiting now`</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+					<li>	<span class='semtok-keyword semtok-mod-control'>go</span> <span class='semtok-function semtok-mod-defaultLibrary'>println</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-function semtok-mod-defaultLibrary'>len</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-string'>&#34;hello world!&#34;</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+					<li>	<span class='semtok-keyword semtok-mod-control'>return</span></li>
+					<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+					</ol></div></pre>
+				</section>
+				<section>
+					<pre class="pre"><div class="code"><ol><li><span class='semtok-keyword'>package</span> <span class='semtok-namespace'>main</span></li>
+					<li></li>
+					<li><span class='semtok-keyword'>import</span> <span class='semtok-string'>&#34;</span><span class='semtok-namespace'>fmt</span><span class='semtok-string'>&#34;</span></li>
+					<li></li>
+					<li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>main</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+					<li>	<span class='semtok-variable semtok-mod-definition semtok-mod-chan'>ch</span> <span class='semtok-operator'>:=</span> <span class='semtok-function semtok-mod-defaultLibrary'>make</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-keyword'>chan</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>float64</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+					<li>	<span class='semtok-variable semtok-mod-chan'>ch</span> <span class='semtok-operator'>&lt;-</span> <span class='semtok-number'>1.0e10</span> <span class='semtok-comment'>// magic number</span></li>
+					<li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>x</span>, <span class='semtok-variable semtok-mod-definition semtok-mod-bool'>ok</span> <span class='semtok-operator'>:=</span> <span class='semtok-operator'>&lt;-</span><span class='semtok-variable semtok-mod-chan'>ch</span></li>
+					<li class="code-highlight">	<span class='semtok-keyword semtok-mod-control'>defer</span> <span class='semtok-namespace'>fmt</span>.<span class='semtok-function semtok-mod-signature'>Println</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-string'>`exiting now`</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+					<li>	<span class='semtok-keyword semtok-mod-control'>go</span> <span class='semtok-function semtok-mod-defaultLibrary'>println</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-function semtok-mod-defaultLibrary'>len</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-string'>&#34;hello world!&#34;</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+					<li>	<span class='semtok-keyword semtok-mod-control'>return</span></li>
+					<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+					</ol></div></pre>
+				</section>
+				<section>
+					<pre style="width:100%; margin: 0; box-shadow: none;">
+					<code data-trim class="language-html"
+						 style="padding: 1em; border-radius: 1em; font-size: 32px; line-height: 1.2; max-height: 100%; padding: 1em 2em 1em 2em">
+						&lt;pre>
+							&lt;code class="language-go">
+								package main
+
+								import "fmt"
+
+								func main() {
+									ch := make(chan float64)
+									ch <- 1.0e10 // magic number
+									x, ok := <-ch
+									defer fmt.Println(`exiting now`)
+									go println(len("hello world!"))
+									return
+								}
+							&lt;/code>
+						&lt;/pre>
+					</code>
+					</pre>
+				</section>
+				<section>
+					<pre style="width:100%; margin: 0; box-shadow: none;">
+					<code data-trim class="language-html"
+						 style="padding: 1em; border-radius: 1em; font-size: 32px; line-height: 1.2; max-height: 100%; padding: 1em 2em 1em 2em">
+						<pre><code><ol><li><span class='semtok-keyword'>package</span> <span class='semtok-namespace'>main</span></li>
+						<li></li>
+						<li><span class='semtok-keyword'>import</span> <span class='semtok-string'>&#34;</span><span class='semtok-namespace'>fmt</span><span class='semtok-string'>&#34;</span></li>
+						<li></li>
+						<li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>main</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+						<li>	<span class='semtok-variable semtok-mod-definition semtok-mod-chan'>ch</span> <span class='semtok-operator'>:=</span> <span class='semtok-function semtok-mod-defaultLibrary'>make</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-keyword'>chan</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>float64</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+						<li>	<span class='semtok-variable semtok-mod-chan'>ch</span> <span class='semtok-operator'>&lt;-</span> <span class='semtok-number'>1.0e10</span> <span class='semtok-comment'>// magic number</span></li>
+						<li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>x</span>, <span class='semtok-variable semtok-mod-definition semtok-mod-bool'>ok</span> <span class='semtok-operator'>:=</span> <span class='semtok-operator'>&lt;-</span><span class='semtok-variable semtok-mod-chan'>ch</span></li>
+						<li>	<span class='semtok-keyword semtok-mod-control'>defer</span> <span class='semtok-namespace'>fmt</span>.<span class='semtok-function semtok-mod-signature'>Println</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-string'>`exiting now`</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+						<li>	<span class='semtok-keyword semtok-mod-control'>go</span> <span class='semtok-function semtok-mod-defaultLibrary'>println</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-function semtok-mod-defaultLibrary'>len</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-string'>&#34;hello world!&#34;</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+						<li>	<span class='semtok-keyword semtok-mod-control'>return</span></li>
+						<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+						</ol></code></pre>
+					</code>
+					</pre>
+				</section>
+				<section>
+					<pre class="pre"><div class="code"><ol><li><span class='semtok-keyword'>package</span> <span class='semtok-namespace'>main</span></li>
+					<li></li>
+					<li><span class='semtok-keyword'>import</span> <span class='semtok-string'>&#34;</span><span class='semtok-namespace'>fmt</span><span class='semtok-string'>&#34;</span></li>
+					<li></li>
+					<li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>main</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+					<li>	<span class='semtok-variable semtok-mod-definition semtok-mod-chan'>ch</span> <span class='semtok-operator'>:=</span> <span class='semtok-function semtok-mod-defaultLibrary'>make</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-keyword'>chan</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>float64</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+					<li class="code-highlight">	<span class='semtok-variable semtok-mod-chan'>ch</span> <span class='semtok-operator'>&lt;-</span> <span class='code-highlight-spot semtok-number'>1.0e10</span> <span class='semtok-comment'>// magic number</span></li>
+					<li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>x</span>, <span class='semtok-variable semtok-mod-definition semtok-mod-bool'>ok</span> <span class='semtok-operator'>:=</span> <span class='semtok-operator'>&lt;-</span><span class='semtok-variable semtok-mod-chan'>ch</span></li>
+					<li>	<span class='semtok-keyword semtok-mod-control'>defer</span> <span class='semtok-namespace'>fmt</span>.<span class='semtok-function semtok-mod-signature'>Println</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='code-highlight-spot semtok-string'>`exiting now`</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+					<li>	<span class='semtok-keyword semtok-mod-control'>go</span> <span class='semtok-function semtok-mod-defaultLibrary'>println</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-function semtok-mod-defaultLibrary'>len</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='code-highlight-spot semtok-string'>&#34;hello world!&#34;</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+					<li>	<span class='semtok-keyword semtok-mod-control'>return</span></li>
+					<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+					</ol></div></pre>
+				</section>
+				<section>
+					<pre class="pre"><div class="code"><ol><li><span class='semtok-keyword'>package</span> <span class='semtok-namespace'>main</span></li>
+					<li></li>
+					<li><span class='semtok-keyword'>import</span> <span class='semtok-string'>&#34;</span><span class='semtok-namespace'>fmt</span><span class='semtok-string'>&#34;</span></li>
+					<li></li>
+					<li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>main</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+					<li>	<span class='semtok-variable semtok-mod-definition semtok-mod-chan'>ch</span> <span class='semtok-operator'>:=</span> <span class='semtok-function semtok-mod-defaultLibrary'>make</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-keyword'>chan</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>float64</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+					<li>	<span class='semtok-variable semtok-mod-chan'>ch</span> <span class='semtok-operator'>&lt;-</span> <span class='code-highlight-spot semtok-number'>1.0e10</span> <span class='semtok-comment'>// magic number</span></li>
+					<li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>x</span>, <span class='semtok-variable semtok-mod-definition semtok-mod-bool'>ok</span> <span class='semtok-operator'>:=</span> <span class='semtok-operator'>&lt;-</span><span class='semtok-variable semtok-mod-chan'>ch</span></li>
+					<li class="code-highlight">	<span class='semtok-keyword semtok-mod-control'>defer</span> <span class='semtok-namespace'>fmt</span><span>.</span><span class='semtok-function semtok-mod-signature'>Println</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='code-highlight-spot semtok-string'>`exiting now`</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+					<li>	<span class='semtok-keyword semtok-mod-control'>go</span> <span class='semtok-function semtok-mod-defaultLibrary'>println</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-function semtok-mod-defaultLibrary'>len</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='code-highlight-spot semtok-string'>&#34;hello world!&#34;</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+					<li>	<span class='semtok-keyword semtok-mod-control'>return</span></li>
+					<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+					</ol></div></pre>
+				</section>
+				<section>
+					<pre class="pre"><div class="code"><ol><li><span class='semtok-keyword'>package</span> <span class='semtok-namespace'>main</span></li>
+					<li></li>
+					<li><span class='semtok-keyword'>import</span> <span class='semtok-string'>&#34;</span><span class='semtok-namespace'>fmt</span><span class='semtok-string'>&#34;</span></li>
+					<li></li>
+					<li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>main</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+					<li>	<span class='semtok-variable semtok-mod-definition semtok-mod-chan'>ch</span> <span class='semtok-operator'>:=</span> <span class='semtok-function semtok-mod-defaultLibrary'>make</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-keyword'>chan</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>float64</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+					<li>	<span class='semtok-variable semtok-mod-chan'>ch</span> <span class='semtok-operator'>&lt;-</span> <span class='code-highlight-spot semtok-number'>1.0e10</span> <span class='semtok-comment'>// magic number</span></li>
+					<li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>x</span>, <span class='semtok-variable semtok-mod-definition semtok-mod-bool'>ok</span> <span class='semtok-operator'>:=</span> <span class='semtok-operator'>&lt;-</span><span class='semtok-variable semtok-mod-chan'>ch</span></li>
+					<li>	<span class='semtok-keyword semtok-mod-control'>defer</span> <span class='semtok-namespace'>fmt</span>.<span class='semtok-function semtok-mod-signature'>Println</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='code-highlight-spot semtok-string'>`exiting now`</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+					<li class="code-highlight">	<span class='semtok-keyword semtok-mod-control'>go</span> <span class='semtok-function semtok-mod-defaultLibrary'>println</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-function semtok-mod-defaultLibrary'>len</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='code-highlight-spot semtok-string'>&#34;hello world!&#34;</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+					<li>	<span class='semtok-keyword semtok-mod-control'>return</span></li>
+					<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+					</ol></div></pre>
+				</section>
+				<section>
+					<pre class="pre"><div class="code gemini1"><ol><li><span class='semtok-keyword'>package</span> <span class='semtok-namespace'>main</span></li>
+					<li></li>
+					<li><span class='semtok-keyword'>import</span> <span class='semtok-string'>&#34;</span><span class='semtok-namespace'>fmt</span><span class='semtok-string'>&#34;</span></li>
+					<li></li>
+					<li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>main</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+					<li>	<span class='semtok-variable semtok-mod-definition semtok-mod-chan'>ch</span> <span class='semtok-operator'>:=</span> <span class='semtok-function semtok-mod-defaultLibrary'>make</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-keyword'>chan</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>float64</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+					<li>	<span class='semtok-variable semtok-mod-chan'>ch</span> <span class='semtok-operator'>&lt;-</span> <span class='semtok-number'>1.0e10</span> <span class='semtok-comment'>// magic number</span></li>
+					<li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>x</span>, <span class='semtok-variable semtok-mod-definition semtok-mod-bool'>ok</span> <span class='semtok-operator'>:=</span> <span class='semtok-operator'>&lt;-</span><span class='semtok-variable semtok-mod-chan'>ch</span></li>
+					<li>	<span class='semtok-keyword semtok-mod-control'>defer</span> <span class='semtok-namespace'>fmt</span>.<span class='semtok-function semtok-mod-signature'>Println</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-string'>`exiting now`</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+					<li>	<span class='semtok-keyword semtok-mod-control'>go</span> <span class='semtok-function semtok-mod-defaultLibrary'>println</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-function semtok-mod-defaultLibrary'>len</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-string'>&#34;hello world!&#34;</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+					<li>	<span class='semtok-keyword semtok-mod-control'>return</span></li>
+					<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+					</ol></div></pre>
+				</section>
+				<section>
+					<pre class="pre"><div class="code gemini2"><ol><li><span class='semtok-keyword'>package</span> <span class='semtok-namespace'>main</span></li>
+					<li></li>
+					<li><span class='semtok-keyword'>import</span> <span class='semtok-string'>&#34;</span><span class='semtok-namespace'>fmt</span><span class='semtok-string'>&#34;</span></li>
+					<li></li>
+					<li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>main</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+					<li>	<span class='semtok-variable semtok-mod-definition semtok-mod-chan'>ch</span> <span class='semtok-operator'>:=</span> <span class='semtok-function semtok-mod-defaultLibrary'>make</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-keyword'>chan</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>float64</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+					<li>	<span class='semtok-variable semtok-mod-chan'>ch</span> <span class='semtok-operator'>&lt;-</span> <span class='semtok-number'>1.0e10</span> <span class='semtok-comment'>// magic number</span></li>
+					<li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>x</span>, <span class='semtok-variable semtok-mod-definition semtok-mod-bool'>ok</span> <span class='semtok-operator'>:=</span> <span class='semtok-operator'>&lt;-</span><span class='semtok-variable semtok-mod-chan'>ch</span></li>
+					<li>	<span class='semtok-keyword semtok-mod-control'>defer</span> <span class='semtok-namespace'>fmt</span>.<span class='semtok-function semtok-mod-signature'>Println</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-string'>`exiting now`</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+					<li>	<span class='semtok-keyword semtok-mod-control'>go</span> <span class='semtok-function semtok-mod-defaultLibrary'>println</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-function semtok-mod-defaultLibrary'>len</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-string'>&#34;hello world!&#34;</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+					<li>	<span class='semtok-keyword semtok-mod-control'>return</span></li>
+					<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+					</ol></div></pre>
+				</section>
+				<section>
+					<pre class="pre"><div class="code gemini3"><ol><li><span class='semtok-keyword'>package</span> <span class='semtok-namespace'>main</span></li>
+					<li></li>
+					<li><span class='semtok-keyword'>import</span> <span class='semtok-string'>&#34;</span><span class='semtok-namespace'>fmt</span><span class='semtok-string'>&#34;</span></li>
+					<li></li>
+					<li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>main</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+					<li>	<span class='semtok-variable semtok-mod-definition semtok-mod-chan'>ch</span> <span class='semtok-operator'>:=</span> <span class='semtok-function semtok-mod-defaultLibrary'>make</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-keyword'>chan</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>float64</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+					<li>	<span class='semtok-variable semtok-mod-chan'>ch</span> <span class='semtok-operator'>&lt;-</span> <span class='semtok-number'>1.0e10</span> <span class='semtok-comment'>// magic number</span></li>
+					<li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>x</span>, <span class='semtok-variable semtok-mod-definition semtok-mod-bool'>ok</span> <span class='semtok-operator'>:=</span> <span class='semtok-operator'>&lt;-</span><span class='semtok-variable semtok-mod-chan'>ch</span></li>
+					<li>	<span class='semtok-keyword semtok-mod-control'>defer</span> <span class='semtok-namespace'>fmt</span>.<span class='semtok-function semtok-mod-signature'>Println</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-string'>`exiting now`</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+					<li>	<span class='semtok-keyword semtok-mod-control'>go</span> <span class='semtok-function semtok-mod-defaultLibrary'>println</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-function semtok-mod-defaultLibrary'>len</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-string'>&#34;hello world!&#34;</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+					<li>	<span class='semtok-keyword semtok-mod-control'>return</span></li>
+					<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+					</ol></div></pre>
+				</section>
+				<section>
+					<p class="r-fit-text"><strong>完成までの道のり</strong></p>
+				</section>
+				<section>
+					<div class="code" style="padding-left:2em; font-size: 48px">
+						❯ gopls semtok ./main.go
+					</div>
+				</section>
+				<section>
+					<pre class="pre"><div class="code"><ol>
+					<li><span class='semtok-keyword'>package</span> <span class='semtok-namespace'>main</span></li>
+					<li></li>
+					<li><span class='semtok-keyword'>import</span> <span class='semtok-string'>&#34;</span><span class='semtok-namespace'>fmt</span><span class='semtok-string'>&#34;</span></li>
+					<li></li>
+					<li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>main</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+					<li>	<span class='semtok-namespace'>fmt</span>.<span class='semtok-function semtok-mod-signature'>Println</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-string'>&#34;Hello, World!&#34;</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+					<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+					</ol></div></pre>
+				</section>
+				<section>
+					<pre class="pre"><div class="code" style="font-size: 15px; padding: 1em 2em 1em 1em;"><ol>
+					<li><span class='semtok-comment'>/*⇒7,keyword,[]*/</span><span class='semtok-keyword'>package</span> <span class='semtok-comment'>/*⇒4,namespace,[]*/</span><span class='semtok-namespace'>main</span></li>
+					<li></li>
+					<li><span class='semtok-comment'>/*⇒6,keyword,[]*/</span><span class='semtok-keyword'>import</span> <span class='semtok-string'>&#34;</span><span class='semtok-namespace'>fmt</span><span class='semtok-string'>&#34;</span><span class='semtok-comment'>/*⇐3,namespace,[]*/</span></li>
+					<li></li>
+					<li><span class='semtok-comment'>/*⇒4,keyword,[]*/</span><span class='semtok-keyword'>func</span> <span class='semtok-comment'>/*⇒4,function,[definition signature]*/</span><span class='semtok-function semtok-mod-definition semtok-mod-signature'>main</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+					<li>        <span class='semtok-comment'>/*⇒3,namespace,[]*/</span><span class='semtok-namespace'>fmt</span>.<span class='semtok-comment'>/*⇒7,function,[signature]*/</span><span class='semtok-function semtok-mod-signature'>Println</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-comment'>/*⇒15,string,[]*/</span><span class='semtok-string'>&#34;Hello, World!&#34;</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+					<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+					</ol></div></pre>
+				</section>
+				<section>
+					<div class="code" style="font-size: 32px; padding: 1em 2em 1em 2em;">
+						<span class='semtok-comment'>/*⇒4,function,[definition signature]*/</span><span class='semtok-function semtok-mod-definition semtok-mod-signature'>main</span>
+					</div>
+				</section>
+				<section>
+					<div class="code" style="padding-left:2em; font-size: 40px">
+						<a href="https://github.com/golang/tools/blob/master/gopls/internal/golang/semtok.go" style="color: inherit; text-decoration: none;">
+							github.com/golang/tools<br>/gopls/internal/golang/semtok.go
+						</a>
+					</div>
+				</section>
+				<section>
+					<div class="code" style="padding-left:2em; font-size: 40px">
+						<a href="https://github.com/golang/tools/blob/master/gopls/internal/golang/semtok.go" style="color: inherit; text-decoration: none;">
+							github.com/golang/tools<br>/gopls/<span class="highlight">internal</span>/golang/semtok.go
+						</a>
+					</div>
+				</section>
+				<section>
+					<img class="r-stretch" style="margin:0" src="imgs/gopher_10.svg"/>
+				</section>
+				<section>
+					<div class="r-fit-text">必要なコードを切り出し、<br>実行してみると……</div>
+				</section>
+				<section>
+					<div class="code" style="padding-left:2em; font-size: 32px">
+						❯ echo a := 1 > test.go
+					</div>
+					<br>
+					<div class="code fragment" data-fragment-index="1" style="padding-left:2em; font-size: 32px">
+						❯ go run ./cmd/prettygo ./test.go
+					</div>
+					<br>
+					<div class="code fragment" data-fragment-index="2" style="padding-left:2em; font-size: 32px">
+						<br>
+					</div>
+				</section>
+				<section>
+					<div class="r-fit-text"><strong>ん？</strong></div>
+				</section>
+				<section>
+					<div class="code" style="padding-left:2em; font-size: 32px">
+						❯ gopls semtok ./test.go
+					</div>
+					<br>
+					<div class="code" style="padding-left:2em; font-size: 32px">
+						<br>
+					</div>
+				</section>
+				<section>
+					<div class="r-fit-text"><strong>ん？？</strong></div>
+				</section>
+				<section>
+					<a href="https://github.com/golang/go/blob/9e0981230803265f3245193e1d61cc3599c9ca54/src/go/parser/parser.go#L2876-L2885">
+						<p>go/parser/parser.go から</p>
+					</a>
+					<pre class="pre"><div class="code" style="padding-left:2em; font-size: 32px"><span class='semtok-keyword'>func</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-variable semtok-mod-definition'>p</span> <span class='semtok-operator'>*</span><span class='semtok-variable'>parser</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-method semtok-mod-definition semtok-mod-signature'>parseFile</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-operator'>*</span><span class='semtok-variable'>ast</span>.<span class='semtok-variable'>File</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span>
+	<span class='semtok-comment'>// 中略</span>
+
+	<span class='semtok-comment'>// Don&#39;t bother parsing the rest if we</span>
+	<span class='semtok-comment'>// had errors scanning the first token.</span>
+	<span class='semtok-comment'>// Likely not a Go source file at all.</span>
+	<span class='semtok-keyword semtok-mod-control'>if</span> <span class='semtok-variable'>p</span>.<span class='semtok-variable'>errors</span>.<span class='semtok-function'>Len</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span> <span class='semtok-operator'>!=</span> <span class='semtok-number'>0</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span>
+		<span class='semtok-keyword semtok-mod-control'>return</span> <span class='semtok-variable semtok-mod-defaultLibrary semtok-mod-readonly'>nil</span>
+	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span></div></pre>
+				</section>
+				<section>
+					<a href="https://github.com/golang/go/blob/9e0981230803265f3245193e1d61cc3599c9ca54/src/go/parser/parser.go#L2898-L2902">
+						<p>go/parser/parser.go から</p>
+					</a>
+					<pre class="pre"><div class="code" style="padding-left:2em; font-size: 32px">	<span class='semtok-comment'>// 中略</span>
+	<span class='semtok-variable semtok-mod-definition'>pos</span> <span class='semtok-operator'>:=</span> <span class='semtok-variable'>p</span>.<span class='semtok-function'>expect</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-variable'>token</span>.<span class='semtok-variable'>PACKAGE</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span>
+	<span class='semtok-comment'>// 中略</span>
+
+	<span class='semtok-comment'>// Don&#39;t bother parsing the rest if we </span>
+	<span class='semtok-comment'>// had errors parsing the package clause.</span>
+	<span class='semtok-comment'>// Likely not a Go source file at all.</span>
+	<span class='semtok-keyword semtok-mod-control'>if</span> <span class='semtok-variable'>p</span>.<span class='semtok-variable'>errors</span>.<span class='semtok-function'>Len</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span> <span class='semtok-operator'>!=</span> <span class='semtok-number'>0</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span>
+		<span class='semtok-keyword semtok-mod-control'>return</span> <span class='semtok-variable semtok-mod-defaultLibrary semtok-mod-readonly'>nil</span>
+	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span></div></pre>
+				</section>
+				<section>
+					<img class="r-stretch" style="margin:0" src="imgs/gopher_74.svg"/>
+				</section>
+				<section>
+					<a href="https://github.com/golang/go/blob/9e0981230803265f3245193e1d61cc3599c9ca54/src/go/parser/parser.go#L2898-L2902">
+						<p>go/parser/parser.go から</p>
+					</a>
+					<pre class="pre"><div class="code" style="padding-left:2em; font-size: 32px"><span class='semtok-keyword'>func</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-variable semtok-mod-definition'>p</span> <span class='semtok-operator'>*</span><span class='semtok-variable'>parser</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-method semtok-mod-definition semtok-mod-signature'>expect</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-comment'>/*中略*/</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-variable'>token</span>.<span class='semtok-variable'>Pos</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span>
+	<span class='semtok-variable semtok-mod-definition'>pos</span> <span class='semtok-operator'>:=</span> <span class='semtok-variable'>p</span>.<span class='semtok-variable'>pos</span>
+	<span class='semtok-keyword semtok-mod-control'>if</span> <span class='semtok-variable'>p</span>.<span class='semtok-variable'>tok</span> <span class='semtok-operator'>!=</span> <span class='semtok-parameter'>tok</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span>
+		<span class='semtok-variable'>p</span>.<span class='semtok-function'>errorExpected</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-comment'>/*中略*/</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span>
+	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span> <span class='semtok-keyword semtok-mod-control'>else</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span>
+		<span class='semtok-variable'>p</span>.<span class='semtok-variable'>firstTokenFound</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-defaultLibrary semtok-mod-readonly'>true</span>
+	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span>
+	<span class='semtok-keyword semtok-mod-control'>if</span> <span class='semtok-variable'>p</span>.<span class='semtok-variable'>firstTokenFound</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span>
+		<span class='semtok-variable'>p</span>.<span class='semtok-function'>next</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span> <span class='semtok-comment'>// make progress</span>
+	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span>
+	<span class='semtok-keyword semtok-mod-control'>return</span> <span class='semtok-variable'>pos</span>
+<span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></div></pre>
+				</section>
+				<section>
+					<a href="https://github.com/golang/go/blob/9e0981230803265f3245193e1d61cc3599c9ca54/src/go/parser/parser.go#L2898-L2902">
+						<p>go/parser/parser.go から</p>
+					</a>
+					<pre class="pre"><div class="code" style="padding-left:2em; font-size: 32px"><ol class="no-numbering"><li><span class='semtok-keyword'>func</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-variable semtok-mod-definition'>p</span> <span class='semtok-operator'>*</span><span class='semtok-variable'>parser</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-method semtok-mod-definition semtok-mod-signature'>expect</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-comment'>/*中略*/</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-variable'>token</span>.<span class='semtok-variable'>Pos</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+						<li>	<span class='semtok-variable semtok-mod-definition'>pos</span> <span class='semtok-operator'>:=</span> <span class='semtok-variable'>p</span>.<span class='semtok-variable'>pos</span></li>
+						<li>	<span class='semtok-keyword semtok-mod-control'>if</span> <span class='semtok-variable'>p</span>.<span class='semtok-variable'>tok</span> <span class='semtok-operator'>!=</span> <span class='semtok-parameter'>tok</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+						<li>		<span class='semtok-variable'>p</span>.<span class='semtok-function'>errorExpected</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-comment'>/*中略*/</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span></li>
+						<li class="code-highlight">	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span> <span class='semtok-keyword semtok-mod-control'>else</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+						<li class="code-highlight">		<span class='semtok-variable'>p</span>.<span class='semtok-variable'>firstTokenFound</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-defaultLibrary semtok-mod-readonly'>true</span></li>
+						<li class="code-highlight">	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span></li>
+						<li class="code-highlight">	<span class='semtok-keyword semtok-mod-control'>if</span> <span class='semtok-variable'>p</span>.<span class='semtok-variable'>firstTokenFound</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+						<li class="code-highlight">		<span class='semtok-variable'>p</span>.<span class='semtok-function'>next</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span> <span class='semtok-comment'>// make progress</span></li>
+						<li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span></li>
+						<li>	<span class='semtok-keyword semtok-mod-control'>return</span> <span class='semtok-variable'>pos</span></li>
+						<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></ol></div></pre>
+				</section>
+				<section>
+					<h3>AST に足りない要素を追加</h3>
+					<div class="columns-2x1" style="place-items: start; text-align: left;">
+						<div class="code" style="padding-left:2em; font-size: 36px; justify-self: center;">
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<span class='semtok-variable semtok-mod-definition semtok-mod-number'>a</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>1</span>
+							<br>
+							<br>
+						</div>
+						<div>
+							<pre class="pre"><div class="code" style="padding-left:2em; font-size: 36px;"><ol class="no-numbering">
+								<li><span class='semtok-keyword'>package</span> <span class='semtok-namespace'>main</span></li>
+								<li></li>
+								<li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>init</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+								<li></li>
+								<li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>main</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+								<li class="code-highlight">	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>a</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>1</span></li>
+								<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+							</ol></div></pre>
+						</div>
+					</div>
+				</section>
+				<section>
+					良い感じにできたと思ったら⋯⋯
+					<div class="columns-2x1 fragment" data-fragment-index="1" style="place-items: center; text-align: left;">
+						<p class="bigger"><strong>🚨バグ発見🚨</strong></p>
+						<img class="r-stretch" style="margin:0" src="imgs/gopher_49.svg"/>
+					</div>
+				</section>
+				<section>
+					<pre class="pre"><div class="code" style="padding-left:2em; font-size: 36px;"><ol class="no-numbering">
+						<li><span class='semtok-variable semtok-mod-definition semtok-mod-string'>str</span> <span class='semtok-operator'>:=</span> <span class='semtok-string'>`</span></li>
+						<li><span class='semtok-string'></span></li>
+						<li><span class='semtok-string'></span></li>
+						<li><span class='semtok-string'></span></li>
+						<li><span class='semtok-string'></span></li>
+						<li><span class='semtok-string'>test`</span></li>
+					</ol></div></pre>
+				</section>
+				<section>
+					<pre class="pre"><div class="code" style="padding-left:2em; font-size: 36px;"><ol class="no-numbering">
+						<li><span class='semtok-variable semtok-mod-definition semtok-mod-string'>str</span> <span class='semtok-operator'>:=</span> <span class='semtok-string'>`</span><span class='semtok-string semtok-mod-format' style="opacity: 0.7;">\r\n</span></li>
+						<li><span class='semtok-string'></span><span class='semtok-string semtok-mod-format' style="opacity: 0.7;">\r\n</span></li>
+						<li><span class='semtok-string'></span><span class='semtok-string semtok-mod-format' style="opacity: 0.7;">\r\n</span></li>
+						<li><span class='semtok-string'></span><span class='semtok-string semtok-mod-format' style="opacity: 0.7;">\r\n</span></li>
+						<li><span class='semtok-string'></span><span class='semtok-string semtok-mod-format' style="opacity: 0.7;">\r\n</span></li>
+						<li><span class='semtok-string'>test`</span></li>
+					</ol></div></pre>
+				</section>
+				<section>
+					<pre class="pre"><div class="code" style="padding-left:2em; font-size: 36px;"><ol class="no-numbering">
+						<li><span class='semtok-variable semtok-mod-definition semtok-mod-string'>str</span> <span class='semtok-operator'>:=</span> <span class='semtok-comment'>/*⇒1,string,[]*/</span><span class='semtok-string'>`</span></li>
+						<li><span class='semtok-comment'>/*⇒0,string,[]*/</span></li>
+						<li><span class='semtok-comment'>/*⇒0,string,[]*/</span></li>
+						<li><span class='semtok-comment'>/*⇒0,string,[]*/</span></li>
+						<li><span class='semtok-comment'>/*⇒1,string,[]*/</span><span class='semtok-string'>test`</span></li>
+					</ol></div></pre>
+				</section>
+				<section>
+					<a href="https://github.com/golang/go/issues/75969">https://github.com/golang/go/issues/75969</a><br><br>
+					で報告し、対応済み
+				</section>
+				<section>
+					<h1><strong>完成</strong></h1>
+					<img class="r-stretch" style="margin:0" src="imgs/gopher_14.svg"/>
+				</section>
+				<section>
+					<p class="bigger"><strong>以上、prettygo の仕組みでした！</strong></p>
+					<div class="columns-2x1" style="place-items: center; text-align: left; grid-template-columns: 1.2fr 0.8fr;">
+						<div style="font-size:32px; padding-left:1em;">
+							<p>ぜひ<span class="highlight">ブログ</span>や<span class="highlight">スライド</span>で<br>ご活用ください</p>
+							<p>PRもお待ちしています！</p>
+							<p><a href="https://github.com/sollniss/prettygo">https://github.com/sollniss/prettygo</a></p>
+						</div>
+						<img class="r-stretch" style="margin:0" src="imgs/gopher_8.svg"/>
+					</div>
+
+				</section>
+				<section></section>
+			</div>
+		</div>
+
+		<script src="static/revealjs/dist/reveal.js"></script>
+		<script src="static/revealjs/plugin/notes/notes.js"></script>
+		<script src="static/revealjs/plugin/highlight/highlight.js"></script>
+		<!--<script src="static/revealjs/plugin/markdown/markdown.js"></script>-->
+		<script>
+			Reveal.initialize({
+				hash: true,
+				hashOneBasedIndex: true,
+				transition: 'none',
+				progress: false,
+				slideNumber: true,
+				showSlideNumber: 'all',
+				controls: true,
+
+				//highlight: {
+				//	beforeHighlight: (hljs) => hljs.registerLanguage("language-go"),
+				//},
+
+				plugins: [ /*RevealMarkdown, */ RevealHighlight, RevealNotes ],
+			});
+		</script>
+	</body>
+</html>
