@@ -1,7 +1,11 @@
 # presentations
 
+## [2025-12-17] [SaaSの基幹システムをモジュラーモノリスとして再設計](https://sollniss.github.io/presentations/20251217_prime/)
+### Event: [golang.tokyo #42](https://timeedev.connpass.com/event/376592/)
+![Banner](banners/20251217_prime.png)
+
 ## [2025-12-16] [映えるGoコード: CSSで柔軟にカスタマイズできるコードハイライトツールの紹介](https://sollniss.github.io/presentations/20251216_golang.tokyo.42/)
-### Event: [golang.tokyo #42](https://golangtokyo.connpass.com/event/377276/)
+### Event: [スケールするサービスにおけるアーキテクチャの工夫・苦労を語る会](https://golangtokyo.connpass.com/event/377276/)
 ![Banner](banners/golang.tokyo.png)
 
 ## [2025-10-14] [呼び出し漏れリンターを作ろうとした結果](https://sollniss.github.io/presentations/20251014_GoNightTalks/)

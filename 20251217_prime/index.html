@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<meta name="keywords" content="architecture,conference,dennis,metzger,finatext" />
+		<meta name="description" content="SaaSの基幹システムので気にしていたことについて語ります！"/>
+		<title>SaaSの基幹システムをモジュラーモノリスとして再設計 - Dennis Metzger</title>
+
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:creator" content="@d_mzgr" />
+
+		<meta property="og:type" content="article" />
+		<meta property="og:title" content="SaaSの基幹システムをモジュラーモノリスとして再設計 - Dennis Metzger" />
+		<meta property="og:description" content="SaaSの基幹システムので気にしていたことについて語ります！"/>
+		<meta property="og:url" content="https://sollniss.github.io/presentations/20251217_prime/" />
+		<meta property="og:image" content="https://sollniss.github.io/presentations/20251217_prime/imgs/card/card.png" />
+
+		<link rel="stylesheet" href="static/revealjs/dist/reset.css">
+		<link rel="stylesheet" href="static/revealjs/dist/reveal.css">
+		<link rel="stylesheet" href="static/revealjs/dist/theme/black.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<!--<link rel="stylesheet" href="static/revealjs/plugin/highlight/monokai.css">-->
+
+		<link rel="stylesheet" href="custom.css">
+		<link rel="stylesheet" href="code.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<p class="r-fit-text"><strong>SaaSの基幹システムを<br>モジュラーモノリスとして再設計</strong></p>
+					<div>Dennis Metzger</div>
+					<div class="occasion weak"><time>2025-12-17</time><div class="event">スケールするサービスにおける<br>アーキテクチャの工夫・苦労を語る会</div></div>
+				</section>
+				<section style="text-align: left;">
+					<h2><ruby>Dennis<rp>(</rp><rt>デニス</rt><rp>)</rp></ruby> <ruby>Metzger<rp>(</rp><rt>メッツガー</rt><rp>)</rp></ruby></h2>
+					<p>Backend Engineer @ Finatext</p>
+					<ul class="profile-urls weak">
+						<li class="icon-github"><a href="https://github.com/sollniss" target="_blank">sollniss</a></li>
+						<li class="icon-x"><a href="https://x.com/d_mzgr" target="_blank">@d_mzgr</a></li>
+						<li class="icon-zenn"><a href="https://zenn.dev/d_mzgr" target="_blank">d_mzgr</a></li>
+						<li class="icon-connpass"><a href="https://connpass.com/user/_____________________________/" target="_blank">sollniss</a></li>
+						<li class="icon-sessionize"><a href="https://sessionize.com/dennis-metzger/" target="_blank">Dennis Metzger</a></li>
+					</ul>
+				</section>
+				<section>
+					<div style="background-color:#fff; border-radius: 10px; width:100%; height:100%; display: flex; justify-content: center; align-items: center;">
+						<img src="imgs/inspire.svg" style="width:100%; height:100%;"/>
+					</div>
+				</section>
+				<section>
+					<img class="r-stretch" src="imgs/arch_v1_0.svg"/>
+				</section>
+				<section>
+					<img class="r-stretch" src="imgs/arch_v1_1.svg"/>
+				</section>
+				<section>
+					<img class="r-stretch" src="imgs/arch_v1.svg"/>
+				</section>
+				<section>
+					<img class="r-stretch" src="imgs/arch_v1_openapi.svg"/>
+				</section>
+				<section>
+					～３ヶ月間、毎日１時間のモブプロ～
+				</section>
+				<section>
+					<img class="r-stretch" src="imgs/arch_v2.svg"/>
+				</section>
+				<section>
+					<img class="r-stretch" src="imgs/arch_v2_handler.svg"/>
+				</section>
+				<section>
+					<img class="r-stretch" src="imgs/arch_v2_scenario.svg"/>
+				</section>
+				<section>
+					<img class="r-stretch" src="imgs/arch_v2_kernel.svg"/>
+				</section>
+				<section>
+					<img class="r-stretch" src="imgs/arch_v2_codegen.svg"/>
+				</section>
+				<section>
+					<div style="padding-left: 5%">
+						<pre style="margin: 0"><code class="dim" style="font-size:32px"><ol>
+<li><span class='semtok-variable semtok-mod-definition semtok-mod-slice'>rows</span> <span class='semtok-operator'>:=</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-bracket'>[</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-bracket'>]</span><span class='semtok-type semtok-mod-string semtok-mod-defaultLibrary'>string</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+<li><span class='semtok-variable semtok-mod-definition'>err</span> <span class='semtok-operator'>:=</span> <span class='semtok-variable'>tx</span>.<span class='semtok-function'>Select</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-string'>&#34;underwritten_at&#34;</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span>.</li>
+<li>	<span class='semtok-function'>From</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-string'>&#34;policies as p&#34;</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span>.</li>
+<li>	<span class='semtok-function'>Where</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-string'>&#34;p.id = ?&#34;</span>, <span class='semtok-variable'>id</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span>.</li>
+<li>	<span class='semtok-function'>LoadContext</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-variable'>ctx</span>, <span class='semtok-operator'>&amp;</span><span class='semtok-variable semtok-mod-slice'>rows</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span></li>
+</ol></code></pre>
+<br>
+						<pre style="margin: 0"><code style="font-size:32px"><ol>
+<li class="fragment custom highlight" data-fragment-index="1"><span class='semtok-variable semtok-mod-slice'>rows</span> <span class='semtok-operator'>:=</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-bracket'>[</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-bracket'>]</span><span class='spot semtok-variable'>model</span>.<span class='spot semtok-variable'>Policies</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+<li><span class='semtok-variable'>err</span> <span class='semtok-operator'>:=</span> <span class='semtok-variable'>jet</span>.</li>
+<li class="fragment custom highlight" data-fragment-index="1">	<span class='semtok-function'>SELECT</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='spot semtok-variable'>table</span>.<span class='spot semtok-variable'>Policies</span>.<span class='spot semtok-variable'>UnderwrittenAt</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span><span>.</span></li>
+<li class="fragment custom highlight" data-fragment-index="1">	<span class='semtok-function'>FROM</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='spot semtok-variable'>table</span>.<span class='spot semtok-variable'>Policies</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span><span>.</span></li>
+<li class="fragment custom highlight" data-fragment-index="1">	<span class='semtok-function'>WHERE</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='spot semtok-variable'>table</span>.<span class='spot semtok-variable'>Policies</span>.<span class='spot semtok-variable'>ID</span><span>.</span><span class='semtok-function'>EQ</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-variable'>jet</span><span>.</span><span class='semtok-function'>String</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-variable'>id</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span><span>.</span></li>
+<li>	<span class='semtok-function'>QueryContext</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-variable'>ctx</span>, <span class='semtok-variable'>tx</span>, <span class='semtok-operator'>&amp;</span><span class='semtok-variable semtok-mod-slice'>rows</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</ol></code></pre>
+</ol></code></pre>
+					</div>
+				</section>
+				<section>
+					<div style="padding-left: 5%">
+						<pre style="margin: 0"><code style="font-size:32px; opacity: 0.4;"><ol>
+<li><span class='semtok-variable semtok-mod-definition semtok-mod-slice'>rows</span> <span class='semtok-operator'>:=</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-bracket'>[</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-bracket'>]</span><span class='semtok-type semtok-mod-string semtok-mod-defaultLibrary'>string</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+<li><span class='semtok-variable semtok-mod-definition'>err</span> <span class='semtok-operator'>:=</span> <span class='semtok-variable'>tx</span>.<span class='semtok-function'>Select</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-string'>&#34;underwritten_at&#34;</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span>.</li>
+<li>	<span class='semtok-function'>From</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-string'>&#34;policies as p&#34;</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span>.</li>
+<li>	<span class='semtok-function'>Where</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-string'>&#34;p.id = ?&#34;</span>, <span class='semtok-variable'>id</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span>.</li>
+<li>	<span class='semtok-function'>LoadContext</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-variable'>ctx</span>, <span class='semtok-operator'>&amp;</span><span class='semtok-variable semtok-mod-slice'>rows</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span></li>
+</ol></code></pre>
+<br>
+						<pre style="margin: 0"><code style="font-size:32px"><ol>
+<li><span class='semtok-variable semtok-mod-slice'>rows</span> <span class='semtok-operator'>:=</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-bracket'>[</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-bracket'>]</span><span class='spot semtok-variable'>model</span>.<span class='spot semtok-variable'>Policies</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+<li><span class='semtok-variable'>err</span> <span class='semtok-operator'>:=</span> <span class='semtok-variable'>jet</span>.</li>
+<li>	<span class='semtok-function'>SELECT</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='spot semtok-variable'>table</span>.<span class='spot semtok-variable'>Policies</span>.<span class='spot semtok-variable'>UnderwrittenAt</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span><span>.</span></li>
+<li>	<span class='semtok-function'>FROM</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='spot semtok-variable'>table</span>.<span class='spot semtok-variable'>Policies</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span><span>.</span></li>
+<li class="force-highlight">	<span class='semtok-function'>WHERE</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-variable'>table</span><span>.</span><span class='semtok-variable'>Policies</span><span>.</span><span class='semtok-variable'>ID</span><span>.</span><span class='semtok-function'>EQ</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='spot semtok-variable'>jet</span>.<span class='spot semtok-function'>String</span><span class='spot semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='spot semtok-variable'>id</span><span class='spot semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span><span>.</span></li>
+<li>	<span class='semtok-function'>QueryContext</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-variable'>ctx</span>, <span class='semtok-variable'>tx</span>, <span class='semtok-operator'>&amp;</span><span class='semtok-variable semtok-mod-slice'>rows</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</ol></code></pre>
+</ol></code></pre>
+					</div>
+				</section>
+				<section>
+					<img class="r-stretch" src="imgs/events_before.svg"/>
+				</section>
+				<section>
+					<img class="r-stretch" src="imgs/events_after.svg"/>
+				</section>
+				<section>
+					<strong class="r-fit-text" style="line-height: 1.1;">AI ネイティブ</strong>
+				</section>
+				<section>
+					<ul style="list-style-type: none;line-height: 2;">
+						<li><strong class="bigger">./CLAUDE.md</strong></li>
+					</ul>
+					<div class="fragment" data-fragment-index="1" style="background-color: #000; padding:0.5em; border-radius: 10px; width:100%; height:100%; display: flex; text-align:left; font-size: 32px;">
+						<p>より詳細な実装ガイドは docs/ ディレクトリに整理されています。以下のトピックを参照してください：</p>
+					</div>
+				</section>
+				<section>
+					<ul style="list-style-type: none; line-height: 2;">
+						<li>./docs/modular-monolith.md</li>
+						<li>./docs/api-development.md</li>
+						<li>./docs/database-migrations.md</li>
+						<li>./docs/dependency-injection.md</li>
+						<li>./docs/security.md</li>
+						<li>./docs/troubleshooting.md</li>
+					</ul>
+				</section>
+				<section>
+					<p class="r-fit-text"><strong>ご清聴ありがとうございました！</strong></p>
+					<div>Dennis Metzger</div>
+					<div class="occasion weak"><time>2025-12-17</time><div class="event">スケールするサービスにおける<br>アーキテクチャの工夫・苦労を語る会</div></div>
+				</section>
+			</div>
+		</div>
+
+		<script src="static/revealjs/dist/reveal.js"></script>
+		<script src="static/revealjs/plugin/notes/notes.js"></script>
+		<!--<script src="static/revealjs/plugin/markdown/markdown.js"></script>-->
+		<!--<script src="static/revealjs/plugin/highlight/highlight.js"></script>-->
+		<script>
+			Reveal.initialize({
+				hash: true,
+				hashOneBasedIndex: true,
+				transition: 'none',
+				progress: false,
+				slideNumber: true,
+				showSlideNumber: 'all',
+				controls: true,
+
+				plugins: [ /*RevealMarkdown, RevealHighlight,*/ RevealNotes ],
+			});
+
+			//Reveal.on('slidechanged', (event) => {
+			//	if (event.indexh === 2) {
+			//		Reveal.configure({
+			//			width: '100%',
+			//			height: '100%'
+			//		});
+			//	} else {
+			//		Reveal.configure({
+			//			width: 960,
+			//			height: 700
+			//		});
+			//	}
+			//});
+		</script>
+	</body>
+</html>

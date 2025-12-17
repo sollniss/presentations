@@ -1,0 +1,402 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+    style="-webkit-print-color-adjust:exact; color-adjust:exact !important;" preserveAspectRatio="xMidYMin meet"
+    zoomAndPan="magnify" contentStyleType="text/css" xmlns:cacoo="http://cacoo.com/" contentScriptType="text/ecmascript"
+    version="1.1" id="merged-svg-layer" viewBox="341.87 1165.28 357.57 323.6">
+    <defs id="reaction-defs">
+        <style>
+            @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,700i);
+        </style>
+    </defs>
+    <defs>
+        <clipPath id="kanbancard-assignee-clippath">
+            <circle cx="12" cy="12" r="12" />
+        </clipPath>
+    </defs>
+    <defs>
+        <marker id="arOESyh9x528-lqP5i6s9skMe-445" refX="14" refY="7" markerUnits="userSpaceOnUse" orient="auto"
+            markerWidth="14" markerHeight="14" preserveAspectRatio="none"
+            style="stroke-linecap: butt; stroke-linejoin: miter; stroke-dasharray: none; overflow: visible;">
+            <path d="M5 2.5L13.1 7L5 11.5z" style="fill: #399ed1; stroke-width: 1px; stroke: #399ed1; opacity: 1;" />
+        </marker>
+        <marker id="arMnrnHLGxIi-9iMrNih2tGme-445" refX="14" refY="7" markerUnits="userSpaceOnUse" orient="auto"
+            markerWidth="14" markerHeight="14" preserveAspectRatio="none"
+            style="stroke-linecap: butt; stroke-linejoin: miter; stroke-dasharray: none; overflow: visible;">
+            <path d="M5 2.5L13.1 7L5 11.5z" style="fill: #399ed1; stroke-width: 1px; stroke: #399ed1; opacity: 1;" />
+        </marker>
+        <marker id="araN6VgT8bFQ8-bWKxBwLzcAGe-445" refX="14" refY="7" markerUnits="userSpaceOnUse" orient="auto"
+            markerWidth="14" markerHeight="14" preserveAspectRatio="none"
+            style="stroke-linecap: butt; stroke-linejoin: miter; stroke-dasharray: none; overflow: visible;">
+            <path d="M5 2.5L13.1 7L5 11.5z" style="fill: #399ed1; stroke-width: 1px; stroke: #399ed1; opacity: 1;" />
+        </marker>
+    </defs>
+    <g id="bMhgeLMgKIc-hoasr0qY3CU"
+        transform="matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 356.375 1181.865) matrix(1 0 0 1 0 0)">
+        <path class="withPointerEvents path shape"
+            style="pointer-events: fill; fill-rule: nonzero; fill: #f0f6f7; fill-opacity: 1;"
+            d="M317.36699999999996 156.40599999999995 L10.5 156.40599999999995 Q6.16874885559082 156.40599999999995 3.0843753814697266 153.32161889648432 Q0 150.23724542236323 0 145.90599999999995 L0 10.5 Q0 6.168749809265137 3.0843753814697266 3.0843753814697266 Q6.168749809265137 0 10.5 0 L317.36699999999996 0 Q321.69824542236324 0 324.78261889648434 3.0843753814697266 Q327.86699999999996 6.16874885559082 327.86699999999996 10.5 L327.86699999999996 145.90599999999995 Q327.86699999999996 150.23725305175776 324.78261889648434 153.32161889648432 Q321.6982530517578 156.40599999999995 317.36699999999996 156.40599999999995Z"
+            shape-type="1" />
+        <path class="click" style="visibility: hidden; stroke-dasharray: none; pointer-events: stroke;"
+            d="M317.36699999999996 156.40599999999995 L10.5 156.40599999999995 Q6.16874885559082 156.40599999999995 3.0843753814697266 153.32161889648432 Q0 150.23724542236323 0 145.90599999999995 L0 10.5 Q0 6.168749809265137 3.0843753814697266 3.0843753814697266 Q6.168749809265137 0 10.5 0 L317.36699999999996 0 Q321.69824542236324 0 324.78261889648434 3.0843753814697266 Q327.86699999999996 6.16874885559082 327.86699999999996 10.5 L327.86699999999996 145.90599999999995 Q327.86699999999996 150.23725305175776 324.78261889648434 153.32161889648432 Q321.6982530517578 156.40599999999995 317.36699999999996 156.40599999999995Z" />
+    </g>
+    <g id="ddTBrKtF6gS-5nJ3njsBi0a"
+        transform="matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 375.875 1192.047) matrix(1 0 0 1 0 0)">
+        <g id="fwR24Nl5Acc-bRQJPWka8Ei"
+            transform="matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 7.246475465437236) matrix(1 0 0 1 0 0)">
+            <path class="withPointerEvents path shape"
+                style="pointer-events: fill; stroke-width: 2px; stroke: #399ed1; stroke-opacity: 1; fill: none;"
+                d="M279.04200071370275 121.64652941691214 L10.5 121.64652941691214 Q6.16874885559082 121.64652941691214 3.0843753814697266 118.56214831339652 Q0 115.47777483927543 0 111.14652941691214 L0 10.5 Q0 6.168749809265137 3.0843753814697266 3.0843753814697266 Q6.168749809265137 0 10.5 0 L279.04200071370275 0 Q283.37324613606603 0 286.4576196101871 3.0843753814697266 Q289.54200071370275 6.16874885559082 289.54200071370275 10.5 L289.54200071370275 111.14652941691214 Q289.54200071370275 115.47778246866996 286.4576196101871 118.56214831339652 Q283.37325376546056 121.64652941691214 279.04200071370275 121.64652941691214Z"
+                shape-type="1" />
+            <path class="click"
+                style="visibility: hidden; stroke-dasharray: none; pointer-events: stroke; stroke-width: 17px;"
+                d="M279.04200071370275 121.64652941691214 L10.5 121.64652941691214 Q6.16874885559082 121.64652941691214 3.0843753814697266 118.56214831339652 Q0 115.47777483927543 0 111.14652941691214 L0 10.5 Q0 6.168749809265137 3.0843753814697266 3.0843753814697266 Q6.168749809265137 0 10.5 0 L279.04200071370275 0 Q283.37324613606603 0 286.4576196101871 3.0843753814697266 Q289.54200071370275 6.16874885559082 289.54200071370275 10.5 L289.54200071370275 111.14652941691214 Q289.54200071370275 115.47778246866996 286.4576196101871 118.56214831339652 Q283.37325376546056 121.64652941691214 279.04200071370275 121.64652941691214Z" />
+        </g>
+        <g id="kQGPjMhZKg-dqK5wIZm5qs"
+            transform="matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 98.066 0) matrix(1 0 0 1 0 0)">
+            <g id="l0zJcGRmDuw-97YN0pKLluA"
+                transform="matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0)">
+                <path class="withPointerEvents path shape"
+                    style="pointer-events: fill; stroke-width: 2px; stroke: #399ed1; stroke-opacity: 1; fill-rule: nonzero; fill: #f0f6f7; fill-opacity: 1;"
+                    d="M85.25300656117851 0 L0 0 L0 23.354001291559996 L85.25300656117851 23.354001291559996 L85.25300656117851 0Z"
+                    shape-type="1" />
+                <path class="click" style="visibility: hidden; stroke-dasharray: none; pointer-events: stroke;"
+                    d="M85.25300656117851 0 L0 0 L0 23.354001291559996 L85.25300656117851 23.354001291559996 L85.25300656117851 0Z" />
+            </g>
+            <g id="5U4Yv16z16I-47K5mUehtuK"
+                transform="matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 1 1) matrix(1 0 0 1 0 0)"
+                shape-type="5" class="shape">
+                <foreignObject width="82.25299999999999px" height="20.354px"
+                    style="user-select: none; webkit-user-select: none; overflow: hidden; stroke-width: 0;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="width: 100%; height: 100%; line-height: 1px; box-sizing: border-box; padding: 2px; text-align: center;">
+                        <div
+                            style="width: 79px; height: 17px; display: flex; word-wrap: break-word; white-space: pre-wrap; align-items: center; justify-content: center;">
+                            <div style="max-width: 100%; flex-grow: 1;"><span class="text-edit"
+                                    data-cacoo-text-style="{&quot;index&quot;:0,&quot;font&quot;:&quot;YuGothic&quot;,&quot;size&quot;:14,&quot;color&quot;:&quot;399ed1&quot;,&quot;bold&quot;:true,&quot;italic&quot;:false,&quot;underline&quot;:false,&quot;strikeThrough&quot;:false,&quot;backgroundColor&quot;:&quot;&quot;}"
+                                    style="font-family: &quot;YuGothic&quot;, &quot;Yu Gothic&quot;; font-size: 14px; color: rgb(57, 158, 209); font-weight: bold; font-style: normal; text-decoration: none; line-height: 16px;">システム</span>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+            </g>
+        </g>
+    </g>
+    <g id="iLmIJy9fEWi-a57KJ597kA8"
+        transform="matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 375.875 1230.3360000000002) matrix(1 0 0 1 0 0)">
+        <g id="jjn8yHUiRiQ-2NJOcf1tAcU"
+            transform="matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 19.021007537841797 0) matrix(1 0 0 1 0 0)">
+            <g id="evAT8dmbrGW-hrcVbTJRrUO"
+                transform="matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0)">
+                <path class="withPointerEvents path shape"
+                    style="pointer-events: fill; stroke-width: 2px; stroke: #399ed1; stroke-opacity: 1; fill: none;"
+                    d="M97.28571322728457 61.76670058878548 L10.5 61.76670058878548 Q6.16874885559082 61.76670058878548 3.0843753814697266 58.68231948526986 Q0 55.597946011148764 0 51.26670058878548 L0 10.5 Q0 6.168749809265137 3.0843753814697266 3.0843753814697266 Q6.168749809265137 0 10.5 0 L97.28571322728457 0 Q101.61695864964786 0 104.70133212376895 3.0843753814697266 Q107.78571322728457 6.16874885559082 107.78571322728457 10.5 L107.78571322728457 51.26670058878548 Q107.78571322728457 55.597953640543295 104.70133212376895 58.68231948526986 Q101.61696627904239 61.76670058878548 97.28571322728457 61.76670058878548Z"
+                    shape-type="1" />
+                <path class="click"
+                    style="visibility: hidden; stroke-dasharray: none; pointer-events: stroke; stroke-width: 17px;"
+                    d="M97.28571322728457 61.76670058878548 L10.5 61.76670058878548 Q6.16874885559082 61.76670058878548 3.0843753814697266 58.68231948526986 Q0 55.597946011148764 0 51.26670058878548 L0 10.5 Q0 6.168749809265137 3.0843753814697266 3.0843753814697266 Q6.168749809265137 0 10.5 0 L97.28571322728457 0 Q101.61695864964786 0 104.70133212376895 3.0843753814697266 Q107.78571322728457 6.16874885559082 107.78571322728457 10.5 L107.78571322728457 51.26670058878548 Q107.78571322728457 55.597953640543295 104.70133212376895 58.68231948526986 Q101.61696627904239 61.76670058878548 97.28571322728457 61.76670058878548Z" />
+            </g>
+            <g id="i6xLXYOWxag-2MnHJJzhqgK"
+                transform="matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 1 1) matrix(1 0 0 1 0 0)"
+                shape-type="5" class="shape">
+                <foreignObject width="104.78570938110352px" height="58.766701493537994px"
+                    style="user-select: none; webkit-user-select: none; overflow: hidden; stroke-width: 0;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="width: 100%; height: 100%; line-height: 1px; box-sizing: border-box; padding: 2px; text-align: center;">
+                        <div
+                            style="width: 101px; height: 55px; display: flex; word-wrap: break-word; white-space: pre-wrap; align-items: center; justify-content: center;">
+                            <div style="max-width: 100%; flex-grow: 1;"><span class="text-edit"
+                                    data-cacoo-text-style="{&quot;index&quot;:0,&quot;font&quot;:&quot;Open Sans&quot;,&quot;size&quot;:15,&quot;color&quot;:&quot;399ed1&quot;,&quot;bold&quot;:true,&quot;italic&quot;:false,&quot;underline&quot;:false,&quot;strikeThrough&quot;:false,&quot;backgroundColor&quot;:&quot;&quot;}"
+                                    style="font-family: Open Sans; font-size: 15px; color: rgb(57, 158, 209); font-weight: bold; font-style: normal; text-decoration: none; line-height: 17px;">
+                                </span></div>
+                        </div>
+                    </div>
+                </foreignObject>
+            </g>
+        </g>
+        <g id="dJCw3a71Oo4-9BoB8zBuoMW"
+            transform="matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0)">
+            <g id="1tchzCqGoAo-cygKbiPfJme"
+                transform="matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0)">
+                <path class="withPointerEvents path shape"
+                    style="pointer-events: fill; fill-rule: nonzero; fill: #ffffff; fill-opacity: 0;"
+                    d="M144.77101261179737 0 L0 0 L0 61.647004511450845 L144.77101261179737 61.647004511450845 L144.77101261179737 0Z"
+                    shape-type="1" />
+                <path class="click" style="visibility: hidden; stroke-dasharray: none; pointer-events: stroke;"
+                    d="M144.77101261179737 0 L0 0 L0 61.647004511450845 L144.77101261179737 61.647004511450845 L144.77101261179737 0Z" />
+            </g>
+            <g id="cn6NBryDSgg-hxovA66LnyY"
+                transform="matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 1 1) matrix(1 0 0 1 0 0)"
+                shape-type="5" class="shape">
+                <foreignObject width="141.7710018157959px" height="58.64699935913086px"
+                    style="user-select: none; webkit-user-select: none; overflow: hidden; stroke-width: 0;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="width: 100%; height: 100%; line-height: 1px; box-sizing: border-box; padding: 2px; text-align: center;">
+                        <div
+                            style="width: 138px; height: 55px; display: flex; word-wrap: break-word; white-space: pre-wrap; align-items: center; justify-content: center;">
+                            <div style="max-width: 100%; flex-grow: 1;"><span class="text-edit"
+                                    data-cacoo-text-style="{&quot;index&quot;:0,&quot;font&quot;:&quot;YuGothic&quot;,&quot;size&quot;:15,&quot;color&quot;:&quot;399ed1&quot;,&quot;bold&quot;:true,&quot;italic&quot;:false,&quot;underline&quot;:false,&quot;strikeThrough&quot;:false,&quot;backgroundColor&quot;:&quot;&quot;}"
+                                    style="font-family: &quot;YuGothic&quot;, &quot;Yu Gothic&quot;; font-size: 15px; color: rgb(57, 158, 209); font-weight: bold; font-style: normal; text-decoration: none; line-height: 17px;">API</span>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+            </g>
+        </g>
+    </g>
+    <g id="591kltRsmcI-p5mhVWj7y0"
+        transform="matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 520.646 1230.3360000000002) matrix(1 0 0 1 0 0)">
+        <g id="355Wynkaqcw-4zpajemAzee"
+            transform="matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 19.021007537841797 0) matrix(1 0 0 1 0 0)">
+            <g id="Z4dXDN8tk4-2MNbBa358Q6"
+                transform="matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0)">
+                <path class="withPointerEvents path shape"
+                    style="pointer-events: fill; stroke-width: 2px; stroke: #399ed1; stroke-opacity: 1; fill: none;"
+                    d="M97.28571322728457 61.76670058878548 L10.5 61.76670058878548 Q6.16874885559082 61.76670058878548 3.0843753814697266 58.68231948526986 Q0 55.597946011148764 0 51.26670058878548 L0 10.5 Q0 6.168749809265137 3.0843753814697266 3.0843753814697266 Q6.168749809265137 0 10.5 0 L97.28571322728457 0 Q101.61695864964786 0 104.70133212376895 3.0843753814697266 Q107.78571322728457 6.16874885559082 107.78571322728457 10.5 L107.78571322728457 51.26670058878548 Q107.78571322728457 55.597953640543295 104.70133212376895 58.68231948526986 Q101.61696627904239 61.76670058878548 97.28571322728457 61.76670058878548Z"
+                    shape-type="1" />
+                <path class="click"
+                    style="visibility: hidden; stroke-dasharray: none; pointer-events: stroke; stroke-width: 17px;"
+                    d="M97.28571322728457 61.76670058878548 L10.5 61.76670058878548 Q6.16874885559082 61.76670058878548 3.0843753814697266 58.68231948526986 Q0 55.597946011148764 0 51.26670058878548 L0 10.5 Q0 6.168749809265137 3.0843753814697266 3.0843753814697266 Q6.168749809265137 0 10.5 0 L97.28571322728457 0 Q101.61695864964786 0 104.70133212376895 3.0843753814697266 Q107.78571322728457 6.16874885559082 107.78571322728457 10.5 L107.78571322728457 51.26670058878548 Q107.78571322728457 55.597953640543295 104.70133212376895 58.68231948526986 Q101.61696627904239 61.76670058878548 97.28571322728457 61.76670058878548Z" />
+            </g>
+            <g id="5Rk18x0HokY-9f3vLIGqLSI"
+                transform="matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 1 1) matrix(1 0 0 1 0 0)"
+                shape-type="5" class="shape">
+                <foreignObject width="104.78570938110352px" height="58.766701493537994px"
+                    style="user-select: none; webkit-user-select: none; overflow: hidden; stroke-width: 0;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="width: 100%; height: 100%; line-height: 1px; box-sizing: border-box; padding: 2px; text-align: center;">
+                        <div
+                            style="width: 101px; height: 55px; display: flex; word-wrap: break-word; white-space: pre-wrap; align-items: center; justify-content: center;">
+                            <div style="max-width: 100%; flex-grow: 1;"><span class="text-edit"
+                                    data-cacoo-text-style="{&quot;index&quot;:0,&quot;font&quot;:&quot;Open Sans&quot;,&quot;size&quot;:15,&quot;color&quot;:&quot;399ed1&quot;,&quot;bold&quot;:true,&quot;italic&quot;:false,&quot;underline&quot;:false,&quot;strikeThrough&quot;:false,&quot;backgroundColor&quot;:&quot;&quot;}"
+                                    style="font-family: Open Sans; font-size: 15px; color: rgb(57, 158, 209); font-weight: bold; font-style: normal; text-decoration: none; line-height: 17px;">
+                                </span></div>
+                        </div>
+                    </div>
+                </foreignObject>
+            </g>
+        </g>
+        <g id="h8sz3DbZlua-b2kTdw7as8u"
+            transform="matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0)">
+            <g id="heyarzzqHQg-2CzymlVqtSm"
+                transform="matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0)">
+                <path class="withPointerEvents path shape"
+                    style="pointer-events: fill; fill-rule: nonzero; fill: #ffffff; fill-opacity: 0;"
+                    d="M144.77101261179737 0 L0 0 L0 61.647004511450845 L144.77101261179737 61.647004511450845 L144.77101261179737 0Z"
+                    shape-type="1" />
+                <path class="click" style="visibility: hidden; stroke-dasharray: none; pointer-events: stroke;"
+                    d="M144.77101261179737 0 L0 0 L0 61.647004511450845 L144.77101261179737 61.647004511450845 L144.77101261179737 0Z" />
+            </g>
+            <g id="2omT9Go3byI-f6uZcEZ5cc6"
+                transform="matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 1 1) matrix(1 0 0 1 0 0)"
+                shape-type="5" class="shape">
+                <foreignObject width="141.7710018157959px" height="58.64699935913086px"
+                    style="user-select: none; webkit-user-select: none; overflow: hidden; stroke-width: 0;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="width: 100%; height: 100%; line-height: 1px; box-sizing: border-box; padding: 2px; text-align: center;">
+                        <div
+                            style="width: 138px; height: 55px; display: flex; word-wrap: break-word; white-space: pre-wrap; align-items: center; justify-content: center;">
+                            <div style="max-width: 100%; flex-grow: 1;"><span class="text-edit"
+                                    data-cacoo-text-style="{&quot;index&quot;:0,&quot;font&quot;:&quot;YuGothic&quot;,&quot;size&quot;:15,&quot;color&quot;:&quot;399ed1&quot;,&quot;bold&quot;:true,&quot;italic&quot;:false,&quot;underline&quot;:false,&quot;strikeThrough&quot;:false,&quot;backgroundColor&quot;:&quot;&quot;}"
+                                    style="font-family: &quot;YuGothic&quot;, &quot;Yu Gothic&quot;; font-size: 15px; color: rgb(57, 158, 209); font-weight: bold; font-style: normal; text-decoration: none; line-height: 17px;">Consumer</span>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+            </g>
+        </g>
+    </g>
+    <g id="8DOMNoR7HOC-AGsImlJ6es"
+        transform="matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 398.261 1353.3899999999999) matrix(1 0 0 1 0 0)">
+        <g id="2UChGuV5cQk-dLJaF4Nf5Q0"
+            transform="matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0)">
+            <g id="97hZ3XlGTYQ-xrH1L0DOTY"
+                transform="matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0)">
+                <g id="jfE1dLtNLiY-f94ksTdwHKU"
+                    transform="matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 11.029309868812561) matrix(1 0 0 1 0 0)">
+                    <path class="withPointerEvents path shape"
+                        style="pointer-events: fill; stroke-width: 2px; stroke: #828a90; stroke-opacity: 1; fill-rule: nonzero; fill: #e0e3e5; fill-opacity: 1;"
+                        d="M0 111.13880420849324 Q0 114.62281299755574 14.687505664019287 117.04015613720418 Q29.266314431772503 119.4396007172823 50.000010125480415 119.4396007172823 Q70.55360307413126 119.4396007172823 85.31250777498259 116.97531391308308 Q100.0000067973419 114.52295185253621 100.0000067973419 111.13880420849324 L100.0000067973419 109.75530506298543 L100.0000067973419 0 L0 0 L0 109.75530506298543 L0 111.13880420849324 L0 111.13880420849324Z"
+                        shape-type="1" />
+                    <path class="click" style="visibility: hidden; stroke-dasharray: none; pointer-events: stroke;"
+                        d="M0 111.13880420849324 Q0 114.62281299755574 14.687505664019287 117.04015613720418 Q29.266314431772503 119.4396007172823 50.000010125480415 119.4396007172823 Q70.55360307413126 119.4396007172823 85.31250777498259 116.97531391308308 Q100.0000067973419 114.52295185253621 100.0000067973419 111.13880420849324 L100.0000067973419 109.75530506298543 L100.0000067973419 0 L0 0 L0 109.75530506298543 L0 111.13880420849324 L0 111.13880420849324Z" />
+                </g>
+                <g id="bPUOyz64Pms-hyvW8MxaEgI"
+                    transform="matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0)">
+                    <path class="withPointerEvents path shape"
+                        style="pointer-events: fill; stroke-width: 2px; stroke: #828a90; stroke-opacity: 1; fill-rule: nonzero; fill: #e0e3e5; fill-opacity: 1;"
+                        d="M50.00001331289541 22.114010453224182 Q70.71071315346144 22.114010453224182 85.35536861238374 18.875485062599182 Q100.00001317217104 15.636961579322815 100.00001317217104 11.057010293006897 Q100.00001317217104 6.477044701576233 85.35536861238374 3.238522171974182 Q70.71072405259645 0 50.00001331289541 0 Q29.289305297978128 0 14.644649839055818 3.238522171974182 Q0 6.477043271064758 0 11.057010293006897 Q0 15.636963486671448 14.644649839055818 18.875485062599182 Q29.28931619711314 22.114010453224182 50.00001331289541 22.114010453224182Z"
+                        shape-type="1" />
+                    <path class="click" style="visibility: hidden; stroke-dasharray: none; pointer-events: stroke;"
+                        d="M50.00001331289541 22.114010453224182 Q70.71071315346144 22.114010453224182 85.35536861238374 18.875485062599182 Q100.00001317217104 15.636961579322815 100.00001317217104 11.057010293006897 Q100.00001317217104 6.477044701576233 85.35536861238374 3.238522171974182 Q70.71072405259645 0 50.00001331289541 0 Q29.289305297978128 0 14.644649839055818 3.238522171974182 Q0 6.477043271064758 0 11.057010293006897 Q0 15.636963486671448 14.644649839055818 18.875485062599182 Q29.28931619711314 22.114010453224182 50.00001331289541 22.114010453224182Z" />
+                </g>
+            </g>
+            <g id="47gHezLdD26-1zPCuRNr9aq"
+                transform="matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 1 23) matrix(1 0 0 1 0 0)"
+                shape-type="5" class="shape">
+                <foreignObject width="97px" height="100.469px"
+                    style="user-select: none; webkit-user-select: none; overflow: hidden; stroke-width: 0;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="width: 100%; height: 100%; line-height: 1px; box-sizing: border-box; padding: 2px; text-align: center;">
+                        <div
+                            style="width: 93px; height: 97px; display: flex; word-wrap: break-word; white-space: pre-wrap; align-items: center; justify-content: center;">
+                            <div style="max-width: 100%; flex-grow: 1;"><span class="text-edit"
+                                    data-cacoo-text-style="{&quot;font&quot;:&quot;Open Sans&quot;,&quot;size&quot;:15,&quot;color&quot;:&quot;000000&quot;,&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;underline&quot;:false,&quot;strikeThrough&quot;:false,&quot;backgroundColor&quot;:&quot;&quot;,&quot;index&quot;:0}"
+                                    style="font-family: Open Sans; font-size: 15px; color: rgb(0, 0, 0); font-weight: normal; font-style: normal; text-decoration: none; line-height: 17px;"></span>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+            </g>
+        </g>
+        <g id="3PwgchW0GAw-jlIwkNUO6O0"
+            transform="matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 17.767999999999972 36.78800000000001) matrix(1 0 0 1 0 0)">
+            <g id="52xSYWFFFu8-eTxDCtY6Zi6"
+                transform="matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0)">
+                <g id="gn08WluIzmm-7YKw2ruHTiE"
+                    transform="matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0)">
+                    <path class="withPointerEvents path shape"
+                        style="pointer-events: fill; stroke-width: 2px; stroke: #828a90; stroke-opacity: 1; fill-rule: nonzero; fill: #f1f1f1; fill-opacity: 1;"
+                        d="M0 0 L64.21399730443954 0 L64.21399730443954 73.22299909591675 L0 73.22299909591675Z"
+                        shape-type="1" />
+                    <path class="click" style="visibility: hidden; stroke-dasharray: none; pointer-events: stroke;"
+                        d="M0 0 L64.21399730443954 0 L64.21399730443954 73.22299909591675 L0 73.22299909591675Z" />
+                </g>
+                <g id="jTBLX3dHEWg-a3I8at12s8Q"
+                    transform="matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 0.5016718539409339 1.0768088102340698) matrix(1 0 0 1 0 0)"
+                    shape-type="5" class="shape">
+                    <foreignObject width="62.70898174261674px" height="69.99257266521454px"
+                        style="user-select: none; webkit-user-select: none; overflow: hidden; stroke-width: 0;">
+                        <div xmlns="http://www.w3.org/1999/xhtml"
+                            style="width: 100%; height: 100%; line-height: 1px; box-sizing: border-box; padding: 2px; text-align: center;">
+                            <div
+                                style="width: 59px; height: 66px; display: flex; word-wrap: break-word; white-space: pre-wrap; align-items: center; justify-content: center;">
+                                <div style="max-width: 100%; flex-grow: 1;"><span class="text-edit"
+                                        data-cacoo-text-style="{&quot;font&quot;:&quot;Arial&quot;,&quot;size&quot;:15,&quot;color&quot;:&quot;000000&quot;,&quot;bold&quot;:false,&quot;italic&quot;:false,&quot;underline&quot;:false,&quot;strikeThrough&quot;:false,&quot;backgroundColor&quot;:&quot;&quot;,&quot;index&quot;:0}"
+                                        style="font-family: Arial; font-size: 15px; color: rgb(0, 0, 0); font-weight: normal; font-style: normal; text-decoration: none; line-height: 17px;"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                </g>
+            </g>
+            <g id="beX2yVK4owe-kNhf7IvVRuK"
+                transform="matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 18.305999999999813) matrix(1 0 0 1 0 0)"
+                style="stroke-width: 1px; stroke: #828a90; stroke-opacity: 1;">
+                <g clip-path="">
+                    <path class="line" style="fill: none;" d="M0 0 L64.21399730443954 0" />
+                    <rect width="1" height="1" fill="none" stroke="none" style="visibility: hidden;" />
+                </g>
+                <path class="click withPointerEvents"
+                    style="visibility: hidden; stroke-dasharray: none; pointer-events: stroke; stroke-width: 16px;"
+                    d="M0 0 L64.21399730443954 0" />
+                <path class="line-marker"
+                    style="stroke: none; pointer-events: none; stroke-dasharray: none; fill: none;"
+                    d="M0 0 L64.21399730443954 0" />
+            </g>
+            <g id="G5rett7JiU-criYhiUpMsm"
+                transform="matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 15.874000000000024 0) matrix(1 0 0 1 0 0)"
+                shape-type="5" class="shape">
+                <foreignObject width="32.46600000000001px" height="18px"
+                    style="user-select: none; webkit-user-select: none; overflow: hidden; stroke-width: 0;">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                        style="width: 100%; height: 100%; line-height: 1px; box-sizing: border-box; padding: 2px; text-align: left;">
+                        <div
+                            style="width: 29px; height: 14px; display: flex; word-wrap: break-word; white-space: pre-wrap; align-items: flex-begin; justify-content: flex-begin;">
+                            <div style="max-width: 100%; flex-grow: 1;"><span class="text-edit"
+                                    data-cacoo-text-style="{&quot;index&quot;:0,&quot;font&quot;:&quot;YuGothic&quot;,&quot;size&quot;:10,&quot;color&quot;:&quot;828a90&quot;,&quot;bold&quot;:true,&quot;italic&quot;:false,&quot;underline&quot;:false,&quot;strikeThrough&quot;:false,&quot;backgroundColor&quot;:&quot;&quot;}"
+                                    style="font-family: &quot;YuGothic&quot;, &quot;Yu Gothic&quot;; font-size: 10px; color: rgb(130, 138, 144); font-weight: bold; font-style: normal; text-decoration: none; line-height: 14px;">Entity</span>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+            </g>
+        </g>
+    </g>
+    <g id="OESyh9x528-lqP5i6s9skM"
+        transform="matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 448.136 1291.983) matrix(1 0 0 1 0 0)"
+        style="stroke-width: 1px; stroke: #399ed1; stroke-opacity: 1; stroke-dasharray: 1 1;">
+        <g clip-path="url(#arOESyh9x528-lqP5i6s9skMm-445)">
+            <path class="line" style="fill: none;"
+                d="M0.12500396169741634 0 L0.12500396169741634 39.09770117788025 Q0.12500396169741634 49.09770117788025 0.06250198084870817 49.09770117788025 L0.06250198084870817 49.09770117788025 Q0 49.09770117788025 0 59.09770117788025 L0 98.19540235576028" />
+            <rect width="1" height="1" fill="none" stroke="none" style="visibility: hidden;" />
+        </g>
+        <path class="click withPointerEvents"
+            style="visibility: hidden; stroke-dasharray: none; pointer-events: stroke; stroke-width: 16px;"
+            d="M0.12500396169741634 0 L0.12500396169741634 39.09770117788025 Q0.12500396169741634 49.09770117788025 0.06250198084870817 49.09770117788025 L0.06250198084870817 49.09770117788025 Q0 49.09770117788025 0 59.09770117788025 L0 98.19540235576028" />
+        <path class="line-marker"
+            style="stroke: none; pointer-events: none; stroke-dasharray: none; fill: none; marker-end: url(#arOESyh9x528-lqP5i6s9skMe-445);"
+            d="M0.12500396169741634 0 L0.12500396169741634 39.09770117788025 Q0.12500396169741634 49.09770117788025 0.06250198084870817 49.09770117788025 L0.06250198084870817 49.09770117788025 Q0 49.09770117788025 0 59.09770117788025 L0 98.19540235576028" />
+        <clipPath clip-rule="evenodd" id="arOESyh9x528-lqP5i6s9skMm-445">
+            <path
+                d="M-24.79875000000004 -24.79875000000004 L-24.79875000000004 123.9937500000002 L25.92375000000004 123.9937500000002 L25.92375000000004 -24.79875000000004z M-1 97.19540235576028 L-1 99.19540235576028 L1 99.19540235576028 L1 97.19540235576028z" />
+        </clipPath>
+    </g>
+    <g id="MnrnHLGxIi-9iMrNih2tGm"
+        transform="matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 484.453 1291.9830000000002) matrix(1 0 0 1 0 0)"
+        style="stroke-width: 1px; stroke: #399ed1; stroke-opacity: 1; stroke-dasharray: 1 1;">
+        <g clip-path="url(#arMnrnHLGxIi-9iMrNih2tGmm-445)">
+            <path class="line" style="fill: none;"
+                d="M0 0 L0 46.731533951101255 Q0 56.731533951101255 10 56.731533951101255 L62.15434343413227 56.731533951101255 Q72.15434343413227 56.731533951101255 72.15434343413227 66.73153395110126 L72.15434343413227 79.67867872294778" />
+            <rect width="1" height="1" fill="none" stroke="none" style="visibility: hidden;" />
+        </g>
+        <path class="click withPointerEvents"
+            style="visibility: hidden; stroke-dasharray: none; pointer-events: stroke; stroke-width: 16px;"
+            d="M0 0 L0 46.731533951101255 Q0 56.731533951101255 10 56.731533951101255 L62.15434343413227 56.731533951101255 Q72.15434343413227 56.731533951101255 72.15434343413227 66.73153395110126 L72.15434343413227 79.67867872294778" />
+        <path class="line-marker"
+            style="stroke: none; pointer-events: none; stroke-dasharray: none; fill: none; marker-end: url(#arMnrnHLGxIi-9iMrNih2tGme-445);"
+            d="M0 0 L0 46.731533951101255 Q0 56.731533951101255 10 56.731533951101255 L62.15434343413227 56.731533951101255 Q72.15434343413227 56.731533951101255 72.15434343413227 66.73153395110126 L72.15434343413227 79.67867872294778" />
+        <clipPath clip-rule="evenodd" id="arMnrnHLGxIi-9iMrNih2tGmm-445">
+            <path
+                d="M-20.169669680736945 -20.169669680736945 L-20.169669680736945 100.84834840368472 L93.32401311486916 100.84834840368472 L93.32401311486916 -20.169669680736945z M71.15434343413227 78.67867872294778 L71.15434343413227 80.67867872294778 L73.15434343413227 80.67867872294778 L73.15434343413227 78.67867872294778z" />
+        </clipPath>
+    </g>
+    <g id="aN6VgT8bFQ8-bWKxBwLzcAG"
+        transform="matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 593.0319999999999 1291.983) matrix(1 0 0 1 0 0)"
+        style="stroke-width: 1px; stroke: #399ed1; stroke-opacity: 1; stroke-dasharray: 1 1;">
+        <g clip-path="url(#araN6VgT8bFQ8-bWKxBwLzcAGm-445)">
+            <path class="line" style="fill: none;"
+                d="M0.20110007654102446 79.67867872294778 L0.20110007654102446 49.839339361474 Q0.20110007654102446 39.839339361474 0.10055003827051223 39.839339361474 L0.10055003827051223 39.839339361474 Q0 39.839339361474 0 29.839339361474003 L0 0" />
+            <rect width="1" height="1" fill="none" stroke="none" style="visibility: hidden;" />
+        </g>
+        <path class="click withPointerEvents"
+            style="visibility: hidden; stroke-dasharray: none; pointer-events: stroke; stroke-width: 16px;"
+            d="M0.20110007654102446 79.67867872294778 L0.20110007654102446 49.839339361474 Q0.20110007654102446 39.839339361474 0.10055003827051223 39.839339361474 L0.10055003827051223 39.839339361474 Q0 39.839339361474 0 29.839339361474003 L0 0" />
+        <path class="line-marker"
+            style="stroke: none; pointer-events: none; stroke-dasharray: none; fill: none; marker-end: url(#araN6VgT8bFQ8-bWKxBwLzcAGe-445);"
+            d="M0.20110007654102446 79.67867872294778 L0.20110007654102446 49.839339361474 Q0.20110007654102446 39.839339361474 0.10055003827051223 39.839339361474 L0.10055003827051223 39.839339361474 Q0 39.839339361474 0 29.839339361474003 L0 0" />
+        <clipPath clip-rule="evenodd" id="araN6VgT8bFQ8-bWKxBwLzcAGm-445">
+            <path
+                d="M-20.169750000000022 -20.169750000000022 L-20.169750000000022 100.84875000000011 L21.37074999999993 100.84875000000011 L21.37074999999993 -20.169750000000022z M-1 -1 L-1 1 L1 1 L1 -1z" />
+        </clipPath>
+    </g>
+    <g id="6VkF697F8Ao-jOwgOrmHgOy"
+        transform="matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 538.295 1371.662) matrix(1 0 0 1 0 0) scale(3, 3)">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 96 96" height="24" width="24">
+            <path fill="url(#a)" d="M95 1H1v94h94V1Z"></path>
+            <path fill="#ffffff"
+                d="m34.7426 52.3331 3.5272-3.4849c.2211-.2184.3457-.5152.3469-.8247.0012-.3096-.1223-.6075-.3422-.8272l-3.5272-3.5245-1.6672 1.6472 1.5131 1.5129h-5.3826v2.3364h5.4015l-1.5273 1.5082 1.6578 1.6566Zm26.9201.1063 4.703-3.507c.2939-.2208.4691-.5666.4691-.9335 0-.368-.1752-.7149-.4703-.9357l-4.703-3.5024-1.4109 1.8692 1.8812 1.4019h-4.703v2.3364h4.7018l-1.8812 1.4019 1.4133 1.8692Zm-19.293-4.4393c0 2.4802-.4292 4.819-1.231 6.8541 2.1152-.8131 4.5008-1.2197 6.884-1.2197 2.3833 0 4.7689.4066 6.8829 1.2197-.8007-2.0351-1.2298-4.3739-1.2298-6.8541s.4291-4.8178 1.2298-6.8541c-4.2292 1.625-9.5365 1.625-13.7669 0 .8018 2.0363 1.231 4.3739 1.231 6.8541Zm-5.76 11.3401c-.2293-.2278-.3445-.5268-.3445-.8259 0-.2991.1152-.5981.3445-.826 2.134-2.1203 3.4085-5.743 3.4085-9.6882s-1.2745-7.5679-3.4085-9.6883c-.2293-.2278-.3445-.5268-.3445-.8259 0-.2991.1152-.5981.3445-.826.4597-.4567 1.2028-.4567 1.6625 0 4.556 4.527 14.945 4.527 19.5011 0 .4597-.4567 1.2028-.4567 1.6625 0 .2293.2279.3445.5269.3445.826 0 .2991-.1152.5981-.3445.8259-2.134 2.1204-3.4085 5.7431-3.4085 9.6883s1.2745 7.5679 3.4085 9.6882c.2293.2279.3445.5269.3445.826 0 .2991-.1152.5981-.3445.8259-.2293.2279-.5303.3423-.8313.3423-.301 0-.602-.1144-.8312-.3423-4.5561-4.5269-14.9451-4.5269-19.5011 0-.4597.4568-1.2028.4568-1.6625 0Zm41.9415-11.3343c0-1.0888-.4268-2.1121-1.2016-2.882-.7995-.7956-1.8506-1.1916-2.9006-1.1916-1.0499 0-2.1011.396-2.9006 1.1916-1.6002 1.5888-1.6002 4.1741 0 5.7641 1.5991 1.5888 4.1998 1.59 5.8012 0 .7748-.7699 1.2016-1.7933 1.2016-2.8821Zm.4609 4.534c-1.258 1.25-2.91 1.875-4.5631 1.875-1.6531 0-3.305-.625-4.5631-1.875-2.5173-2.5-2.5173-6.5679 0-9.0679 2.5173-2.5024 6.6113-2.5001 9.1262 0 2.5173 2.5 2.5173 6.5679 0 9.0679Zm-53.3605-4.5071c0-1.0888-.4268-2.1122-1.2016-2.8821-.7748-.7698-1.8048-1.1939-2.9006-1.1939-1.0946 0-2.1246.4241-2.9006 1.1939-.7748.7699-1.2004 1.7933-1.2004 2.8821 0 1.0876.4256 2.111 1.2004 2.8821 1.5508 1.5385 4.2516 1.5385 5.8012 0 .7748-.7711 1.2016-1.7945 1.2016-2.8821Zm.4609 4.534c-1.258 1.25-2.91 1.875-4.5631 1.875-1.6519 0-3.3039-.625-4.5631-1.875-2.5149-2.5001-2.5149-6.5679 0-9.0679 2.5173-2.5001 6.6101-2.5001 9.1262 0 2.5161 2.5 2.5161 6.5678 0 9.0679ZM65.5027 65.456c-4.6936 4.6648-10.9357 7.2326-17.574 7.2326-6.6407 0-12.8816-2.5678-17.5752-7.2326-3.2192-3.1975-4.9911-7.0188-5.9106-9.6602l-2.2221.764c1.0005 2.8739 2.9347 7.0364 6.4702 10.5481 5.138 5.1064 11.9691 7.9172 19.2377 7.9172 7.2673 0 14.0985-2.8108 19.2365-7.9172 2.9688-2.9475 5.3332-6.6952 6.6607-10.5516l-2.2246-.757c-1.2133 3.5258-3.3791 6.9557-6.0986 9.6567ZM24.4418 40.2056l-2.2199-.7664c1.4227-4.0702 3.7225-7.8179 6.4761-10.5528 5.1357-5.1017 11.9645-7.9113 19.2307-7.9113 7.2661 0 14.0949 2.8096 19.2295 7.9113 2.8982 2.8798 5.3285 6.7256 6.6653 10.5528l-2.2198.7664c-1.2263-3.5048-3.452-7.0282-6.1081-9.6673-4.69-4.6612-10.9298-7.2267-17.5669-7.2267-6.6383 0-12.8769 2.5655-17.5682 7.2267-2.5067 2.4919-4.6089 5.9254-5.9187 9.6673Z">
+            </path>
+            <defs>
+                <linearGradient id="a" x1="1" x2="9401" y1="9401" y2="1" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#b0084d"></stop>
+                    <stop offset="1" stop-color="#ff4f8b"></stop>
+                </linearGradient>
+            </defs>
+        </svg>
+    </g>
+    <g id="6sY3sIFNT2I-bz06TBNZJYy"
+        transform="matrix(1 0 0 1 0 0) matrix(1 0 0 1 0 0) matrix(1 0 0 1 549.92 1449.178) matrix(1 0 0 1 0 0)"
+        shape-type="5" class="shape">
+        <foreignObject width="50px" height="18px"
+            style="user-select: none; webkit-user-select: none; overflow: hidden; stroke-width: 0;">
+            <div xmlns="http://www.w3.org/1999/xhtml"
+                style="width: 100%; height: 100%; line-height: 1px; box-sizing: border-box; padding: 2px; text-align: left;">
+                <div
+                    style="width: 46px; height: 14px; display: flex; word-wrap: break-word; white-space: pre-wrap; align-items: flex-begin; justify-content: flex-begin;">
+                    <div style="max-width: 100%; flex-grow: 1;"><span class="text-edit"
+                            data-cacoo-text-style="{&quot;index&quot;:0,&quot;font&quot;:&quot;YuGothic&quot;,&quot;size&quot;:10,&quot;color&quot;:&quot;ffffff&quot;,&quot;bold&quot;:true,&quot;italic&quot;:false,&quot;underline&quot;:false,&quot;strikeThrough&quot;:false,&quot;backgroundColor&quot;:&quot;&quot;}"
+                            style="font-family: &quot;YuGothic&quot;, &quot;Yu Gothic&quot;; font-size: 10px; color: rgb(255, 255, 255); font-weight: bold; font-style: normal; text-decoration: none; line-height: 14px;">AWS SQS</span></div>
+                </div>
+            </div>
+        </foreignObject>
+    </g>
+</svg>
