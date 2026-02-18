@@ -106,6 +106,7 @@
         grid-template-columns: auto auto auto;
         place-items: center;
     }
+    /*
     .code {
         color: #cccccc;
         font-family: var(--r-code-font);
@@ -115,6 +116,7 @@
         text-align: left;
         width: fit-content;
     }
+    */
     .occasion {
         padding-top: 1em;
         display: grid;
@@ -178,13 +180,13 @@
 }
 
 .reveal {
+    /*
     pre {
         margin-top: 10px;
         box-shadow: none;
     }
 
     pre code {
-        /* background-color: #1E1E1E; */
         color: #D4D4D4;
         font-family: var(--r-code-font);
         font-size: 21px;
@@ -235,6 +237,7 @@
     :has(.current-fragment) .dim {
         opacity: 0.4;
     }
+    */
 }
 
 .red-text{

@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<meta name="keywords" content="architecture,conference,dennis,metzger,finatext" />
+		<meta name="keywords" content="go,golang,gobra,smt,automated,reasoning,dennis,metzger,finatext" />
 		<meta name="description" content="Goのコードを数学的に証明する方法について語ります！"/>
 		<title>Goのコードを数学的に証明する - Dennis Metzger</title>
 
@@ -12,7 +12,7 @@
 		<meta name="twitter:creator" content="@d_mzgr" />
 
 		<meta property="og:type" content="article" />
-		<meta property="og:title" content=" Goのコードを数学的に証明する- Dennis Metzger" />
+		<meta property="og:title" content=" Goのコードを数学的に証明する - Dennis Metzger" />
 		<meta property="og:description" content="Goのコードを数学的に証明する方法について語ります！"/>
 		<meta property="og:url" content="https://sollniss.github.io/presentations/20260218_golang.tokyo.43/" />
 		<meta property="og:image" content="https://sollniss.github.io/presentations/20260218_golang.tokyo.43/imgs/card/card.png" />
@@ -74,7 +74,7 @@
 					<p>次の条件が正しいことを証明せよ」</p>
 				</section>
 				<section>
-    				<pre><code style="font-size: 48px;"><ol><li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Double</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>n</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-variable semtok-mod-definition semtok-mod-number'>res</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+    				<pre class="pre"><code class="code" style="font-size: 48px;"><ol><li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Double</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>n</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-variable semtok-mod-definition semtok-mod-number'>res</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
                     <li>	<span class='semtok-variable semtok-mod-number'>res</span> <span class='semtok-operator'>=</span> <span class='semtok-number'>2</span> <span class='semtok-operator'>*</span> <span class='semtok-parameter semtok-mod-number'>n</span></li>
                     <li>	<span class='semtok-comment'>// @ assert res &gt; n</span></li>
                     <li>	<span class='semtok-keyword semtok-mod-control'>return</span></li>
@@ -98,7 +98,7 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 					<p>次の条件を満たしていることを証明せよ」</p>
 				</section>
 				<section>
-				<pre><code style="font-size: 34px;"><ol><li><span class='semtok-comment'>// @ ensures res &gt;= 0 &amp;&amp; (res == x || res == -x)</span></li>
+				<pre class="pre"><code class="code" style="font-size: 34px;"><ol><li><span class='semtok-comment'>// @ ensures res &gt;= 0 &amp;&amp; (res == x || res == -x)</span></li>
 <li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Abs</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>x</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-variable semtok-mod-definition semtok-mod-number'>res</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
 <li>	<span class='semtok-keyword semtok-mod-control'>if</span> <span class='semtok-parameter semtok-mod-number'>x</span> <span class='semtok-operator'>&lt;</span> <span class='semtok-number'>0</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
 <li>		<span class='semtok-keyword semtok-mod-control'>return</span> <span class='semtok-operator'>-</span><span class='semtok-parameter semtok-mod-number'>x</span></li>
@@ -109,7 +109,7 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 </ol></code></pre>
 				</section>
 				<section>
-				<pre><code style="font-size: 34px;"><ol><li><span class='semtok-keyword'>type</span> <span class='semtok-type semtok-mod-definition semtok-mod-interface'>Formatter</span> <span class='semtok-keyword'>interface</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>{</span></span></li>
+				<pre class="pre"><code class="code" style="font-size: 34px;"><ol><li><span class='semtok-keyword'>type</span> <span class='semtok-type semtok-mod-definition semtok-mod-interface'>Formatter</span> <span class='semtok-keyword'>interface</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>{</span></span></li>
 <li>	<span class='semtok-comment'>// @ ensures len(s) &gt; 0</span></li>
 <li>	<span class='semtok-method semtok-mod-definition semtok-mod-signature'>Format</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-variable semtok-mod-definition semtok-mod-string'>s</span> <span class='semtok-type semtok-mod-string semtok-mod-defaultLibrary'>string</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span></li>
 <li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>}</span></span></li>
@@ -124,7 +124,7 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 </ol></code></pre>
 				</section>
 				<section>
-				<pre><code style="font-size: 34px;"><ol><li><span class='semtok-keyword'>type</span> <span class='semtok-type semtok-mod-definition semtok-mod-interface'>Formatter</span> <span class='semtok-keyword'>interface</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>{</span></span></li>
+				<pre class="pre"><code class="code" style="font-size: 34px;"><ol><li><span class='semtok-keyword'>type</span> <span class='semtok-type semtok-mod-definition semtok-mod-interface'>Formatter</span> <span class='semtok-keyword'>interface</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>{</span></span></li>
 <li>	<span class='semtok-comment'>// @ ensures len(s) &gt; 0</span></li>
 <li>	<span class='semtok-method semtok-mod-definition semtok-mod-signature'>Format</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-variable semtok-mod-definition semtok-mod-string'>s</span> <span class='semtok-type semtok-mod-string semtok-mod-defaultLibrary'>string</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span></li>
 <li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>}</span></span></li>
@@ -133,13 +133,13 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 <li></li>
 <li><span class='semtok-keyword'>type</span> <span class='semtok-type semtok-mod-definition semtok-mod-struct'>a</span> <span class='semtok-keyword'>struct</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>{</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>}</span></li>
 <li></li>
-<li class="force-highlight"><span class='semtok-keyword'>func</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-type semtok-mod-struct'>a</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-method semtok-mod-definition semtok-mod-signature'>Format</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-variable semtok-mod-definition semtok-mod-string'>s</span> <span class='semtok-type semtok-mod-string semtok-mod-defaultLibrary'>string</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span> <span class="red-text">ensures 未設定</span></li>
+<li class="line-highlight"><span class='semtok-keyword'>func</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-type semtok-mod-struct'>a</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-method semtok-mod-definition semtok-mod-signature'>Format</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-variable semtok-mod-definition semtok-mod-string'>s</span> <span class='semtok-type semtok-mod-string semtok-mod-defaultLibrary'>string</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span> <span class="red-text">未設定</span></li>
 <li>	<span class='semtok-keyword semtok-mod-control'>return</span> <span class='semtok-string'>&#34;a&#34;</span></li>
 <li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
 </ol></code></pre>
 				</section>
 				<section>
-				<pre><code style="font-size: 34px;"><ol><li><span class='semtok-keyword'>type</span> <span class='semtok-type semtok-mod-definition semtok-mod-interface'>Formatter</span> <span class='semtok-keyword'>interface</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>{</span></span></li>
+				<pre class="pre"><code class="code" style="font-size: 34px;"><ol><li><span class='semtok-keyword'>type</span> <span class='semtok-type semtok-mod-definition semtok-mod-interface'>Formatter</span> <span class='semtok-keyword'>interface</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>{</span></span></li>
 <li>	<span class='semtok-comment'>// @ ensures len(s) &gt; 0</span></li>
 <li>	<span class='semtok-method semtok-mod-definition semtok-mod-signature'>Format</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-variable semtok-mod-definition semtok-mod-string'>s</span> <span class='semtok-type semtok-mod-string semtok-mod-defaultLibrary'>string</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span></li>
 <li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>}</span></span></li>
@@ -155,8 +155,8 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 </ol></code></pre>
 				</section>
 				<section>
-				<pre><code style="font-size: 34px;"><ol><li><span class='semtok-keyword'>type</span> <span class='semtok-type semtok-mod-definition semtok-mod-interface'>Formatter</span> <span class='semtok-keyword'>interface</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>{</span></span></li>
-<li class="force-highlight">	<span class='semtok-comment'>// @ ensures len(s) &gt; 0</span></li>
+				<pre class="pre"><code class="code" style="font-size: 34px;"><ol><li><span class='semtok-keyword'>type</span> <span class='semtok-type semtok-mod-definition semtok-mod-interface'>Formatter</span> <span class='semtok-keyword'>interface</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>{</span></span></li>
+<li class="line-highlight">	<span class='semtok-comment'>// @ ensures len(s) &gt; 0</span></li>
 <li>	<span class='semtok-method semtok-mod-definition semtok-mod-signature'>Format</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-variable semtok-mod-definition semtok-mod-string'>s</span> <span class='semtok-type semtok-mod-string semtok-mod-defaultLibrary'>string</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span></li>
 <li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>}</span></span></li>
 <li></li>
@@ -164,15 +164,15 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 <li></li>
 <li><span class='semtok-keyword'>type</span> <span class='semtok-type semtok-mod-definition semtok-mod-struct'>a</span> <span class='semtok-keyword'>struct</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>{</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>}</span></li>
 <li></li>
-<li class="force-highlight"><span class='semtok-comment'>// @ ensures len(s) &gt;= 0</span>　<span class="red-text">IFのensuresを満たしていない</span></li>
+<li class="line-highlight"><span class='semtok-comment'>// @ ensures len(s) &gt;= 0</span>　<span class="red-text">満たしていない</span></li>
 <li><span class='semtok-keyword'>func</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-type semtok-mod-struct'>a</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-method semtok-mod-definition semtok-mod-signature'>Format</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-variable semtok-mod-definition semtok-mod-string'>s</span> <span class='semtok-type semtok-mod-string semtok-mod-defaultLibrary'>string</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
 <li>	<span class='semtok-keyword semtok-mod-control'>return</span> <span class='semtok-string'>&#34;a&#34;</span></li>
 <li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
 </ol></code></pre>
 				</section>
 				<section>
-				<pre><code style="font-size: 34px;"><ol><li><span class='semtok-keyword'>type</span> <span class='semtok-type semtok-mod-definition semtok-mod-interface'>Formatter</span> <span class='semtok-keyword'>interface</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>{</span></span></li>
-<li class="force-highlight">	<span class='semtok-comment'>// @ ensures len(s) &gt; 0</span></li>
+				<pre class="pre"><code class="code" style="font-size: 34px;"><ol><li><span class='semtok-keyword'>type</span> <span class='semtok-type semtok-mod-definition semtok-mod-interface'>Formatter</span> <span class='semtok-keyword'>interface</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>{</span></span></li>
+<li class="line-highlight">	<span class='semtok-comment'>// @ ensures len(s) &gt; 0</span></li>
 <li>	<span class='semtok-method semtok-mod-definition semtok-mod-signature'>Format</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-variable semtok-mod-definition semtok-mod-string'>s</span> <span class='semtok-type semtok-mod-string semtok-mod-defaultLibrary'>string</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span></li>
 <li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>}</span></span></li>
 <li></li>
@@ -180,7 +180,7 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 <li></li>
 <li><span class='semtok-keyword'>type</span> <span class='semtok-type semtok-mod-definition semtok-mod-struct'>a</span> <span class='semtok-keyword'>struct</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>{</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>}</span></li>
 <li></li>
-<li class="force-highlight"><span class='semtok-comment'>// @ ensures len(s) == 1</span>　<span class="green-text">IFのensuresを含んでいる</span></li>
+<li class="line-highlight"><span class='semtok-comment'>// @ ensures len(s) == 1</span>　<span class="green-text">満たしている</span></li>
 <li><span class='semtok-keyword'>func</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-type semtok-mod-struct'>a</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-method semtok-mod-definition semtok-mod-signature'>Format</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-variable semtok-mod-definition semtok-mod-string'>s</span> <span class='semtok-type semtok-mod-string semtok-mod-defaultLibrary'>string</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
 <li>	<span class='semtok-keyword semtok-mod-control'>return</span> <span class='semtok-string'>&#34;a&#34;</span></li>
 <li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
@@ -192,7 +192,7 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 					<p>次の条件を満たさなければならない」</p>
 				</section>
 				<section>
-				<pre><code style="font-size: 42px;"><ol><li><span class='semtok-comment'>// @ requires b != 0</span></li>
+				<pre class="pre"><code class="code" style="font-size: 42px;"><ol><li><span class='semtok-comment'>// @ requires b != 0</span></li>
 <li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Div</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
 <li>	<span class='semtok-keyword semtok-mod-control'>return</span> <span class='semtok-parameter semtok-mod-number'>a</span> <span class='semtok-operator'>/</span> <span class='semtok-parameter semtok-mod-number'>b</span></li>
 <li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
@@ -204,7 +204,7 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 </ol></code></pre>
 				</section>
 				<section>
-				<pre><code style="font-size: 42px;"><ol><li><span class='semtok-comment'>// @ requires b != 0</span></li>
+				<pre class="pre"><code class="code" style="font-size: 42px;"><ol><li><span class='semtok-comment'>// @ requires b != 0</span></li>
 <li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Div</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
 <li>	<span class='semtok-keyword semtok-mod-control'>return</span> <span class='semtok-parameter semtok-mod-number'>a</span> <span class='semtok-operator'>/</span> <span class='semtok-parameter semtok-mod-number'>b</span></li>
 <li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
@@ -221,7 +221,7 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 					<p>次の条件が常に正しいことを証明せよ」</p>
 				</section>
 				<section>
-				<pre><code style="font-size: 42px;"><ol><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
+				<pre class="pre"><code class="code" style="font-size: 42px;"><ol><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
 <li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Mul</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
 <li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
 <li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
@@ -252,11 +252,11 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 				</section>
 				<section>
 				<p>Step 1: 初回のループを証明<p/>
-				<pre class="pre"><div class="code" style="padding-left:1em"><ol><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
+				<pre class="pre"><div class="code" style="padding-left:1em"><ol class="no-numbering"><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
 <li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Mul</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
 <li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
 <li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
-<li class="code-highlight">	<span class='semtok-comment'>// @ invariant i &gt;= 0 &amp;&amp; i &lt;= b</span></li>
+<li class="line-highlight">	<span class='semtok-comment'>// @ invariant i &gt;= 0 &amp;&amp; i &lt;= b</span></li>
 <li>	<span class='semtok-comment'>// @ invariant result == a * i</span></li>
 <li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>&lt;</span> <span class='semtok-parameter semtok-mod-number'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>+</span> <span class='semtok-parameter semtok-mod-number'>a</span></li>
@@ -268,11 +268,11 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 				</section>
 				<section>
 				<p>Step 1: 初回のループを証明<p/>
-				<pre class="pre"><div class="code" style="padding-left:1em"><ol><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
+				<pre class="pre"><div class="code" style="padding-left:1em"><ol class="no-numbering"><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
 <li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Mul</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
 <li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
-<li class="code-highlight">	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
-<li class="code-highlight">	<span class='semtok-comment'>// @ invariant i &gt;= 0 &amp;&amp; i &lt;= b</span></li>
+<li class="line-highlight">	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
+<li class="line-highlight">	<span class='semtok-comment'>// @ invariant i &gt;= 0 &amp;&amp; i &lt;= b</span></li>
 <li>	<span class='semtok-comment'>// @ invariant result == a * i</span></li>
 <li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>&lt;</span> <span class='semtok-parameter semtok-mod-number'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>+</span> <span class='semtok-parameter semtok-mod-number'>a</span></li>
@@ -284,11 +284,11 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 				</section>
 				<section>
 				<p>Step 1: 初回のループを証明<p/>
-				<pre class="pre"><div class="code" style="padding-left:1em"><ol><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
+				<pre class="pre"><div class="code" style="padding-left:1em"><ol class="no-numbering"><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
 <li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Mul</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
 <li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
-<li class="code-highlight">	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
-<li class="code-highlight">	<span class='semtok-comment'>// @ invariant <span class="red-text">0</span> &gt;= 0 &amp;&amp; <span class="red-text">0</span> &lt;= b</span></li>
+<li class="line-highlight">	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
+<li class="line-highlight">	<span class='semtok-comment'>// @ invariant <span class="red-text">0</span> &gt;= 0 &amp;&amp; <span class="red-text">0</span> &lt;= b</span></li>
 <li>	<span class='semtok-comment'>// @ invariant result == a * i</span></li>
 <li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>&lt;</span> <span class='semtok-parameter semtok-mod-number'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>+</span> <span class='semtok-parameter semtok-mod-number'>a</span></li>
@@ -300,27 +300,11 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 				</section>
 				<section>
 				<p>Step 1: 初回のループを証明<p/>
-				<pre class="pre"><div class="code" style="padding-left:1em"><ol><li class="code-highlight"><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; </span><span class='code-highlight-spot semtok-comment'>b &gt; 0</span></li>
-<li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Mul</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
-<li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
-<li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
-<li class="code-highlight">	<span class='semtok-comment'>// @ invariant <span class="red-text">0</span> &gt;= 0 &amp;&amp; <span class="red-text">0</span> &lt;= b</span></li>
-<li>	<span class='semtok-comment'>// @ invariant result == a * i</span></li>
-<li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>&lt;</span> <span class='semtok-parameter semtok-mod-number'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
-<li>		<span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>+</span> <span class='semtok-parameter semtok-mod-number'>a</span></li>
-<li>		<span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>+</span> <span class='semtok-number'>1</span></li>
-<li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span></li>
-<li>	<span class='semtok-keyword semtok-mod-control'>return</span> <span class='semtok-variable semtok-mod-number'>result</span></li>
-<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
-</ol></div></pre>
-				</section>
-				<section>
-				<p>Step 1: 初回のループを証明<p/>
-				<pre class="pre"><div class="code" style="padding-left:1em"><ol><li class="code-highlight"><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; </span><span class='code-highlight-spot semtok-comment'>b &gt; 0</span></li>
+				<pre class="pre"><div class="code" style="padding-left:1em"><ol class="no-numbering"><li class="line-highlight"><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; </span><span class='spot-highlight semtok-comment'>b &gt; 0</span></li>
 <li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Mul</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
 <li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
 <li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
-<li class="code-highlight">	<span class='semtok-comment'>// @ invariant <span class="red-text">0</span> &gt;= 0 &amp;&amp; <span class="red-text">0</span> &lt;= b</span> → true</li>
+<li class="line-highlight">	<span class='semtok-comment'>// @ invariant <span class="red-text">0</span> &gt;= 0 &amp;&amp; <span class="red-text">0</span> &lt;= b</span></li>
 <li>	<span class='semtok-comment'>// @ invariant result == a * i</span></li>
 <li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>&lt;</span> <span class='semtok-parameter semtok-mod-number'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>+</span> <span class='semtok-parameter semtok-mod-number'>a</span></li>
@@ -332,12 +316,28 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 				</section>
 				<section>
 				<p>Step 1: 初回のループを証明<p/>
-				<pre class="pre"><div class="code" style="padding-left:1em"><ol><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
+				<pre class="pre"><div class="code" style="padding-left:1em"><ol class="no-numbering"><li class="line-highlight"><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; </span><span class='spot-highlight semtok-comment'>b &gt; 0</span></li>
+<li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Mul</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
+<li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
+<li class="line-highlight">	<span class='semtok-comment'>// @ invariant <span class="red-text">0</span> &gt;= 0 &amp;&amp; <span class="red-text">0</span> &lt;= b</span> → true</li>
+<li>	<span class='semtok-comment'>// @ invariant result == a * i</span></li>
+<li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>&lt;</span> <span class='semtok-parameter semtok-mod-number'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+<li>		<span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>+</span> <span class='semtok-parameter semtok-mod-number'>a</span></li>
+<li>		<span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>+</span> <span class='semtok-number'>1</span></li>
+<li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span></li>
+<li>	<span class='semtok-keyword semtok-mod-control'>return</span> <span class='semtok-variable semtok-mod-number'>result</span></li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+</ol></div></pre>
+				</section>
+				<section>
+				<p>Step 1: 初回のループを証明<p/>
+				<pre class="pre"><div class="code" style="padding-left:1em"><ol class="no-numbering"><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
 <li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Mul</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
 <li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
 <li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
 <li>	<span class='semtok-comment'>// @ invariant <span class="red-text">0</span> &gt;= 0 &amp;&amp; <span class="red-text">0</span> &lt;= b</span> → true</li>
-<li class="code-highlight">	<span class='semtok-comment'>// @ invariant result == a * i</span></li>
+<li class="line-highlight">	<span class='semtok-comment'>// @ invariant result == a * i</span></li>
 <li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>&lt;</span> <span class='semtok-parameter semtok-mod-number'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>+</span> <span class='semtok-parameter semtok-mod-number'>a</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>+</span> <span class='semtok-number'>1</span></li>
@@ -348,12 +348,12 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 				</section>
 				<section>
 				<p>Step 1: 初回のループを証明<p/>
-				<pre class="pre"><div class="code" style="padding-left:1em"><ol><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
+				<pre class="pre"><div class="code" style="padding-left:1em"><ol class="no-numbering"><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
 <li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Mul</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
-<li class="code-highlight">	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
-<li class="code-highlight">	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
+<li class="line-highlight">	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
+<li class="line-highlight">	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
 <li>	<span class='semtok-comment'>// @ invariant <span class="red-text">0</span> &gt;= 0 &amp;&amp; <span class="red-text">0</span> &lt;= b</span> → true</li>
-<li class="code-highlight">	<span class='semtok-comment'>// @ invariant result == a * i</span></li>
+<li class="line-highlight">	<span class='semtok-comment'>// @ invariant result == a * i</span></li>
 <li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>&lt;</span> <span class='semtok-parameter semtok-mod-number'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>+</span> <span class='semtok-parameter semtok-mod-number'>a</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>+</span> <span class='semtok-number'>1</span></li>
@@ -364,12 +364,12 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 				</section>
 				<section>
 				<p>Step 1: 初回のループを証明<p/>
-				<pre class="pre"><div class="code" style="padding-left:1em"><ol><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
+				<pre class="pre"><div class="code" style="padding-left:1em"><ol class="no-numbering"><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
 <li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Mul</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
-<li class="code-highlight">	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
-<li class="code-highlight">	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
+<li class="line-highlight">	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
+<li class="line-highlight">	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
 <li>	<span class='semtok-comment'>// @ invariant <span class="red-text">0</span> &gt;= 0 &amp;&amp; <span class="red-text">0</span> &lt;= b</span> → true</li>
-<li class="code-highlight">	<span class='semtok-comment'>// @ invariant <span class="red-text">0</span> == a * <span class="red-text">0</span></span></li>
+<li class="line-highlight">	<span class='semtok-comment'>// @ invariant <span class="red-text">0</span> == a * <span class="red-text">0</span></span></li>
 <li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>&lt;</span> <span class='semtok-parameter semtok-mod-number'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>+</span> <span class='semtok-parameter semtok-mod-number'>a</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>+</span> <span class='semtok-number'>1</span></li>
@@ -380,12 +380,12 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 				</section>
 				<section>
 				<p>Step 1: 初回のループを証明<p/>
-				<pre class="pre"><div class="code" style="padding-left:1em"><ol><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
+				<pre class="pre"><div class="code" style="padding-left:1em"><ol class="no-numbering"><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
 <li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Mul</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
-<li class="code-highlight">	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
-<li class="code-highlight">	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
+<li class="line-highlight">	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
+<li class="line-highlight">	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
 <li>	<span class='semtok-comment'>// @ invariant <span class="red-text">0</span> &gt;= 0 &amp;&amp; <span class="red-text">0</span> &lt;= b</span> → true</li>
-<li class="code-highlight">	<span class='semtok-comment'>// @ invariant <span class="red-text">0</span> == a * <span class="red-text">0</span></span> → true</li>
+<li class="line-highlight">	<span class='semtok-comment'>// @ invariant <span class="red-text">0</span> == a * <span class="red-text">0</span></span> → true</li>
 <li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>&lt;</span> <span class='semtok-parameter semtok-mod-number'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>+</span> <span class='semtok-parameter semtok-mod-number'>a</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>+</span> <span class='semtok-number'>1</span></li>
@@ -396,7 +396,7 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 				</section>
 				<section>
 				<p>Step 2: 帰納<p/>
-				<pre class="pre"><div class="code" style="padding-left:1em"><ol><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
+				<pre class="pre"><div class="code" style="padding-left:1em"><ol class="no-numbering"><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
 <li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Mul</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
 <li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
 <li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
@@ -412,10 +412,10 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 				</section>
 				<section>
 				<p>Step 2: 帰納<p/>
-				<pre class="pre"><div class="code" style="padding-left:1em"><ol><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
+				<pre class="pre"><div class="code" style="padding-left:1em"><ol class="no-numbering"><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
 <li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Mul</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
-<li class="code-highlight">	<span style='color:red;text-decoration:line-through'><span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></span></li>
-<li class="code-highlight">	<span style='color:red;text-decoration:line-through'><span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></span></li>
+<li class="line-highlight">	<span style='color:red;text-decoration:line-through'><span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></span></li>
+<li class="line-highlight">	<span style='color:red;text-decoration:line-through'><span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></span></li>
 <li>	<span class='semtok-comment'>// @ invariant i &gt;= 0 &amp;&amp; i &lt;= b</span></li>
 <li>	<span class='semtok-comment'>// @ invariant result == a * i</span></li>
 <li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>&lt;</span> <span class='semtok-parameter semtok-mod-number'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
@@ -428,13 +428,13 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 				</section>
 				<section>
 				<p>Step 2: 帰納<p/>
-				<pre class="pre"><div class="code" style="padding-left:1em"><ol><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
+				<pre class="pre"><div class="code" style="padding-left:1em"><ol class="no-numbering"><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
 <li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Mul</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
 <li>	<span style='color:red;text-decoration:line-through'><span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></span></li>
 <li>	<span style='color:red;text-decoration:line-through'><span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></span></li>
-<li class="code-highlight">	<span class='semtok-comment'>// @ invariant i &gt;= 0 &amp;&amp; i &lt;= b</span> trueとする</li>
-<li class="code-highlight">	<span class='semtok-comment'>// @ invariant result == a * i</span>  trueとする</li>
-<li class="code-highlight">	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number code-highlight-spot'>i</span> <span class='semtok-operator code-highlight-spot'>&lt;</span> <span class='semtok-parameter semtok-mod-number code-highlight-spot'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span>                     trueとする</li>
+<li class="line-highlight">	<span class='semtok-comment'>// @ invariant i &gt;= 0 &amp;&amp; i &lt;= b</span> trueとする</li>
+<li class="line-highlight">	<span class='semtok-comment'>// @ invariant result == a * i</span>  trueとする</li>
+<li class="line-highlight">	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number spot-highlight'>i</span> <span class='semtok-operator spot-highlight'>&lt;</span> <span class='semtok-parameter semtok-mod-number spot-highlight'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span>                     trueとする</li>
 <li>		<span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>+</span> <span class='semtok-parameter semtok-mod-number'>a</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>+</span> <span class='semtok-number'>1</span></li>
 <li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span></li>
@@ -444,15 +444,15 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 				</section>
 				<section>
 				<p>Step 2: 帰納<p/>
-				<pre class="pre"><div class="code" style="padding-left:1em"><ol><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
+				<pre class="pre"><div class="code" style="padding-left:1em"><ol class="no-numbering"><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
 <li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Mul</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
 <li>	<span style='color:red;text-decoration:line-through'><span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></span></li>
 <li>	<span style='color:red;text-decoration:line-through'><span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></span></li>
 <li>	<span class='semtok-comment'>// @ invariant i &gt;= 0 &amp;&amp; i &lt;= b</span> trueとする</li>
 <li>	<span class='semtok-comment'>// @ invariant result == a * i</span>  trueとする</li>
-<li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number code-highlight-spot'>i</span> <span class='semtok-operator code-highlight-spot'>&lt;</span> <span class='semtok-parameter semtok-mod-number code-highlight-spot'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span>                     trueとする</li>
-<li class="code-highlight">		<span class='semtok-variable semtok-mod-number'>result</span><span class="red-text">_new</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>+</span> <span class='semtok-parameter semtok-mod-number'>a</span></li>
-<li class="code-highlight">		<span class='semtok-variable semtok-mod-number'>i</span><span class="red-text">_new</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>+</span> <span class='semtok-number'>1</span></li>
+<li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number spot-highlight'>i</span> <span class='semtok-operator spot-highlight'>&lt;</span> <span class='semtok-parameter semtok-mod-number spot-highlight'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span>                     trueとする</li>
+<li class="line-highlight">		<span class='semtok-variable semtok-mod-number'>result</span><span class="red-text">_new</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>+</span> <span class='semtok-parameter semtok-mod-number'>a</span></li>
+<li class="line-highlight">		<span class='semtok-variable semtok-mod-number'>i</span><span class="red-text">_new</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>+</span> <span class='semtok-number'>1</span></li>
 <li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span></li>
 <li>	<span class='semtok-keyword semtok-mod-control'>return</span> <span class='semtok-variable semtok-mod-number'>result</span></li>
 <li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
@@ -460,13 +460,13 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 				</section>
 				<section>
 				<p>Step 2: 帰納<p/>
-				<pre class="pre"><div class="code" style="padding-left:1em"><ol><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
+				<pre class="pre"><div class="code" style="padding-left:1em"><ol class="no-numbering"><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
 <li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Mul</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
 <li>	<span style='color:red;text-decoration:line-through'><span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></span></li>
 <li>	<span style='color:red;text-decoration:line-through'><span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></span></li>
-<li class="code-highlight">	<span class='semtok-comment'>// @ invariant i<span class="red-text">_new</span> &gt;= 0 &amp;&amp; i<span class="red-text">_new</span> &lt;= b</span></li>
-<li class="code-highlight">	<span class='semtok-comment'>// @ invariant result<span class="red-text">_new</span> == a * i<span class="red-text">_new</span></span></li>
-<li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number code-highlight-spot'>i</span> <span class='semtok-operator code-highlight-spot'>&lt;</span> <span class='semtok-parameter semtok-mod-number code-highlight-spot'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+<li class="line-highlight">	<span class='semtok-comment'>// @ invariant i<span class="red-text">_new</span> &gt;= 0 &amp;&amp; i<span class="red-text">_new</span> &lt;= b</span></li>
+<li class="line-highlight">	<span class='semtok-comment'>// @ invariant result<span class="red-text">_new</span> == a * i<span class="red-text">_new</span></span></li>
+<li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number spot-highlight'>i</span> <span class='semtok-operator spot-highlight'>&lt;</span> <span class='semtok-parameter semtok-mod-number spot-highlight'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>result</span><span class="red-text">_new</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>+</span> <span class='semtok-parameter semtok-mod-number'>a</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>i</span><span class="red-text">_new</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>+</span> <span class='semtok-number'>1</span></li>
 <li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span></li>
@@ -476,13 +476,13 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 				</section>
 				<section>
 				<p>Step 2: 帰納<p/>
-				<pre class="pre"><div class="code" style="padding-left:1em"><ol><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
+				<pre class="pre"><div class="code" style="padding-left:1em"><ol class="no-numbering"><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
 <li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Mul</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
 <li>	<span style='color:red;text-decoration:line-through'><span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></span></li>
 <li>	<span style='color:red;text-decoration:line-through'><span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></span></li>
-<li class="code-highlight">	<span class='semtok-comment'>// @ invariant </span><span class='semtok-comment code-highlight-spot'>i<span class="red-text code-highlight-spot">_new</span> &gt;= 0</span><span class='semtok-comment'> &amp;&amp; i</span><span class="red-text">_new</span><span class='semtok-comment'> &lt;= b</span></li>
+<li class="line-highlight">	<span class='semtok-comment'>// @ invariant </span><span class='semtok-comment spot-highlight'>i<span class="red-text spot-highlight">_new</span> &gt;= 0</span><span class='semtok-comment'> &amp;&amp; i</span><span class="red-text">_new</span><span class='semtok-comment'> &lt;= b</span></li>
 <li>	<span class='semtok-comment'>// @ invariant result<span class="red-text">_new</span> == a * i<span class="red-text">_new</span></span></li>
-<li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number code-highlight-spot'>i</span> <span class='semtok-operator code-highlight-spot'>&lt;</span> <span class='semtok-parameter semtok-mod-number code-highlight-spot'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+<li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number spot-highlight'>i</span> <span class='semtok-operator spot-highlight'>&lt;</span> <span class='semtok-parameter semtok-mod-number spot-highlight'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>result</span><span class="red-text">_new</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>+</span> <span class='semtok-parameter semtok-mod-number'>a</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>i</span><span class="red-text">_new</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>+</span> <span class='semtok-number'>1</span></li>
 <li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span></li>
@@ -492,15 +492,15 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 				</section>
 				<section>
 				<p>Step 2: 帰納<p/>
-				<pre class="pre"><div class="code" style="padding-left:1em"><ol><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
+				<pre class="pre"><div class="code" style="padding-left:1em"><ol class="no-numbering"><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
 <li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Mul</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
 <li>	<span style='color:red;text-decoration:line-through'><span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></span></li>
 <li>	<span style='color:red;text-decoration:line-through'><span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></span></li>
-<li class="code-highlight">	<span class='semtok-comment'>// @ invariant </span><span class='semtok-comment code-highlight-spot'>i<span class="red-text code-highlight-spot">_new</span> &gt;= 0</span><span class='semtok-comment'> &amp;&amp; i</span><span class="red-text">_new</span><span class='semtok-comment'> &lt;= b</span></li>
+<li class="line-highlight">	<span class='semtok-comment'>// @ invariant </span><span class='semtok-comment spot-highlight'>i<span class="red-text spot-highlight">_new</span> &gt;= 0</span><span class='semtok-comment'> &amp;&amp; i</span><span class="red-text">_new</span><span class='semtok-comment'> &lt;= b</span></li>
 <li>	<span class='semtok-comment'>// @ invariant result<span class="red-text">_new</span> == a * i<span class="red-text">_new</span></span></li>
-<li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number code-highlight-spot'>i</span> <span class='semtok-operator code-highlight-spot'>&lt;</span> <span class='semtok-parameter semtok-mod-number code-highlight-spot'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+<li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number spot-highlight'>i</span> <span class='semtok-operator spot-highlight'>&lt;</span> <span class='semtok-parameter semtok-mod-number spot-highlight'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>result</span><span class="red-text">_new</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>+</span> <span class='semtok-parameter semtok-mod-number'>a</span></li>
-<li class="code-highlight">		<span class='semtok-variable semtok-mod-number'>i</span><span class="red-text">_new</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>+</span> <span class='semtok-number'>1</span>         → i + 1 &gt;= 0</li>
+<li class="line-highlight">		<span class='semtok-variable semtok-mod-number'>i</span><span class="red-text">_new</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>+</span> <span class='semtok-number'>1</span>         → i + 1 &gt;= 0</li>
 <li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span></li>
 <li>	<span class='semtok-keyword semtok-mod-control'>return</span> <span class='semtok-variable semtok-mod-number'>result</span></li>
 <li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
@@ -508,29 +508,13 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 				</section>
 				<section>
 				<p>Step 2: 帰納<p/>
-				<pre class="pre"><div class="code" style="padding-left:1em"><ol><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
+				<pre class="pre"><div class="code" style="padding-left:1em"><ol class="no-numbering"><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
 <li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Mul</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
 <li>	<span style='color:red;text-decoration:line-through'><span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></span></li>
 <li>	<span style='color:red;text-decoration:line-through'><span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></span></li>
-<li class="code-highlight">	<span class='semtok-comment'>// @ invariant </span><span class='semtok-comment'>i</span><span class="red-text">_new</span><span class='semtok-comment'> &gt;= 0 &amp;&amp; </span><span class='semtok-comment code-highlight-spot'>i</span><span class="red-text code-highlight-spot">_new</span><span class='semtok-comment code-highlight-spot'> &lt;= b</span></li>
+<li class="line-highlight">	<span class='semtok-comment'>// @ invariant </span><span class='semtok-comment'>i</span><span class="red-text">_new</span><span class='semtok-comment'> &gt;= 0 &amp;&amp; </span><span class='semtok-comment spot-highlight'>i</span><span class="red-text spot-highlight">_new</span><span class='semtok-comment spot-highlight'> &lt;= b</span></li>
 <li>	<span class='semtok-comment'>// @ invariant result<span class="red-text">_new</span> == a * i<span class="red-text">_new</span></span></li>
-<li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number code-highlight-spot'>i</span> <span class='semtok-operator code-highlight-spot'>&lt;</span> <span class='semtok-parameter semtok-mod-number code-highlight-spot'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
-<li>		<span class='semtok-variable semtok-mod-number'>result</span><span class="red-text">_new</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>+</span> <span class='semtok-parameter semtok-mod-number'>a</span></li>
-<li>		<span class='semtok-variable semtok-mod-number'>i</span><span class="red-text">_new</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>+</span> <span class='semtok-number'>1</span></li>
-<li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span></li>
-<li>	<span class='semtok-keyword semtok-mod-control'>return</span> <span class='semtok-variable semtok-mod-number'>result</span></li>
-<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
-</ol></div></pre>
-				</section>
-				<section>
-				<p>Step 2: 帰納<p/>
-				<pre class="pre"><div class="code" style="padding-left:1em"><ol><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
-<li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Mul</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
-<li>	<span style='color:red;text-decoration:line-through'><span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></span></li>
-<li>	<span style='color:red;text-decoration:line-through'><span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></span></li>
-<li class="code-highlight">	<span class='semtok-comment'>// @ invariant </span><span class='semtok-comment'>i</span><span class="red-text">_new</span><span class='semtok-comment'> &gt;= 0 &amp;&amp; </span><span class='semtok-comment code-highlight-spot'>i</span><span class="red-text code-highlight-spot">_new</span><span class='semtok-comment code-highlight-spot'> &lt;= b</span></li>
-<li>	<span class='semtok-comment'>// @ invariant result<span class="red-text">_new</span> == a * i<span class="red-text">_new</span></span></li>
-<li class="code-highlight">	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number code-highlight-spot'>i</span> <span class='semtok-operator code-highlight-spot'>&lt;</span> <span class='semtok-parameter semtok-mod-number code-highlight-spot'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span>             → i + 1 &lt;= b</li>
+<li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number spot-highlight'>i</span> <span class='semtok-operator spot-highlight'>&lt;</span> <span class='semtok-parameter semtok-mod-number spot-highlight'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>result</span><span class="red-text">_new</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>+</span> <span class='semtok-parameter semtok-mod-number'>a</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>i</span><span class="red-text">_new</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>+</span> <span class='semtok-number'>1</span></li>
 <li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span></li>
@@ -540,13 +524,13 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 				</section>
 				<section>
 				<p>Step 2: 帰納<p/>
-				<pre class="pre"><div class="code" style="padding-left:1em"><ol><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
+				<pre class="pre"><div class="code" style="padding-left:1em"><ol class="no-numbering"><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
 <li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Mul</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
 <li>	<span style='color:red;text-decoration:line-through'><span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></span></li>
 <li>	<span style='color:red;text-decoration:line-through'><span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></span></li>
-<li class="code-highlight">	<span class='semtok-comment'>// @ invariant </span><span class='semtok-comment'>i</span><span class="red-text">_new</span><span class='semtok-comment'> &gt;= 0 &amp;&amp; </span><span class='semtok-comment'>i</span><span class="red-text">_new</span><span class='semtok-comment'> &lt;= b</span> → true</li>
+<li class="line-highlight">	<span class='semtok-comment'>// @ invariant </span><span class='semtok-comment'>i</span><span class="red-text">_new</span><span class='semtok-comment'> &gt;= 0 &amp;&amp; </span><span class='semtok-comment spot-highlight'>i</span><span class="red-text spot-highlight">_new</span><span class='semtok-comment spot-highlight'> &lt;= b</span></li>
 <li>	<span class='semtok-comment'>// @ invariant result<span class="red-text">_new</span> == a * i<span class="red-text">_new</span></span></li>
-<li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number code-highlight-spot'>i</span> <span class='semtok-operator code-highlight-spot'>&lt;</span> <span class='semtok-parameter semtok-mod-number code-highlight-spot'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+<li class="line-highlight">	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number spot-highlight'>i</span> <span class='semtok-operator spot-highlight'>&lt;</span> <span class='semtok-parameter semtok-mod-number spot-highlight'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span>             → i + 1 &lt;= b</li>
 <li>		<span class='semtok-variable semtok-mod-number'>result</span><span class="red-text">_new</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>+</span> <span class='semtok-parameter semtok-mod-number'>a</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>i</span><span class="red-text">_new</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>+</span> <span class='semtok-number'>1</span></li>
 <li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span></li>
@@ -556,13 +540,29 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 				</section>
 				<section>
 				<p>Step 2: 帰納<p/>
-				<pre class="pre"><div class="code" style="padding-left:1em"><ol><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
+				<pre class="pre"><div class="code" style="padding-left:1em"><ol class="no-numbering"><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
+<li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Mul</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li>	<span style='color:red;text-decoration:line-through'><span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></span></li>
+<li>	<span style='color:red;text-decoration:line-through'><span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></span></li>
+<li class="line-highlight">	<span class='semtok-comment'>// @ invariant </span><span class='semtok-comment'>i</span><span class="red-text">_new</span><span class='semtok-comment'> &gt;= 0 &amp;&amp; </span><span class='semtok-comment'>i</span><span class="red-text">_new</span><span class='semtok-comment'> &lt;= b</span> → true</li>
+<li>	<span class='semtok-comment'>// @ invariant result<span class="red-text">_new</span> == a * i<span class="red-text">_new</span></span></li>
+<li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number spot-highlight'>i</span> <span class='semtok-operator spot-highlight'>&lt;</span> <span class='semtok-parameter semtok-mod-number spot-highlight'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+<li>		<span class='semtok-variable semtok-mod-number'>result</span><span class="red-text">_new</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>+</span> <span class='semtok-parameter semtok-mod-number'>a</span></li>
+<li>		<span class='semtok-variable semtok-mod-number'>i</span><span class="red-text">_new</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>+</span> <span class='semtok-number'>1</span></li>
+<li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span></li>
+<li>	<span class='semtok-keyword semtok-mod-control'>return</span> <span class='semtok-variable semtok-mod-number'>result</span></li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+</ol></div></pre>
+				</section>
+				<section>
+				<p>Step 2: 帰納<p/>
+				<pre class="pre"><div class="code" style="padding-left:1em"><ol class="no-numbering"><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
 <li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Mul</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
 <li>	<span style='color:red;text-decoration:line-through'><span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></span></li>
 <li>	<span style='color:red;text-decoration:line-through'><span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></span></li>
 <li>	<span class='semtok-comment'>// @ invariant </span><span class='semtok-comment'>i</span><span class="red-text">_new</span><span class='semtok-comment'> &gt;= 0 &amp;&amp; </span><span class='semtok-comment'>i</span><span class="red-text">_new</span><span class='semtok-comment'> &lt;= b</span> → true</li>
-<li class="code-highlight">	<span class='semtok-comment'>// @ invariant result<span class="red-text">_new</span> == a * i<span class="red-text">_new</span></span></li>
-<li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number code-highlight-spot'>i</span> <span class='semtok-operator code-highlight-spot'>&lt;</span> <span class='semtok-parameter semtok-mod-number code-highlight-spot'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+<li class="line-highlight">	<span class='semtok-comment'>// @ invariant result<span class="red-text">_new</span> == a * i<span class="red-text">_new</span></span></li>
+<li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number spot-highlight'>i</span> <span class='semtok-operator spot-highlight'>&lt;</span> <span class='semtok-parameter semtok-mod-number spot-highlight'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>result</span><span class="red-text">_new</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>+</span> <span class='semtok-parameter semtok-mod-number'>a</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>i</span><span class="red-text">_new</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>+</span> <span class='semtok-number'>1</span></li>
 <li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span></li>
@@ -572,15 +572,15 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 				</section>
 				<section>
 				<p>Step 2: 帰納<p/>
-				<pre class="pre"><div class="code" style="padding-left:1em"><ol><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
+				<pre class="pre"><div class="code" style="padding-left:1em"><ol class="no-numbering"><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
 <li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Mul</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
 <li>	<span style='color:red;text-decoration:line-through'><span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></span></li>
 <li>	<span style='color:red;text-decoration:line-through'><span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></span></li>
 <li>	<span class='semtok-comment'>// @ invariant </span><span class='semtok-comment'>i</span><span class="red-text">_new</span><span class='semtok-comment'> &gt;= 0 &amp;&amp; </span><span class='semtok-comment'>i</span><span class="red-text">_new</span><span class='semtok-comment'> &lt;= b</span> → true</li>
-<li class="code-highlight">	<span class='semtok-comment'>// @ invariant <span class="red-text">result + a</span> == a * <span class="red-text">(i + 1)</span></span></li>
-<li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number code-highlight-spot'>i</span> <span class='semtok-operator code-highlight-spot'>&lt;</span> <span class='semtok-parameter semtok-mod-number code-highlight-spot'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
-<li class="code-highlight">		<span class='semtok-variable semtok-mod-number'>result</span><span class="red-text">_new</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>+</span> <span class='semtok-parameter semtok-mod-number'>a</span></li>
-<li class="code-highlight">		<span class='semtok-variable semtok-mod-number'>i</span><span class="red-text">_new</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>+</span> <span class='semtok-number'>1</span></li>
+<li class="line-highlight">	<span class='semtok-comment'>// @ invariant <span class="red-text">result + a</span> == a * <span class="red-text">(i + 1)</span></span></li>
+<li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number spot-highlight'>i</span> <span class='semtok-operator spot-highlight'>&lt;</span> <span class='semtok-parameter semtok-mod-number spot-highlight'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+<li class="line-highlight">		<span class='semtok-variable semtok-mod-number'>result</span><span class="red-text">_new</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>+</span> <span class='semtok-parameter semtok-mod-number'>a</span></li>
+<li class="line-highlight">		<span class='semtok-variable semtok-mod-number'>i</span><span class="red-text">_new</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>+</span> <span class='semtok-number'>1</span></li>
 <li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span></li>
 <li>	<span class='semtok-keyword semtok-mod-control'>return</span> <span class='semtok-variable semtok-mod-number'>result</span></li>
 <li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
@@ -588,13 +588,13 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 				</section>
 				<section>
 				<p>Step 2: 帰納<p/>
-				<pre class="pre"><div class="code" style="padding-left:1em"><ol><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
+				<pre class="pre"><div class="code" style="padding-left:1em"><ol class="no-numbering"><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
 <li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Mul</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
 <li>	<span style='color:red;text-decoration:line-through'><span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></span></li>
 <li>	<span style='color:red;text-decoration:line-through'><span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></span></li>
 <li>	<span class='semtok-comment'>// @ invariant i &gt;= 0 &amp;&amp; i &lt;= b</span> trueとする</li>
-<li class="code-highlight">	<span class='semtok-comment'>// @ invariant result == a * i</span>  trueとする</li>
-<li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number code-highlight-spot'>i</span> <span class='semtok-operator code-highlight-spot'>&lt;</span> <span class='semtok-parameter semtok-mod-number code-highlight-spot'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span>                     trueとする</li>
+<li class="line-highlight">	<span class='semtok-comment'>// @ invariant result == a * i</span>  trueとする</li>
+<li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number spot-highlight'>i</span> <span class='semtok-operator spot-highlight'>&lt;</span> <span class='semtok-parameter semtok-mod-number spot-highlight'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span>                     trueとする</li>
 <li>		<span class='semtok-variable semtok-mod-number'>result</span><span class="red-text">_new</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>+</span> <span class='semtok-parameter semtok-mod-number'>a</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>i</span><span class="red-text">_new</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>+</span> <span class='semtok-number'>1</span></li>
 <li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span></li>
@@ -604,13 +604,13 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 				</section>
 				<section>
 				<p>Step 2: 帰納<p/>
-				<pre class="pre"><div class="code" style="padding-left:1em"><ol><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
+				<pre class="pre"><div class="code" style="padding-left:1em"><ol class="no-numbering"><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
 <li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Mul</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
 <li>	<span style='color:red;text-decoration:line-through'><span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></span></li>
 <li>	<span style='color:red;text-decoration:line-through'><span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></span></li>
 <li>	<span class='semtok-comment'>// @ invariant </span><span class='semtok-comment'>i</span><span class="red-text">_new</span><span class='semtok-comment'> &gt;= 0 &amp;&amp; </span><span class='semtok-comment'>i</span><span class="red-text">_new</span><span class='semtok-comment'> &lt;= b</span> → true</li>
-<li class="code-highlight">	<span class='semtok-comment'>// @ invariant <span class="red-text">result + a</span> == a * <span class="red-text">(i + 1)</span></span></li>
-<li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number code-highlight-spot'>i</span> <span class='semtok-operator code-highlight-spot'>&lt;</span> <span class='semtok-parameter semtok-mod-number code-highlight-spot'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+<li class="line-highlight">	<span class='semtok-comment'>// @ invariant <span class="red-text">result + a</span> == a * <span class="red-text">(i + 1)</span></span></li>
+<li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number spot-highlight'>i</span> <span class='semtok-operator spot-highlight'>&lt;</span> <span class='semtok-parameter semtok-mod-number spot-highlight'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>result</span><span class="red-text">_new</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>+</span> <span class='semtok-parameter semtok-mod-number'>a</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>i</span><span class="red-text">_new</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>+</span> <span class='semtok-number'>1</span></li>
 <li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span></li>
@@ -620,13 +620,13 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 				</section>
 				<section>
 				<p>Step 2: 帰納<p/>
-				<pre class="pre"><div class="code" style="padding-left:1em"><ol><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
+				<pre class="pre"><div class="code" style="padding-left:1em"><ol class="no-numbering"><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
 <li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Mul</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
 <li>	<span style='color:red;text-decoration:line-through'><span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></span></li>
 <li>	<span style='color:red;text-decoration:line-through'><span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></span></li>
 <li>	<span class='semtok-comment'>// @ invariant </span><span class='semtok-comment'>i</span><span class="red-text">_new</span><span class='semtok-comment'> &gt;= 0 &amp;&amp; </span><span class='semtok-comment'>i</span><span class="red-text">_new</span><span class='semtok-comment'> &lt;= b</span> → true</li>
-<li class="code-highlight">	<span class='semtok-comment'>// @ invariant <span class="red-text">(a * i) + a</span> == a * <span class="red-text">(i + 1)</span></span></li>
-<li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number code-highlight-spot'>i</span> <span class='semtok-operator code-highlight-spot'>&lt;</span> <span class='semtok-parameter semtok-mod-number code-highlight-spot'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+<li class="line-highlight">	<span class='semtok-comment'>// @ invariant <span class="red-text">(a * i) + a</span> == a * <span class="red-text">(i + 1)</span></span></li>
+<li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number spot-highlight'>i</span> <span class='semtok-operator spot-highlight'>&lt;</span> <span class='semtok-parameter semtok-mod-number spot-highlight'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>result</span><span class="red-text">_new</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>+</span> <span class='semtok-parameter semtok-mod-number'>a</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>i</span><span class="red-text">_new</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>+</span> <span class='semtok-number'>1</span></li>
 <li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span></li>
@@ -636,13 +636,13 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 				</section>
 				<section>
 				<p>Step 2: 帰納<p/>
-				<pre class="pre"><div class="code" style="padding-left:1em"><ol><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
+				<pre class="pre"><div class="code" style="padding-left:1em"><ol class="no-numbering"><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
 <li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Mul</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
 <li>	<span style='color:red;text-decoration:line-through'><span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></span></li>
 <li>	<span style='color:red;text-decoration:line-through'><span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></span></li>
 <li>	<span class='semtok-comment'>// @ invariant </span><span class='semtok-comment'>i</span><span class="red-text">_new</span><span class='semtok-comment'> &gt;= 0 &amp;&amp; </span><span class='semtok-comment'>i</span><span class="red-text">_new</span><span class='semtok-comment'> &lt;= b</span> → true</li>
-<li class="code-highlight">	<span class='semtok-comment'>// @ invariant <span class="red-text">a * i + a</span> == <span class="red-text">a * i + a</span></span> → true</li>
-<li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number code-highlight-spot'>i</span> <span class='semtok-operator code-highlight-spot'>&lt;</span> <span class='semtok-parameter semtok-mod-number code-highlight-spot'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+<li class="line-highlight">	<span class='semtok-comment'>// @ invariant <span class="red-text">a * i + a</span> == <span class="red-text">a * i + a</span></span> → true</li>
+<li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number spot-highlight'>i</span> <span class='semtok-operator spot-highlight'>&lt;</span> <span class='semtok-parameter semtok-mod-number spot-highlight'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>result</span><span class="red-text">_new</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>+</span> <span class='semtok-parameter semtok-mod-number'>a</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>i</span><span class="red-text">_new</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>+</span> <span class='semtok-number'>1</span></li>
 <li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span></li>
@@ -652,7 +652,7 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 				</section>
 				<section>
 				<p>Step 3: ループ終了後の証明<p/>
-				<pre class="pre"><div class="code" style="padding-left:1em"><ol><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
+				<pre class="pre"><div class="code" style="padding-left:1em"><ol class="no-numbering"><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
 <li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Mul</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
 <li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
 <li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
@@ -668,13 +668,13 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 				</section>
 				<section>
 				<p>Step 3: ループ終了後の証明<p/>
-				<pre class="pre"><div class="code" style="padding-left:1em"><ol><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
+				<pre class="pre"><div class="code" style="padding-left:1em"><ol class="no-numbering"><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
 <li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Mul</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
 <li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
 <li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
 <li>	<span class='semtok-comment'>// @ invariant i &gt;= 0 &amp;&amp; i &lt;= b</span></li>
 <li>	<span class='semtok-comment'>// @ invariant result == a * i</span></li>
-<li class="code-highlight">	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number code-highlight-spot'>i</span> <span class='semtok-operator code-highlight-spot'>&lt;</span> <span class='semtok-parameter semtok-mod-number code-highlight-spot'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+<li class="line-highlight">	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number spot-highlight'>i</span> <span class='semtok-operator spot-highlight'>&lt;</span> <span class='semtok-parameter semtok-mod-number spot-highlight'>b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>+</span> <span class='semtok-parameter semtok-mod-number'>a</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>+</span> <span class='semtok-number'>1</span></li>
 <li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span></li>
@@ -684,13 +684,13 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 				</section>
 				<section>
 				<p>Step 3: ループ終了後の証明<p/>
-				<pre class="pre"><div class="code" style="padding-left:1em"><ol><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
+				<pre class="pre"><div class="code" style="padding-left:1em"><ol class="no-numbering"><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
 <li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Mul</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
 <li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
 <li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
 <li>	<span class='semtok-comment'>// @ invariant i &gt;= 0 &amp;&amp; i &lt;= b</span></li>
 <li>	<span class='semtok-comment'>// @ invariant result == a * i</span></li>
-<li class="code-highlight">	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number code-highlight-spot'><span class="red-text code-highlight-spot">!(</span>i</span> <span class='semtok-operator code-highlight-spot'>&lt;</span> <span class='semtok-parameter semtok-mod-number code-highlight-spot'>b</span><span class="red-text code-highlight-spot">)</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+<li class="line-highlight">	<span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-number spot-highlight'><span class="red-text spot-highlight">!(</span>i</span> <span class='semtok-operator spot-highlight'>&lt;</span> <span class='semtok-parameter semtok-mod-number spot-highlight'>b</span><span class="red-text spot-highlight">)</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>+</span> <span class='semtok-parameter semtok-mod-number'>a</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>+</span> <span class='semtok-number'>1</span></li>
 <li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span></li>
@@ -700,13 +700,13 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 				</section>
 				<section>
 				<p>Step 3: ループ終了後の証明<p/>
-				<pre class="pre"><div class="code" style="padding-left:1em"><ol><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
+				<pre class="pre"><div class="code" style="padding-left:1em"><ol class="no-numbering"><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
 <li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Mul</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
 <li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
 <li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
 <li>	<span class='semtok-comment'>// @ invariant i &gt;= 0 &amp;&amp; i &lt;= b</span></li>
 <li>	<span class='semtok-comment'>// @ invariant result == a * i</span></li>
-<li class="code-highlight">	<span class='semtok-keyword semtok-mod-control'>for</span> <span class="red-text code-highlight-spot">i &gt;= b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+<li class="line-highlight">	<span class='semtok-keyword semtok-mod-control'>for</span> <span class="red-text spot-highlight">i &gt;= b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>+</span> <span class='semtok-parameter semtok-mod-number'>a</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>+</span> <span class='semtok-number'>1</span></li>
 <li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span></li>
@@ -716,13 +716,13 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 				</section>
 				<section>
 				<p>Step 3: ループ終了後の証明<p/>
-				<pre class="pre"><div class="code" style="padding-left:1em"><ol><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
+				<pre class="pre"><div class="code" style="padding-left:1em"><ol class="no-numbering"><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
 <li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Mul</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
 <li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
 <li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
-<li class="code-highlight">	<span class='semtok-comment'>// @ invariant i &gt;= 0 &amp;&amp;</span><span class='semtok-comment code-highlight-spot'> i &lt;= b</span></li>
+<li class="line-highlight">	<span class='semtok-comment'>// @ invariant i &gt;= 0 &amp;&amp;</span><span class='semtok-comment spot-highlight'> i &lt;= b</span></li>
 <li>	<span class='semtok-comment'>// @ invariant result == a * i</span></li>
-<li class="code-highlight">	<span class='semtok-keyword semtok-mod-control'>for</span> <span class="red-text code-highlight-spot">i &gt;= b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+<li class="line-highlight">	<span class='semtok-keyword semtok-mod-control'>for</span> <span class="red-text spot-highlight">i &gt;= b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>+</span> <span class='semtok-parameter semtok-mod-number'>a</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>+</span> <span class='semtok-number'>1</span></li>
 <li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span></li>
@@ -732,52 +732,52 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 				</section>
 				<section>
 				<p>Step 3: ループ終了後の証明<p/>
-				<pre class="pre"><div class="code" style="padding-left:1em"><ol><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
+				<pre class="pre"><div class="code" style="padding-left:1em"><ol class="no-numbering"><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
 <li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Mul</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
 <li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
 <li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
-<li class="code-highlight">	<span class='semtok-comment'>// @ invariant i &gt;= 0 &amp;&amp;</span><span class='semtok-comment code-highlight-spot'> i &lt;= b</span></li>
+<li class="line-highlight">	<span class='semtok-comment'>// @ invariant i &gt;= 0 &amp;&amp;</span><span class='semtok-comment spot-highlight'> i &lt;= b</span></li>
 <li>	<span class='semtok-comment'>// @ invariant result == a * i</span></li>
-<li class="code-highlight">	<span class='semtok-keyword semtok-mod-control'>for</span> <span class="red-text code-highlight-spot">i &gt;= b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+<li class="line-highlight">	<span class='semtok-keyword semtok-mod-control'>for</span> <span class="red-text spot-highlight">i &gt;= b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>+</span> <span class='semtok-parameter semtok-mod-number'>a</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>+</span> <span class='semtok-number'>1</span></li>
 <li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span></li>
-<li class="code-highlight">	→ i == b</li>
+<li class="line-highlight">	→ i == b</li>
 <li>	<span class='semtok-keyword semtok-mod-control'>return</span> <span class='semtok-variable semtok-mod-number'>result</span></li>
 <li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
 </ol></div></pre>
 				</section>
 				<section>
 				<p>Step 3: ループ終了後の証明<p/>
-				<pre class="pre"><div class="code" style="padding-left:1em"><ol><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
+				<pre class="pre"><div class="code" style="padding-left:1em"><ol class="no-numbering"><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
 <li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Mul</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
 <li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
 <li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
-<li>	<span class='semtok-comment'>// @ invariant i &gt;= 0 &amp;&amp;</span><span class='semtok-comment code-highlight-spot'> i &lt;= b</span></li>
-<li class="code-highlight">	<span class='semtok-comment'>// @ invariant result == a * i</span></li>
-<li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class="red-text code-highlight-spot">i &gt;= b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+<li>	<span class='semtok-comment'>// @ invariant i &gt;= 0 &amp;&amp;</span><span class='semtok-comment spot-highlight'> i &lt;= b</span></li>
+<li class="line-highlight">	<span class='semtok-comment'>// @ invariant result == a * i</span></li>
+<li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class="red-text spot-highlight">i &gt;= b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>+</span> <span class='semtok-parameter semtok-mod-number'>a</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>+</span> <span class='semtok-number'>1</span></li>
 <li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span></li>
-<li class="code-highlight">	→ i == b</li>
+<li class="line-highlight">	→ i == b</li>
 <li>	<span class='semtok-keyword semtok-mod-control'>return</span> <span class='semtok-variable semtok-mod-number'>result</span></li>
 <li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
 </ol></div></pre>
 				</section>
 				<section>
 				<p>Step 3: ループ終了後の証明<p/>
-				<pre class="pre"><div class="code" style="padding-left:1em"><ol><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
+				<pre class="pre"><div class="code" style="padding-left:1em"><ol class="no-numbering"><li><span class='semtok-comment'>// @ requires a &gt;= 0 &amp;&amp; b &gt; 0</span></li>
 <li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>Mul</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition semtok-mod-number'>a</span>, <span class='semtok-parameter semtok-mod-definition semtok-mod-number'>b</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
 <li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>result</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
 <li>	<span class='semtok-variable semtok-mod-definition semtok-mod-number'>i</span> <span class='semtok-operator'>:=</span> <span class='semtok-number'>0</span></li>
-<li>	<span class='semtok-comment'>// @ invariant i &gt;= 0 &amp;&amp;</span><span class='semtok-comment code-highlight-spot'> i &lt;= b</span></li>
-<li class="code-highlight">	<span class='semtok-comment'>// @ invariant result == a * i</span></li>
-<li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class="red-text code-highlight-spot">i &gt;= b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+<li>	<span class='semtok-comment'>// @ invariant i &gt;= 0 &amp;&amp;</span><span class='semtok-comment spot-highlight'> i &lt;= b</span></li>
+<li class="line-highlight">	<span class='semtok-comment'>// @ invariant result == a * i</span></li>
+<li>	<span class='semtok-keyword semtok-mod-control'>for</span> <span class="red-text spot-highlight">i &gt;= b</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>result</span> <span class='semtok-operator'>+</span> <span class='semtok-parameter semtok-mod-number'>a</span></li>
 <li>		<span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-number'>i</span> <span class='semtok-operator'>+</span> <span class='semtok-number'>1</span></li>
 <li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span></li>
-<li class="code-highlight">	→ i == b</li>
-<li class="code-highlight">	→ result == a * b</li>
+<li class="line-highlight">	→ i == b</li>
+<li class="line-highlight">	→ result == a * b</li>
 <li>	<span class='semtok-keyword semtok-mod-control'>return</span> <span class='semtok-variable semtok-mod-number'>result</span></li>
 <li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
 </ol></div></pre>
@@ -790,7 +790,7 @@ ERROR viper.gobra.Gobra - Gobra found 1 error.
 					<p>「関数を証明済みと見なす」</p>
 				</section>
 				<section>
-				<pre><code style="font-size: 42px;"><ol><li><span class='semtok-comment'>// @ ensures res == 2</span></li>
+				<pre class="pre"><code class="code" style="font-size: 42px;"><ol><li><span class='semtok-comment'>// @ ensures res == 2</span></li>
 <li><span class='semtok-comment'>// @ trusted</span></li>
 <li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>One</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-variable semtok-mod-definition semtok-mod-number'>res</span> <span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
 <li>	<span class='semtok-keyword semtok-mod-control'>return</span> <span class='semtok-number'>1</span></li>

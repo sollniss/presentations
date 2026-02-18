@@ -1,12 +1,12 @@
 @font-face {
-    font-family: 'codefont';
-    src: url('fonts/JetBrainsMono-Regular.woff2') format('woff2');
+    font-family: "codefont";
+    src: url("fonts/JetBrainsMono-Regular.woff2") format("woff2");
     font-weight: 400;
     font-style: normal;
 }
 @font-face {
-    font-family: 'codefont';
-    src: url('fonts/JetBrainsMono-Italic.woff2') format('woff2');
+    font-family: "codefont";
+    src: url("fonts/JetBrainsMono-Italic.woff2") format("woff2");
     font-weight: 400;
     font-style: italic;
 }
@@ -14,11 +14,14 @@
 /* .class.class increases specificity to override reveal.js default styling */
 
 .pre.pre {
+    display: block;
+    position: relative;
+
     overflow-x: hidden;
     margin: 0;
     white-space: pre;
     word-wrap: break-word;
-    tab-size: 2em;
+    tab-size: 3rem;
     width: 100%;
 
     /* reset reveal.js default */
@@ -26,16 +29,25 @@
 }
 
 .code.code {
-    color: #D4D4D4;
-    font-family: 'codefont', 'JetBrains Mono', monospace !important;
+    display: block;
+    position: relative;
+    padding: 5px;
+    width: fit-content;
+    max-height: 100%;
+
+    color: #d4d4d4;
+
+    font-family: "codefont", "JetBrains Mono", monospace !important;
     font-weight: 400;
     font-variant-ligatures: common-ligatures;
+    line-height: 1.3;
+    text-align: left;
 
     font-size: 32px;
-    padding: 1em 2em 1em 4em;
+    overflow: visible;
 
-    line-height: 1.25em;
-    text-align: left;
+    /* set by pre */
+    tab-size: inherit;
 }
 
 .code.code ol {
@@ -43,28 +55,41 @@
     margin: 0;
     padding: 0;
     /* list-style-position: inside; */
-    li::marker {
+    /*li::marker {
         content: counters(list-item,'.') '  ';
+        color: #6e7681;
+    }*/
+    counter-reset: index;
+    list-style-type: none;
+    li::before {
+        counter-increment: index;
+        content: counters(index, "", decimal);
+        display: inline-block;
+        text-align: right;
+        padding-right: 1em;
+        width: 1em;
         color: #6e7681;
     }
 }
 
-.code.code .no-numbering {
+.code.code ol.no-numbering {
     list-style: none;
 }
-.code.code .no-numbering li::marker {
-    content: '';
+.code.code ol.no-numbering li::before {
+    content: "";
+    padding: 0;
+    width: 0;
 }
 
-.code.code ol:has(.code-highlight) li:not(.code-highlight) {
+.code.code ol:has(.line-highlight) li:not(.line-highlight) {
     opacity: 0.4;
 }
 
-.code.code li.code-highlight:has(.code-highlight-spot) :not(.code-highlight-spot) {
+.code.code li.line-highlight:has(.spot-highlight) :not(.spot-highlight) {
     opacity: 0.4;
 }
 
-.code.code .code-highlight::marker {
+.code.code .line-highlight::before {
     color: #cccccc;
 }
 
@@ -87,7 +112,7 @@
 }
 
 .semtok-comment {
-    color: #6A9955;
+    color: #6a9955;
     font-style: italic;
 }
 
@@ -104,35 +129,35 @@
 }
 
 .semtok-type {
-    color: #4EC9B0;
+    color: #4ec9b0;
 }
 
 .semtok-function {
-    color: #DCDCAA;
+    color: #dcdcaa;
 }
 
 .semtok-method {
-    color: #DCDCAA;
+    color: #dcdcaa;
 }
 
 .semtok-variable {
-    color: #9CDCFE;
+    color: #9cdcfe;
 }
 
 .semtok-parameter {
-    color: #9CDCFE;
+    color: #9cdcfe;
 }
 
 .semtok-namespace {
-    color: #4EC9B0;
+    color: #4ec9b0;
 }
 
 .semtok-operator {
-    color: #D4D4D4;
+    color: #d4d4d4;
 }
 
 .semtok-label {
-    color: #C8C8C8;
+    color: #c8c8c8;
 }
 
 .semtok-mod-format {
@@ -141,7 +166,7 @@
 }
 
 .semtok-variable.semtok-mod-readonly {
-    color: #4FC1FF;
+    color: #4fc1ff;
 }
 
 .semtok-variable.semtok-mod-defaultLibrary.semtok-mod-readonly {
@@ -149,235 +174,5 @@
 }
 
 .semtok-keyword.semtok-mod-control {
-    color: #C586C0;
-}
-
-
-.gemini1 {
-.semtok-comment {
-    color: #a0a0a0;
-    font-style: italic;
-}
-
-.semtok-keyword {
-    color: #ff79c6;
-    font-weight: bold;
-}
-
-.semtok-keyword.semtok-mod-control {
-    color: #bd93f9;
-    text-decoration: underline;
-}
-
-.semtok-string {
-    color: #f1fa8c;
-}
-
-.semtok-number {
-    color: #bd93f9;
-}
-
-.semtok-type,
-.semtok-typeParameter {
-    color: #8be9fd;
-    font-style: italic;
-}
-
-.semtok-function,
-.semtok-method {
-    color: #50fa7b;
-}
-
-.semtok-variable,
-.semtok-parameter {
-    color: #f8f8f2;
-}
-
-.semtok-variable.semtok-mod-readonly {
-    color: #ffb86c;
-    font-weight: bold;
-}
-
-.semtok-namespace {
-    color: #ffb86c;
-}
-
-.semtok-operator {
-    color: #ff79c6;
-    font-weight: bold;
-}
-
-.semtok-bracket.semtok-mod-level1 { color: #f1fa8c; }
-.semtok-bracket.semtok-mod-level2 { color: #ff79c6; }
-.semtok-bracket.semtok-mod-level3 { color: #8be9fd; }
-
-.semtok-mod-missingCounterpart {
-    color: #ffffff;
-    background-color: #ff5555;
-    outline: 1px solid #ffffff;
-}
-
-.semtok-macro {
-    color: #ffb86c;
-}
-}
-
-/* Nordic Night Forest */
-
-.gemini2 {
-
-.semtok-comment {
-    color: #637777; /* Muted Pine Gray */
-    font-style: italic;
-}
-
-.semtok-keyword {
-    color: #81a1c1;
-}
-
-.semtok-keyword.semtok-mod-control {
-    color: #5e81ac;
-}
-
-.semtok-string {
-    color: #a3be8c;
-}
-
-.semtok-number {
-    color: #b48ead;
-}
-
-.semtok-type,
-.semtok-typeParameter {
-    color: #8fbcbb;
-}
-
-.semtok-function,
-.semtok-method {
-    color: #ebcb8b;
-}
-
-.semtok-variable,
-.semtok-parameter {
-    color: #d8dee9;
-}
-
-.semtok-variable.semtok-mod-readonly {
-    color: #d08770;
-}
-
-.semtok-namespace {
-    color: #88c0d0;
-}
-
-.semtok-operator {
-    color: #81a1c1;
-}
-
-.semtok-macro {
-    color: #d08770;
-    font-style: italic;
-}
-
-.semtok-label {
-    color: #8fbcbb;
-    text-decoration: underline;
-}
-
-.semtok-bracket.semtok-mod-level1 { color: #81a1c1; }
-.semtok-bracket.semtok-mod-level2 { color: #b48ead; }
-.semtok-bracket.semtok-mod-level3 { color: #a3be8c; }
-
-.semtok-mod-struct { color: #8fbcbb; font-weight: bold; }
-.semtok-mod-interface { color: #88c0d0; font-style: italic; }
-.semtok-mod-pointer { color: #d08770; }
-
-}
-
-@keyframes text-shimmer {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-@keyframes pulse-glow {
-    0%, 100% { text-shadow: 0 0 5px rgba(0, 255, 255, 0.4); }
-    50% { text-shadow: 0 0 15px rgba(0, 255, 255, 0.8), 0 0 20px rgba(0, 255, 255, 0.2); }
-}
-
-.gemini3 {
-
-/* Base Styles */
-.semtok-comment {
-    color: #464b5d;
-    font-style: italic;
-    opacity: 0.8;
-}
-
-.semtok-type,
-.semtok-typeParameter,
-.semtok-mod-interface {
-    background: linear-gradient(90deg, #ff00cc, #3333ff, #00ffff, #ff00cc);
-    background-size: 300% auto;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: text-shimmer 4s linear infinite;
-    font-weight: bold;
-}
-
-.semtok-keyword.semtok-mod-control {
-    color: #00ffff;
-    animation: pulse-glow 2s ease-in-out infinite;
-    font-weight: 800;
-    font-size: 0.95em;
-}
-
-.semtok-function, .semtok-method {
-    color: #ff0055;
-    text-shadow: 2px 2px 0px rgba(0,0,0,0.5);
-    border-bottom: 1px solid rgba(255, 0, 85, 0.3);
-}
-
-.semtok-string {
-    color: #ccff00;
-    filter: drop-shadow(0 0 2px rgba(204, 255, 0, 0.5));
-}
-
-.semtok-number {
-    color: #ff8800;
-    font-weight: bold;
-}
-
-.semtok-variable {
-    color: #bf91ff;
-}
-.semtok-parameter { color: #94a3b8; font-style: italic; }
-
-.semtok-bracket.semtok-mod-level1 { color: #ff00cc; }
-.semtok-bracket.semtok-mod-level2 { color: #00ffff; }
-.semtok-bracket.semtok-mod-level3 { color: #ccff00; }
-
-.semtok-mod-readonly {
-    border: 1px solid rgba(255, 136, 0, 0.3);
-    padding: 0 2px;
-    border-radius: 3px;
-}
-
-.semtok-mod-pointer {
-    color: #ff0055;
-    text-decoration: overline;
-}
-
-.semtok-mod-missingCounterpart {
-    background: repeating-linear-gradient(
-      45deg,
-      #ff0000,
-      #ff0000 10px,
-      #000000 10px,
-      #000000 20px
-    );
-    color: white;
-    font-weight: 900;
-}
+    color: #c586c0;
 }
