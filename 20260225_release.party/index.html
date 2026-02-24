@@ -1,0 +1,816 @@
+<!doctype html>
+<html lang="ja">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<meta name="keywords" content="go,golang,go1.26,gofix,modernize,analysis,ast,linter,dennis,metzger,finatext" />
+		<meta name="description" content="Go 1.26のgo fixで使われるmodernize analyzerの仕組みを解説します"/>
+		<title>go fix の裏側 — modernize analyzer を読み解く - Dennis Metzger</title>
+
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:creator" content="@d_mzgr" />
+
+		<meta property="og:type" content="article" />
+		<meta property="og:title" content="go fix の裏側 — modernize analyzer を読み解く - Dennis Metzger" />
+		<meta property="og:description" content="Go 1.26のgo fixで使われるmodernize analyzerの仕組みを解説します"/>
+		<meta property="og:url" content="https://sollniss.github.io/presentations/20260225_release.party/" />
+		<meta property="og:image" content="https://sollniss.github.io/presentations/20260225_release.party/imgs/card/card.png" />
+
+		<link rel="stylesheet" href="static/revealjs/dist/reset.css">
+		<link rel="stylesheet" href="static/revealjs/dist/reveal.css">
+		<link rel="stylesheet" href="static/revealjs/dist/theme/black.css">
+
+		<link rel="stylesheet" href="custom.css">
+		<link rel="stylesheet" href="code.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<p class="r-fit-text"><strong>go fix の裏側</strong></p>
+					<p class="r-fit-text"><strong>modernize analyzer を読み解く</strong></p>
+					<div class="occasion weak"><time>2026-02-25</time><div class="event">Go 1.26 Release Party</div></div>
+				</section>
+
+				<section style="text-align: left;">
+					<h2><ruby>Dennis<rp>(</rp><rt>デニス</rt><rp>)</rp></ruby> <ruby>Metzger<rp>(</rp><rt>メッツガー</rt><rp>)</rp></ruby></h2>
+					<p>Backend Engineer @ Finatext</p>
+					<ul class="profile-urls weak">
+						<li class="icon-github"><a href="https://github.com/sollniss" target="_blank">sollniss</a></li>
+						<li class="icon-x"><a href="https://x.com/d_mzgr" target="_blank">@d_mzgr</a></li>
+						<li class="icon-zenn"><a href="https://zenn.dev/d_mzgr" target="_blank">d_mzgr</a></li>
+						<li class="icon-connpass"><a href="https://connpass.com/user/_____________________________/" target="_blank">sollniss</a></li>
+						<li class="icon-sessionize"><a href="https://sessionize.com/dennis-metzger/" target="_blank">Dennis Metzger</a></li>
+					</ul>
+				</section>
+
+				<section>
+					<pre class="pre"><code class="code" style="font-size: 48px;"><ol><li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>ToPtr</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>[</span><span class='semtok-type semtok-mod-definition'>T</span> <span class='semtok-type semtok-mod-interface semtok-mod-defaultLibrary'>any</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>]</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition'>x</span> <span class='semtok-type'>T</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-operator'>*</span><span class='semtok-type'>T</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li>	<span class='semtok-keyword semtok-mod-control'>return</span> <span class='semtok-operator'>&amp;</span><span class='semtok-parameter'>x</span></li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+					</ol></code></pre>
+				</section>
+
+				<section>
+					<p class="r-fit-text"><strong>Go 1.26: <code>new(expr)</code></strong></p>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 48px;"><ol><li><span class='semtok-keyword'>type</span> <span class='semtok-type semtok-mod-definition semtok-mod-struct'>data</span> <span class='semtok-keyword'>struct</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>{</span></li>
+<li>	<span class='semtok-variable semtok-mod-definition semtok-mod-pointer'>x</span> <span class='semtok-operator'>*</span><span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span></li>
+<li>	<span class='semtok-variable semtok-mod-definition semtok-mod-pointer'>y</span> <span class='semtok-operator'>*</span><span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span></li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>}</span></li>
+<li></li>
+<li><span class='semtok-variable semtok-mod-definition semtok-mod-struct'>d</span> <span class='semtok-operator'>:=</span> <span class='semtok-type semtok-mod-struct'>data</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+<li>	<span class='semtok-variable semtok-mod-pointer'>x</span>: <span class='semtok-function semtok-mod-signature'>ToPtr</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-number'>10</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span>,</li>
+<li>	<span class='semtok-variable semtok-mod-pointer'>y</span>: <span class='semtok-function semtok-mod-signature'>ToPtr</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-number'>10</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span>,</li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+				</ol></code></pre>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 48px;"><ol><li><span class='semtok-keyword'>type</span> <span class='semtok-type semtok-mod-definition semtok-mod-struct'>data</span> <span class='semtok-keyword'>struct</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>{</span></li>
+<li>	<span class='semtok-variable semtok-mod-definition semtok-mod-pointer'>x</span> <span class='semtok-operator'>*</span><span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span></li>
+<li>	<span class='semtok-variable semtok-mod-definition semtok-mod-pointer'>y</span> <span class='semtok-operator'>*</span><span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>int</span></li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>}</span></li>
+<li></li>
+<li><span class='semtok-variable semtok-mod-definition semtok-mod-struct'>d</span> <span class='semtok-operator'>:=</span> <span class='semtok-type semtok-mod-struct'>data</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+<li>	<span class='semtok-variable semtok-mod-pointer'>x</span>: <span class='semtok-function semtok-mod-defaultLibrary'>new</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-number'>10</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span>,</li>
+<li>	<span class='semtok-variable semtok-mod-pointer'>y</span>: <span class='semtok-function semtok-mod-defaultLibrary'>new</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-number'>10</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span>,</li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+				</ol></code></pre>
+				</section>
+
+				<section>
+					<p class="r-fit-text"><strong>Go 1.26: 新しい <code>go fix</code></strong></p>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 36px;"><ol><li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>ToPtr</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>[</span><span class='semtok-type semtok-mod-definition'>T</span> <span class='semtok-type semtok-mod-interface semtok-mod-defaultLibrary'>any</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>]</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition'>x</span> <span class='semtok-type'>T</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-operator'>*</span><span class='semtok-type'>T</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li>	<span class='semtok-keyword semtok-mod-control'>return</span> <span class='semtok-operator'>&amp;</span><span class='semtok-parameter'>x</span></li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+<li></li>
+<li><span class='semtok-keyword'>var</span> <span class='semtok-variable semtok-mod-definition semtok-mod-pointer'>_</span> = <span class='semtok-function semtok-mod-signature'>ToPtr</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-number'>123</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span></li>
+				</ol></code></pre>
+				<p style="line-height: 1.5em;">⬇ <code>go fix ./...</code></p>
+				<pre class="pre"><code class="code" style="font-size: 36px;"><ol><li><span class='semtok-comment'>//go:fix inline</span></li>
+<li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>ToPtr</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>[</span><span class='semtok-type semtok-mod-definition'>T</span> <span class='semtok-type semtok-mod-interface semtok-mod-defaultLibrary'>any</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>]</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition'>x</span> <span class='semtok-type'>T</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-operator'>*</span><span class='semtok-type'>T</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li>	<span class='semtok-keyword semtok-mod-control'>return</span> <span class='semtok-function semtok-mod-defaultLibrary'>new</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-parameter'>x</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+<li></li>
+<li><span class='semtok-keyword'>var</span> <span class='semtok-variable semtok-mod-definition'>_</span> = <span class='semtok-function semtok-mod-defaultLibrary'>new</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-number'>123</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span></li>
+</ol></code></pre>
+				</section>
+
+				<section>
+				    <p class="r-fit-text"><strong>なぜこれを理解する必要があるのか？</strong></p>
+				</section>
+
+				<section>
+				    <p class="r-fit-text"><strong>LLMの時代はLinterの時代</strong></p>
+					<ul style="visibility:hidden;">
+					    <li>AGENTS.md</li>
+						<li>Linterが通るまで直して✅️</li>
+					</ul>
+				</section>
+
+				<section>
+				    <p class="r-fit-text"><strong>LLMの時代はLinterの時代</strong></p>
+					<ul>
+					    <li>AGENTS.md</li>
+						<li style="visibility:hidden;">Linterが通るまで直して✅️</li>
+					</ul>
+				</section>
+
+				<section>
+				    <p class="r-fit-text"><strong>LLMの時代はLinterの時代</strong></p>
+					<ul>
+					    <li style="text-decoration: red line-through;">AGENTS.md</li>
+						<li style="visibility:hidden;">Linterが通るまで直して✅️</li>
+					</ul>
+				</section>
+
+				<section>
+				    <p class="r-fit-text"><strong>LLMの時代はLinterの時代</strong></p>
+					<ul>
+					    <li style="text-decoration: red line-through;">AGENTS.md</li>
+						<li>Linterが通るまで直して✅️</li>
+					</ul>
+				</section>
+
+				<section>
+					<p class="r-fit-text"><strong>modernizer の仕組み</strong></p>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
+<li><span class='semtok-keyword'>package</span> <span class='semtok-namespace'>main</span></li>
+<li></li>
+<li><span class='semtok-keyword'>import</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span></li>
+<li>	<span class='semtok-string'>&#34;golang.org/x/tools/go/analysis/<br>		</span><span class='semtok-namespace'>multichecker</span><span class='semtok-string'>&#34;</span></li>
+<li>	<span class='semtok-string'>&#34;golang.org/x/tools/go/analysis/<br>		passes/</span><span class='semtok-namespace'>modernize</span><span class='semtok-string'>&#34;</span></li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span></li>
+<li></li>
+<li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>main</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li>	<span class='semtok-namespace'>multichecker</span>.<span class='semtok-function'>Main</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-namespace'>modernize</span>.<span class='semtok-variable'>Suite</span><span class='semtok-operator'>...</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li></ol></code></pre>
+				<p style="font-size: 28px;"><a href="https://github.com/golang/tools/blob/20b0bd907912719bf157691f51d4025d859b121e/go/analysis/passes/modernize/cmd/modernize/main.go">go/analysis/passes/modernize/cmd/modernize/main.go</a></p>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
+				<li><span class='semtok-keyword'>package</span> <span class='semtok-namespace'>modernize</span></li>
+<li></li>
+<li><span class='semtok-keyword'>var</span> <span class='semtok-variable semtok-mod-definition semtok-mod-slice'>Suite</span> = <span class='semtok-bracket  semtok-mod-level1 semtok-mod-bracket'>[</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-bracket'>]</span><span class='semtok-operator'>*</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>Analyzer</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li>	<span class='semtok-variable'>AnyAnalyzer</span>,</li>
+<li>	<span class='semtok-comment'>// AppendClippedAnalyzer, // not nil-preserving!</span></li>
+<li>	<span class='semtok-comment'>// BLoopAnalyzer, // may skew benchmark results, see golang/go#74967</span></li>
+<li>	<span class='semtok-variable'>FmtAppendfAnalyzer</span>,</li>
+<li>	<span class='semtok-variable'>ForVarAnalyzer</span>,</li>
+<li>	<span class='semtok-variable'>MapsLoopAnalyzer</span>,</li>
+<li>	<span class='semtok-variable'>MinMaxAnalyzer</span>,</li>
+<li>	<span class='semtok-variable'>NewExprAnalyzer</span>,</li>
+<li>	...</li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+				</ol></code></pre>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
+				<li><span class='semtok-keyword'>package</span> <span class='semtok-namespace'>modernize</span></li>
+<li></li>
+<li><span class='semtok-keyword'>var</span> <span class='semtok-variable semtok-mod-definition semtok-mod-slice'>Suite</span> = <span class='semtok-bracket  semtok-mod-level1 semtok-mod-bracket'>[</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-bracket'>]</span><span class='semtok-operator'>*</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>Analyzer</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li>	<span class='semtok-variable'>AnyAnalyzer</span>,</li>
+<li>	<span class='semtok-comment'>// AppendClippedAnalyzer, // not nil-preserving!</span></li>
+<li>	<span class='semtok-comment'>// BLoopAnalyzer, // may skew benchmark results, see golang/go#74967</span></li>
+<li>	<span class='semtok-variable'>FmtAppendfAnalyzer</span>,</li>
+<li>	<span class='semtok-variable'>ForVarAnalyzer</span>,</li>
+<li>	<span class='semtok-variable'>MapsLoopAnalyzer</span>,</li>
+<li>	<span class='semtok-variable'>MinMaxAnalyzer</span>,</li>
+<li class="line-highlight">	<span class='semtok-variable'>NewExprAnalyzer</span>,</li>
+<li>	...</li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+				</ol></code></pre>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
+				<li><span class='semtok-keyword'>var</span> <span class='semtok-variable semtok-mod-definition semtok-mod-pointer'>NewExprAnalyzer</span> = <span class='semtok-operator'>&amp;</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>Analyzer</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li>	<span class='semtok-variable'>Name</span>: <span class='semtok-string'>&#34;newexpr&#34;</span>,</li>
+<li>	<span class='semtok-variable'>Doc</span>:  ...,</li>
+<li>	<span class='semtok-variable'>URL</span>:  ...,</li>
+<li>	<span class='semtok-variable'>Requires</span>: <span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>[</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>]</span><span class='semtok-operator'>*</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>Analyzer</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+<li>		<span class='semtok-namespace'>inspect</span>.<span class='semtok-variable'>Analyzer</span>,</li>
+<li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span>,</li>
+<li>	<span class='semtok-variable'>Run</span>:       <span class='semtok-variable'>run</span>,</li>
+<li>	<span class='semtok-variable'>FactTypes</span>: <span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>[</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>]</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>Fact</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span><span class='semtok-operator'>&amp;</span><span class='semtok-type'>newLike</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>{</span><div style="display:inline" class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>}</div><span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span>,</li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+				</ol></code></pre>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
+				<li><span class='semtok-keyword'>var</span> <span class='semtok-variable semtok-mod-definition semtok-mod-pointer'>NewExprAnalyzer</span> = <span class='semtok-operator'>&amp;</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>Analyzer</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li>	...</li>
+<li>	<span class='semtok-variable'>Requires</span>: <span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>[</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>]</span><span class='semtok-operator'>*</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>Analyzer</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+<li>		<span class='semtok-namespace'>inspect</span>.<span class='semtok-variable'>Analyzer</span>,</li>
+<li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span>,</li>
+<li>	<span class='semtok-variable'>Run</span>:       <span class='semtok-variable'>run</span>,</li>
+<li>	<span class='semtok-variable'>FactTypes</span>: <span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>[</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>]</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>Fact</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span><span class='semtok-operator'>&amp;</span><span class='semtok-type'>newLike</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>{</span><div style="display:inline" class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>}</div><span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span>,</li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+<li></li>
+<li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>run</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition'>pass</span> <span class='semtok-operator'>*</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>Pass</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-type semtok-mod-interface semtok-mod-defaultLibrary'>any</span>, <span class='semtok-type semtok-mod-interface semtok-mod-defaultLibrary'>error</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li>	<span class='semtok-keyword'>var</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span></li>
+<li>		<span class='semtok-variable semtok-mod-definition'>inspect</span> = <span class='semtok-parameter'>pass</span>.<span class='semtok-variable'>ResultOf</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-bracket'>[</span><span class='semtok-namespace'>inspect</span>.<span class='semtok-variable'>Analyzer</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-bracket'>]</span>.<br>         <span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-operator'>*</span><span class='semtok-variable'>inspector</span>.<span class='semtok-variable'>Inspector</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span></li>
+<li>		<span class='semtok-variable semtok-mod-definition'>info</span>    = <span class='semtok-parameter'>pass</span>.<span class='semtok-variable'>TypesInfo</span></li>
+<li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+<li>	...</li>
+				</ol></code></pre>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
+<li><span class='semtok-keyword'>var</span> <span class='semtok-variable semtok-mod-definition semtok-mod-pointer'>NewExprAnalyzer</span> = <span class='semtok-operator'>&amp;</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>Analyzer</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li>	...</li>
+<li class="line-highlight">	<span class='semtok-variable'>Requires</span>: <span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>[</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>]</span><span class='semtok-operator'>*</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>Analyzer</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+<li class="line-highlight">		<span class='semtok-namespace'>inspect</span>.<span class='semtok-variable'>Analyzer</span>,</li>
+<li class="line-highlight">	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span>,</li>
+<li>	<span class='semtok-variable'>Run</span>:       <span class='semtok-variable'>run</span>,</li>
+<li>	<span class='semtok-variable'>FactTypes</span>: <span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>[</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>]</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>Fact</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span><span class='semtok-operator'>&amp;</span><span class='semtok-type'>newLike</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>{</span><div style="display:inline" class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>}</div><span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span>,</li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+<li></li>
+<li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>run</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition'>pass</span> <span class='semtok-operator'>*</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>Pass</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-type semtok-mod-interface semtok-mod-defaultLibrary'>any</span>, <span class='semtok-type semtok-mod-interface semtok-mod-defaultLibrary'>error</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li>	<span class='semtok-keyword'>var</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span></li>
+<li>		<span class='semtok-variable semtok-mod-definition'>inspect</span> = <span class='semtok-parameter'>pass</span>.<span class='semtok-variable'>ResultOf</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-bracket'>[</span><span class='semtok-namespace'>inspect</span>.<span class='semtok-variable'>Analyzer</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-bracket'>]</span>.<br>         <span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-operator'>*</span><span class='semtok-variable'>inspector</span>.<span class='semtok-variable'>Inspector</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span></li>
+<li>		<span class='semtok-variable semtok-mod-definition'>info</span>    = <span class='semtok-parameter'>pass</span>.<span class='semtok-variable'>TypesInfo</span></li>
+<li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+<li>	...</li>
+				</ol></code></pre>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
+<li><span class='semtok-keyword'>var</span> <span class='semtok-variable semtok-mod-definition semtok-mod-pointer'>NewExprAnalyzer</span> = <span class='semtok-operator'>&amp;</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>Analyzer</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li>	...</li>
+<li class="line-highlight">	<span class='semtok-variable'>Requires</span>: <span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>[</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>]</span><span class='semtok-operator'>*</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>Analyzer</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+<li class="line-highlight">		<span class='semtok-namespace'>inspect</span>.<span class='semtok-variable'>Analyzer</span>,</li>
+<li class="line-highlight">	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span>,</li>
+<li>	<span class='semtok-variable'>Run</span>:       <span class='semtok-variable'>run</span>,</li>
+<li>	<span class='semtok-variable'>FactTypes</span>: <span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>[</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>]</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>Fact</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span><span class='semtok-operator'>&amp;</span><span class='semtok-type'>newLike</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>{</span><div style="display:inline" class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>}</div><span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span>,</li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+<li></li>
+<li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>run</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition'>pass</span> <span class='semtok-operator'>*</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>Pass</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-type semtok-mod-interface semtok-mod-defaultLibrary'>any</span>, <span class='semtok-type semtok-mod-interface semtok-mod-defaultLibrary'>error</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li>	<span class='semtok-keyword'>var</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span></li>
+<li class="line-highlight">		<span class='semtok-variable semtok-mod-definition'>inspect</span> = <span class='semtok-parameter'>pass</span>.<span class='semtok-variable'>ResultOf</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-bracket'>[</span><span class='semtok-namespace'>inspect</span>.<span class='semtok-variable'>Analyzer</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-bracket'>]</span>.<br>         <span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-operator'>*</span><span class='semtok-variable'>inspector</span>.<span class='semtok-variable'>Inspector</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span></li>
+<li>		<span class='semtok-variable semtok-mod-definition'>info</span>    = <span class='semtok-parameter'>pass</span>.<span class='semtok-variable'>TypesInfo</span></li>
+<li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+<li>	...</li>
+				</ol></code></pre>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
+<li><span class='semtok-keyword'>var</span> <span class='semtok-variable semtok-mod-definition semtok-mod-pointer'>NewExprAnalyzer</span> = <span class='semtok-operator'>&amp;</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>Analyzer</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li>	...</li>
+<li>	<span class='semtok-variable'>Requires</span>: <span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>[</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>]</span><span class='semtok-operator'>*</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>Analyzer</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+<li class="line-highlight">		<span class='semtok-namespace'>inspect</span>.<span class='semtok-variable'>Analyzer</span>,</li>
+<li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span>,</li>
+<li>	<span class='semtok-variable'>Run</span>:       <span class='semtok-variable'>run</span>,</li>
+<li>	<span class='semtok-variable'>FactTypes</span>: <span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>[</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>]</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>Fact</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span><span class='semtok-operator'>&amp;</span><span class='semtok-type'>newLike</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>{</span><div style="display:inline" class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>}</div><span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span>,</li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+<li></li>
+<li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>run</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition'>pass</span> <span class='semtok-operator'>*</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>Pass</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-type semtok-mod-interface semtok-mod-defaultLibrary'>any</span>, <span class='semtok-type semtok-mod-interface semtok-mod-defaultLibrary'>error</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li>	<span class='semtok-keyword'>var</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span></li>
+<li class="line-highlight">		<span class='semtok-variable semtok-mod-definition'>inspect</span> <span>=</span> <span class='semtok-parameter'>pass</span><span>.</span><span class='semtok-variable'>ResultOf</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-bracket'>[</span><span class='semtok-namespace spot-highlight'>inspect</span><span class='spot-highlight'>.</span><span class='semtok-variable spot-highlight'>Analyzer</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-bracket'>]</span><span>.</span><br>         <span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-operator'>*</span><span class='semtok-variable'>inspector</span><span>.</span><span class='semtok-variable'>Inspector</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span></li>
+<li>		<span class='semtok-variable semtok-mod-definition'>info</span>    = <span class='semtok-parameter'>pass</span>.<span class='semtok-variable'>TypesInfo</span></li>
+<li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+<li>	...</li>
+				</ol></code></pre>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
+				<li><span class='semtok-keyword'>package</span> <span class='semtok-namespace'>inspect</span></li>
+<li></li>
+<li><span class='semtok-keyword'>var</span> <span class='semtok-variable semtok-mod-definition semtok-mod-pointer'>Analyzer</span> = <span class='semtok-operator'>&amp;</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>Analyzer</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li>	<span class='semtok-variable'>Name</span>:             <span class='semtok-string'>&#34;inspect&#34;</span>,</li>
+<li>	<span class='semtok-variable'>Doc</span>:              ...,</li>
+<li>	<span class='semtok-variable'>URL</span>:              ...,</li>
+<li>	<span class='semtok-variable'>Run</span>:              <span class='semtok-variable'>run</span>,</li>
+<li>	<span class='semtok-variable'>RunDespiteErrors</span>: <span class='semtok-variable semtok-mod-defaultLibrary semtok-mod-readonly'>true</span>,</li>
+<li>	<span class='semtok-variable'>ResultType</span>:       <span class='semtok-namespace'>reflect</span>.<br>		<span class='semtok-function semtok-mod-signature'>TypeFor</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>[</span><span class='semtok-operator'>*</span><span class='semtok-namespace'>inspector</span>.<span class='semtok-variable'>Inspector</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>]</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span>,</li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+<li></li>
+<li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>run</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition'>pass</span> <span class='semtok-operator'>*</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>Pass</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-type semtok-mod-interface semtok-mod-defaultLibrary'>any</span>, <span class='semtok-type semtok-mod-interface semtok-mod-defaultLibrary'>error</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li>	...</li>
+				</ol></code></pre>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
+				<li><span class='semtok-keyword'>package</span> <span class='semtok-namespace'>inspect</span></li>
+<li></li>
+<li><span class='semtok-keyword'>var</span> <span class='semtok-variable semtok-mod-definition semtok-mod-pointer'>Analyzer</span> = <span class='semtok-operator'>&amp;</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>Analyzer</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li>	<span class='semtok-variable'>Name</span>:             <span class='semtok-string'>&#34;inspect&#34;</span>,</li>
+<li>	<span class='semtok-variable'>Doc</span>:              ...,</li>
+<li>	<span class='semtok-variable'>URL</span>:              ...,</li>
+<li>	<span class='semtok-variable'>Run</span>:              <span class='semtok-variable'>run</span>,</li>
+<li>	<span class='semtok-variable'>RunDespiteErrors</span>: <span class='semtok-variable semtok-mod-defaultLibrary semtok-mod-readonly'>true</span>,</li>
+<li class="line-highlight">	<span class='semtok-variable'>ResultType</span><span>:</span>       <span class='semtok-namespace'>reflect</span><span>.</span><br>		<span class='semtok-function semtok-mod-signature'>TypeFor</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>[</span><span class='semtok-operator spot-highlight'>*</span><span class='semtok-namespace spot-highlight'>inspector</span>.<span class='semtok-variable spot-highlight'>Inspector</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>]</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span><span>,</span></li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+<li></li>
+<li class="line-highlight"><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>run</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition'>pass</span> <span class='semtok-operator'>*</span><span class='semtok-namespace'>analysis</span><span>.</span><span class='semtok-variable'>Pass</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-type semtok-mod-interface semtok-mod-defaultLibrary spot-highlight'>any</span><span>,</span> <span class='semtok-type semtok-mod-interface semtok-mod-defaultLibrary'>error</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li>	...</li>
+				</ol></code></pre>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
+<li><span class='semtok-keyword'>var</span> <span class='semtok-variable semtok-mod-definition semtok-mod-pointer'>NewExprAnalyzer</span> = <span class='semtok-operator'>&amp;</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>Analyzer</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li>	...</li>
+<li>	<span class='semtok-variable'>Requires</span>: <span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>[</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>]</span><span class='semtok-operator'>*</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>Analyzer</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+<li>		<span class='semtok-namespace'>inspect</span>.<span class='semtok-variable'>Analyzer</span>,</li>
+<li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span>,</li>
+<li>	<span class='semtok-variable'>Run</span>:       <span class='semtok-variable'>run</span>,</li>
+<li>	<span class='semtok-variable'>FactTypes</span>: <span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>[</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>]</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>Fact</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span><span class='semtok-operator'>&amp;</span><span class='semtok-type'>newLike</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>{</span><div style="display:inline" class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>}</div><span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span>,</li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+<li></li>
+<li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>run</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition'>pass</span> <span class='semtok-operator'>*</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>Pass</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-type semtok-mod-interface semtok-mod-defaultLibrary'>any</span>, <span class='semtok-type semtok-mod-interface semtok-mod-defaultLibrary'>error</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li>	<span class='semtok-keyword'>var</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span></li>
+<li class="line-highlight">		<span class='semtok-variable semtok-mod-definition'>inspect</span> <span>=</span> <span class='semtok-parameter'>pass</span><span>.</span><span class='semtok-variable'>ResultOf</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-bracket'>[</span><span class='semtok-namespace'>inspect</span><span class=''>.</span><span class='semtok-variable'>Analyzer</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-bracket'>]</span><span>.</span><br>         <span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-operator'>*</span><span class='semtok-variable'>inspector</span><span>.</span><span class='semtok-variable'>Inspector</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span></li>
+<li>		<span class='semtok-variable semtok-mod-definition'>info</span>    = <span class='semtok-parameter'>pass</span>.<span class='semtok-variable'>TypesInfo</span></li>
+<li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+<li>	...</li>
+				</ol></code></pre>
+				</section>
+
+				<section><img src="imgs/analyzers_return.svg"/></section>
+
+				<section>
+				    <p>Part 1:</p>
+					<p class="r-fit-text"><strong>対象関数を見つける</strong></p>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
+<li class="line-highlight"><span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-definition'>curFuncDecl</span> := <span class='semtok-keyword semtok-mod-control'>range</span> <span class='semtok-variable'>inspect</span>.<span class='semtok-function'>Root</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span>.</li>
+<li class="line-highlight">	<span class='semtok-function'>Preorder</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-operator'>*</span><span class='semtok-variable'>ast</span>.<span class='semtok-variable'>FuncDecl</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-variable semtok-mod-defaultLibrary semtok-mod-readonly'>nil</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-missingCounterpart semtok-mod-level2 semtok-mod-brace'>{</span></li>
+<li>	<span class='semtok-variable semtok-mod-definition'>decl</span> <span class='semtok-operator'>:=</span> <span class='semtok-variable'>curFuncDecl</span>.<span class='semtok-function'>Node</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span>.<span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-operator'>*</span><span class='semtok-variable'>ast</span>.<span class='semtok-variable'>FuncDecl</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span></li>
+<li>	<span class='semtok-variable semtok-mod-definition'>fn</span> <span class='semtok-operator'>:=</span> <span class='semtok-variable'>info</span>.<span class='semtok-variable'>Defs</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-bracket'>[</span><span class='semtok-variable'>decl</span>.<span class='semtok-variable'>Name</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-bracket'>]</span>.<span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-operator'>*</span><span class='semtok-variable'>types</span>.<span class='semtok-variable'>Func</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span></li>
+<li></li>
+<li></li>
+				</ol></code></pre>
+				<br>
+				<pre class="pre"><code class="code" style="font-size: 62px;"><ol class="no-numbering">
+<li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>_</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+<li></li>
+<li></li>
+				</ol></code></pre>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
+<li><span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-definition'>curFuncDecl</span> := <span class='semtok-keyword semtok-mod-control'>range</span> <span class='semtok-variable'>inspect</span>.<span class='semtok-function'>Root</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span>.</li>
+<li>	<span class='semtok-function'>Preorder</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-operator'>*</span><span class='semtok-variable'>ast</span>.<span class='semtok-variable'>FuncDecl</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-variable semtok-mod-defaultLibrary semtok-mod-readonly'>nil</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-missingCounterpart semtok-mod-level2 semtok-mod-brace'>{</span></li>
+<li class="line-highlight">	<span class='semtok-variable semtok-mod-definition'>decl</span> <span class='semtok-operator'>:=</span> <span class='semtok-variable'>curFuncDecl</span>.<span class='semtok-function'>Node</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span>.<span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-operator'>*</span><span class='semtok-variable'>ast</span>.<span class='semtok-variable'>FuncDecl</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span></li>
+<li class="line-highlight">	<span class='semtok-variable semtok-mod-definition'>fn</span> <span class='semtok-operator'>:=</span> <span class='semtok-variable'>info</span>.<span class='semtok-variable'>Defs</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-bracket'>[</span><span class='semtok-variable'>decl</span>.<span class='semtok-variable'>Name</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-bracket'>]</span>.<span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-operator'>*</span><span class='semtok-variable'>types</span>.<span class='semtok-variable'>Func</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span></li>
+<li></li>
+<li></li>
+				</ol></code></pre>
+				<br>
+				<pre class="pre"><code class="code" style="font-size: 62px;"><ol class="no-numbering">
+<li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>_</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+<li></li>
+<li></li>
+				</ol></code></pre>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
+<li></li>
+<li></li>
+<li><span class='semtok-keyword semtok-mod-control'>if</span> <span class='semtok-variable'>decl</span>.<span class='semtok-variable'>Body</span> <span class='semtok-operator'>!=</span> <span class='semtok-variable semtok-mod-defaultLibrary semtok-mod-readonly'>nil</span> <span class='semtok-operator'>&amp;&amp;</span></li>
+<li>	<span class='semtok-function semtok-mod-defaultLibrary'>len</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-variable'>decl</span>.<span class='semtok-variable'>Body</span>.<span class='semtok-variable'>List</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span> <span class='semtok-operator'>==</span> <span class='semtok-number'>1</span> <span class='semtok-bracket  semtok-mod-missingCounterpart semtok-mod-level3 semtok-mod-brace'>{</span></li>
+<li></li>
+<li></li>
+				</ol></code></pre>
+				<br>
+				<pre class="pre"><code class="code" style="font-size: 62px;"><ol class="no-numbering">
+<li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>_</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li>		〇〇</li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+				</ol></code></pre>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
+<li></li>
+<li></li>
+<li><span class='semtok-keyword semtok-mod-control'>if</span> <span class='semtok-variable semtok-mod-definition'>ret</span>, <span class='semtok-variable semtok-mod-definition'>ok</span> <span class='semtok-operator'>:=</span> <span class='semtok-variable'>decl</span>.<span class='semtok-variable'>Body</span>.<span class='semtok-variable'>List</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-bracket'>[</span><span class='semtok-number'>0</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-bracket'>]</span>.	<span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-operator'>*</span><span class='semtok-variable'>ast</span>.<span class='semtok-variable'>ReturnStmt</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span>; </li>
+<li>	<span class='semtok-variable'>ok</span> <span class='semtok-operator'>&amp;&amp;</span> <span class='semtok-function semtok-mod-defaultLibrary'>len</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-variable'>ret</span>.<span class='semtok-variable'>Results</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-operator'>==</span> <span class='semtok-number'>1</span> <span class='semtok-bracket  semtok-mod-missingCounterpart semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li></li>
+<li></li>
+				</ol></code></pre>
+				<br>
+				<pre class="pre"><code class="code" style="font-size: 62px;"><ol class="no-numbering">
+<li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>_</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li>		<span class='semtok-keyword semtok-mod-control'>return</span> 〇〇</li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>				</ol></code></pre>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
+<li></li>
+<li></li>
+<li><span class='semtok-keyword semtok-mod-control'>if</span> <span class='semtok-variable semtok-mod-definition'>unary</span>, <span class='semtok-variable semtok-mod-definition'>ok</span> <span class='semtok-operator'>:=</span> <span class='semtok-variable'>ret</span>.<span class='semtok-variable'>Results</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>[</span><span class='semtok-number'>0</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>]</span>.<span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-operator'>*</span><span class='semtok-variable'>ast</span>.<span class='semtok-variable'>UnaryExpr</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span>; </li>
+<li>	<span class='semtok-variable'>ok</span> <span class='semtok-operator'>&amp;&amp;</span> <span class='semtok-variable'>unary</span>.<span class='semtok-variable'>Op</span> <span class='semtok-operator'>==</span> <span class='semtok-variable'>token</span>.<span class='semtok-variable'>AND</span> <span class='semtok-bracket  semtok-mod-missingCounterpart semtok-mod-level2 semtok-mod-brace'>{</span></li>
+<li></li>
+<li></li>
+				</ol></code></pre>
+				<br>
+				<pre class="pre"><code class="code" style="font-size: 62px;"><ol class="no-numbering">
+<li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>_</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li>		<span class='semtok-keyword semtok-mod-control'>return</span> <span class='semtok-operator'>&amp;〇〇</li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+				</ol></code></pre>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
+<li></li>
+<li></li>
+<li></li>
+<li><span class='semtok-keyword semtok-mod-control'>if</span> <span class='semtok-variable semtok-mod-definition'>id</span>, <span class='semtok-variable semtok-mod-definition'>ok</span> <span class='semtok-operator'>:=</span> <span class='semtok-variable'>unary</span>.<span class='semtok-variable'>X</span>.<span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-operator'>*</span><span class='semtok-variable'>ast</span>.<span class='semtok-variable'>Ident</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span>; <span class='semtok-variable'>ok</span> <span class='semtok-bracket  semtok-mod-missingCounterpart semtok-mod-level3 semtok-mod-brace'>{</span></li>
+<li></li>
+<li></li>
+				</ol></code></pre>
+				<br>
+				<pre class="pre"><code class="code" style="font-size: 62px;"><ol class="no-numbering">
+<li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>_</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li>		<span class='semtok-keyword semtok-mod-control'>return</span> <span class='semtok-operator'>&amp;</span>v</li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+				</ol></code></pre>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
+<li></li>
+<li></li>
+<li></li>
+<li><span class='semtok-keyword semtok-mod-control'>if</span> <span class='semtok-variable semtok-mod-definition'>v</span>, <span class='semtok-variable semtok-mod-definition'>ok</span> <span class='semtok-operator'>:=</span> <span class='semtok-variable'>info</span>.<span class='semtok-variable'>Uses</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-bracket'>[</span><span class='semtok-variable'>id</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-bracket'>]</span>.<span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-operator'>*</span><span class='semtok-variable'>types</span>.<span class='semtok-variable'>Var</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span>; <span class='semtok-variable'>ok</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li></li>
+<li></li>
+				</ol></code></pre>
+				<br>
+				<pre class="pre"><code class="code" style="font-size: 62px;"><ol class="no-numbering">
+<li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>_</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li>		<span class='semtok-keyword semtok-mod-control'>return</span> <span class='semtok-operator'>&amp;</span><span class='semtok-variable'>v</span></li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+				</ol></code></pre>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
+<li><span class='semtok-variable semtok-mod-definition'>sig</span> <span class='semtok-operator'>:=</span> <span class='semtok-variable'>fn</span>.<span class='semtok-function'>Signature</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+<li><span class='semtok-keyword semtok-mod-control'>if</span> <span class='semtok-variable'>sig</span>.<span class='semtok-function'>Results</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span>.<span class='semtok-function'>Len</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span> <span class='semtok-operator'>==</span> <span class='semtok-number'>1</span> <span class='semtok-operator'>&amp;&amp;</span></li>
+<li>	<span class='semtok-variable'>is</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>[</span><span class='semtok-operator'>*</span><span class='semtok-namespace'>types</span>.<span class='semtok-type semtok-mod-struct'>Pointer</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>]</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(<br>		</span><span class='semtok-variable'>sig</span>.<span class='semtok-function'>Results</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span>.<span class='semtok-function'>At</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-number'>0</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span>.<span class='semtok-function'>Type</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span> <span class='semtok-operator'>&amp;&amp;</span></li>
+<li>	<span class='semtok-variable'>sig</span>.<span class='semtok-function'>Params</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span>.<span class='semtok-function'>Len</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span> <span class='semtok-operator'>==</span> <span class='semtok-number'>1</span> <span class='semtok-operator'>&amp;&amp;</span></li>
+<li>	<span class='semtok-variable'>sig</span>.<span class='semtok-function'>Params</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span>.<span class='semtok-function'>At</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-number'>0</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span> <span class='semtok-operator'>==</span> <span class='semtok-variable'>v</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+				</ol></code></pre>
+				<br>
+				<pre class="pre"><code class="code" style="font-size: 62px;"><ol class="no-numbering">
+<li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>_</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li>		<span class='semtok-keyword semtok-mod-control'>return</span> <span class='semtok-operator'>&amp;</span><span class='semtok-variable'>v</span></li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+				</ol></code></pre>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
+				<li><span class='semtok-variable semtok-mod-definition'>sig</span> <span class='semtok-operator'>:=</span> <span class='semtok-variable'>fn</span>.<span class='semtok-function'>Signature</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+<li class="line-highlight"><span class='semtok-keyword semtok-mod-control'>if</span> <span class='semtok-variable'>sig</span>.<span class='semtok-function'>Results</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span>.<span class='semtok-function'>Len</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span> <span class='semtok-operator'>==</span> <span class='semtok-number'>1</span> <span class='semtok-operator'>&amp;&amp;</span></li>
+<li>	<span class='semtok-variable'>is</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>[</span><span class='semtok-operator'>*</span><span class='semtok-namespace'>types</span>.<span class='semtok-type semtok-mod-struct'>Pointer</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>]</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(<br>		</span><span class='semtok-variable'>sig</span>.<span class='semtok-function'>Results</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span>.<span class='semtok-function'>At</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-number'>0</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span>.<span class='semtok-function'>Type</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span> <span class='semtok-operator'>&amp;&amp;</span></li>
+<li>	<span class='semtok-variable'>sig</span>.<span class='semtok-function'>Params</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span>.<span class='semtok-function'>Len</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span> <span class='semtok-operator'>==</span> <span class='semtok-number'>1</span> <span class='semtok-operator'>&amp;&amp;</span></li>
+<li>	<span class='semtok-variable'>sig</span>.<span class='semtok-function'>Params</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span>.<span class='semtok-function'>At</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-number'>0</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span> <span class='semtok-operator'>==</span> <span class='semtok-variable'>v</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+				</ol></code></pre>
+				<br>
+				<pre class="pre"><code class="code" style="font-size: 62px;"><ol class="no-numbering">
+<li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>_</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type'>T</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li>		<span class='semtok-keyword semtok-mod-control'>return</span> <span class='semtok-operator'>&amp;</span><span class='semtok-variable'>v</span></li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+				</ol></code></pre>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
+				<li><span class='semtok-variable semtok-mod-definition'>sig</span> <span class='semtok-operator'>:=</span> <span class='semtok-variable'>fn</span>.<span class='semtok-function'>Signature</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+<li><span class='semtok-keyword semtok-mod-control'>if</span> <span class='semtok-variable'>sig</span>.<span class='semtok-function'>Results</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span>.<span class='semtok-function'>Len</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span> <span class='semtok-operator'>==</span> <span class='semtok-number'>1</span> <span class='semtok-operator'>&amp;&amp;</span></li>
+<li class="line-highlight">	<span class='semtok-variable'>is</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>[</span><span class='semtok-operator'>*</span><span class='semtok-namespace'>types</span>.<span class='semtok-type semtok-mod-struct'>Pointer</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>]</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(<br>		</span><span class='semtok-variable'>sig</span>.<span class='semtok-function'>Results</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span>.<span class='semtok-function'>At</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-number'>0</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span>.<span class='semtok-function'>Type</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span> <span class='semtok-operator'>&amp;&amp;</span></li>
+<li>	<span class='semtok-variable'>sig</span>.<span class='semtok-function'>Params</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span>.<span class='semtok-function'>Len</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span> <span class='semtok-operator'>==</span> <span class='semtok-number'>1</span> <span class='semtok-operator'>&amp;&amp;</span></li>
+<li>	<span class='semtok-variable'>sig</span>.<span class='semtok-function'>Params</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span>.<span class='semtok-function'>At</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-number'>0</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span> <span class='semtok-operator'>==</span> <span class='semtok-variable'>v</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+				</ol></code></pre>
+				<br>
+				<pre class="pre"><code class="code" style="font-size: 62px;"><ol class="no-numbering">
+<li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>_</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-operator'>*</span><span class='semtok-type'>T</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li>		<span class='semtok-keyword semtok-mod-control'>return</span> <span class='semtok-operator'>&amp;</span><span class='semtok-variable'>v</span></li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+				</ol></code></pre>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
+				<li><span class='semtok-variable semtok-mod-definition'>sig</span> <span class='semtok-operator'>:=</span> <span class='semtok-variable'>fn</span>.<span class='semtok-function'>Signature</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+<li><span class='semtok-keyword semtok-mod-control'>if</span> <span class='semtok-variable'>sig</span>.<span class='semtok-function'>Results</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span>.<span class='semtok-function'>Len</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span> <span class='semtok-operator'>==</span> <span class='semtok-number'>1</span> <span class='semtok-operator'>&amp;&amp;</span></li>
+<li>	<span class='semtok-variable'>is</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>[</span><span class='semtok-operator'>*</span><span class='semtok-namespace'>types</span>.<span class='semtok-type semtok-mod-struct'>Pointer</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>]</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(<br>		</span><span class='semtok-variable'>sig</span>.<span class='semtok-function'>Results</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span>.<span class='semtok-function'>At</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-number'>0</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span>.<span class='semtok-function'>Type</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span> <span class='semtok-operator'>&amp;&amp;</span></li>
+<li class="line-highlight">	<span class='semtok-variable'>sig</span>.<span class='semtok-function'>Params</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span>.<span class='semtok-function'>Len</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span> <span class='semtok-operator'>==</span> <span class='semtok-number'>1</span> <span class='semtok-operator'>&amp;&amp;</span></li>
+<li>	<span class='semtok-variable'>sig</span>.<span class='semtok-function'>Params</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span>.<span class='semtok-function'>At</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-number'>0</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span> <span class='semtok-operator'>==</span> <span class='semtok-variable'>v</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+				</ol></code></pre>
+				<br>
+				<pre class="pre"><code class="code" style="font-size: 62px;"><ol class="no-numbering">
+<li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>_</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition'>〇〇</span> <span class='semtok-type'>〇〇</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-operator'>*</span><span class='semtok-type'>T</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li>		<span class='semtok-keyword semtok-mod-control'>return</span> <span class='semtok-operator'>&amp;</span><span class='semtok-variable'>v</span></li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+				</ol></code></pre>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
+				<li><span class='semtok-variable semtok-mod-definition'>sig</span> <span class='semtok-operator'>:=</span> <span class='semtok-variable'>fn</span>.<span class='semtok-function'>Signature</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+<li><span class='semtok-keyword semtok-mod-control'>if</span> <span class='semtok-variable'>sig</span>.<span class='semtok-function'>Results</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span>.<span class='semtok-function'>Len</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span> <span class='semtok-operator'>==</span> <span class='semtok-number'>1</span> <span class='semtok-operator'>&amp;&amp;</span></li>
+<li>	<span class='semtok-variable'>is</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>[</span><span class='semtok-operator'>*</span><span class='semtok-namespace'>types</span>.<span class='semtok-type semtok-mod-struct'>Pointer</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>]</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(<br>		</span><span class='semtok-variable'>sig</span>.<span class='semtok-function'>Results</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span>.<span class='semtok-function'>At</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-number'>0</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span>.<span class='semtok-function'>Type</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span> <span class='semtok-operator'>&amp;&amp;</span></li>
+<li>	<span class='semtok-variable'>sig</span>.<span class='semtok-function'>Params</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span>.<span class='semtok-function'>Len</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span> <span class='semtok-operator'>==</span> <span class='semtok-number'>1</span> <span class='semtok-operator'>&amp;&amp;</span></li>
+<li class="line-highlight">	<span class='semtok-variable'>sig</span>.<span class='semtok-function'>Params</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span>.<span class='semtok-function'>At</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-number'>0</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span> <span class='semtok-operator'>==</span> <span class='semtok-variable'>v</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+				</ol></code></pre>
+				<br>
+				<pre class="pre"><code class="code" style="font-size: 62px;"><ol class="no-numbering">
+<li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>_</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition'>v</span> <span class='semtok-type'>T</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-operator'>*</span><span class='semtok-type'>T</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li>		<span class='semtok-keyword semtok-mod-control'>return</span> <span class='semtok-operator'>&amp;</span><span class='semtok-variable'>v</span></li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+				</ol></code></pre>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
+				<li><span class='semtok-parameter'>pass</span>.<span class='semtok-function'>ExportObjectFact</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-variable'>fn</span>, <span class='semtok-operator'>&amp;</span><span class='semtok-type semtok-mod-struct'>newLike</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span></li>
+				</ol></code></pre>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
+				<li><span class='semtok-keyword'>var</span> <span class='semtok-variable semtok-mod-definition semtok-mod-pointer'>NewExprAnalyzer</span> = <span class='semtok-operator'>&amp;</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>Analyzer</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+                <li>	...</li>
+                <li>	<span class='semtok-variable'>FactTypes</span>: <span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>[</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>]</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>Fact</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span><span class='semtok-operator'>&amp;</span><span class='semtok-type'>newLike</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>{</span><div style="display:inline" class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>}</div><span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span>,</li>
+                <li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+                <li></li>
+                <li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>run</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition'>pass</span> <span class='semtok-operator'>*</span><span class='semtok-namespace'>analysis</span><span>.</span><span class='semtok-variable'>Pass</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-type semtok-mod-interface semtok-mod-defaultLibrary'>any</span><span>,</span> <span class='semtok-type semtok-mod-interface semtok-mod-defaultLibrary'>error</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+                <li>	...</li>
+				<li>	<span class='semtok-parameter'>pass</span>.<span class='semtok-function'>ExportObjectFact</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-variable'>fn</span>, <span class='semtok-operator'>&amp;</span><span class='semtok-type semtok-mod-struct'>newLike</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span></li>
+				<li>	...</li>
+				<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+				</ol></code></pre>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
+				<li><span class='semtok-keyword'>var</span> <span class='semtok-variable semtok-mod-definition semtok-mod-pointer'>NewExprAnalyzer</span> = <span class='semtok-operator'>&amp;</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>Analyzer</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+                <li>	...</li>
+                <li>	<span class='semtok-variable'>FactTypes</span>: <span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>[</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>]</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>Fact</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span><span class='semtok-operator'>&amp;</span><span class='semtok-type'>newLike</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>{</span><div style="display:inline" class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>}</div><span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span>,</li>
+                <li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+                <li></li>
+                <li><span class='semtok-keyword'>func</span> <span class='semtok-function semtok-mod-definition semtok-mod-signature'>run</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-parameter semtok-mod-definition'>pass</span> <span class='semtok-operator'>*</span><span class='semtok-namespace'>analysis</span><span>.</span><span class='semtok-variable'>Pass</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-type semtok-mod-interface semtok-mod-defaultLibrary'>any</span><span>,</span> <span class='semtok-type semtok-mod-interface semtok-mod-defaultLibrary'>error</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+                <li>	...</li>
+				<li>	<span class='semtok-parameter'>pass</span>.<span class='semtok-function'>ExportObjectFact</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-variable'>fn</span>, <span class='semtok-operator'>&amp;</span><span class='semtok-type semtok-mod-struct'>newLike</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span></li>
+				<li>	...</li>
+				<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+				<li></li>
+<li><span class='semtok-keyword'>type</span> <span class='semtok-type semtok-mod-definition semtok-mod-struct'>newLike</span> <span class='semtok-keyword'>struct</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>{</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>}</span></li>
+<li><span class='semtok-keyword'>func</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-operator'>*</span><span class='semtok-type semtok-mod-struct'>newLike</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-method semtok-mod-definition semtok-mod-signature'>AFact</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span>         <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+<li><span class='semtok-keyword'>func</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-operator'>*</span><span class='semtok-type semtok-mod-struct'>newLike</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-method semtok-mod-definition semtok-mod-signature'>String</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-type semtok-mod-string semtok-mod-defaultLibrary'>string</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li>	<span class='semtok-keyword semtok-mod-control'>return</span> <span class='semtok-string'>&#34;newlike&#34;</span></li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+				</ol></code></pre>
+				</section>
+
+				<section><img src="imgs/analyzers_fact.svg"/></section>
+
+				<section>
+				    <p>Part 2:</p>
+					<p class="r-fit-text"><strong>関数内のnew対応</strong></p>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
+				<li><span class='semtok-variable semtok-mod-definition'>file</span> <span class='semtok-operator'>:=</span> <span class='semtok-namespace'>astutil</span>.<span class='semtok-function'>EnclosingFile</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-variable'>curFuncDecl</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span></li>
+<li><span class='semtok-keyword semtok-mod-control'>if</span> <span class='semtok-operator'>!</span><span class='semtok-namespace'>analyzerutil</span>.<span class='semtok-function'>FileUsesGoVersion</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span></li>
+<li>	<span class='semtok-parameter'>pass</span>, <span class='semtok-variable'>file</span>, <span class='semtok-namespace'>versions</span>.<span class='semtok-variable'>Go1_26</span>,</li>
+<li><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>{</span></li>
+<li>	<span class='semtok-keyword semtok-mod-control'>continue</span></li>
+<li><span class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>}</span></li>
+				</ol></code></pre>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
+				<li><span class='semtok-keyword'>var</span> <span class='semtok-variable semtok-mod-definition semtok-mod-slice'>edits</span> <span class='semtok-bracket  semtok-mod-level3 semtok-mod-bracket'>[</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-bracket'>]</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>TextEdit</span></li>
+<li><span class='semtok-variable semtok-mod-definition'>curRet</span>, <span class='semtok-variable semtok-mod-definition'>_</span> <span class='semtok-operator'>:=</span> <span class='semtok-variable'>curFuncDecl</span>.<span class='semtok-function'>FindNode</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-variable'>ret</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span></li>
+<li><span class='semtok-keyword semtok-mod-control'>if</span> <span class='semtok-function'>lookup</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-variable'>info</span>, <span class='semtok-variable'>curRet</span>, <span class='semtok-string'>&#34;new&#34;</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span> <span class='semtok-operator'>==</span> <span class='semtok-variable'>builtinNew</span> <span class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>{</span></li>
+<li>	<span class='semtok-variable semtok-mod-slice'>edits</span> <span class='semtok-operator'>=</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-bracket'>[</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-bracket'>]</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>TextEdit</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li>		<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+<li>			<span class='semtok-variable'>Pos</span>:     <span class='semtok-variable'>unary</span>.<span class='semtok-variable'>OpPos</span>,</li>
+<li>			<span class='semtok-variable'>End</span>:     <span class='semtok-variable'>unary</span>.<span class='semtok-variable'>OpPos</span> <span class='semtok-operator'>+</span> <span class='semtok-namespace'>token</span>.<span class='semtok-type semtok-mod-number'>Pos</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-function semtok-mod-defaultLibrary'>len</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-string'>&#34;&amp;&#34;</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span>,</li>
+<li>			<span class='semtok-variable'>NewText</span>: <span class='semtok-bracket  semtok-mod-level3 semtok-mod-bracket'>[</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-bracket'>]</span><span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>byte</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-string'>&#34;new(&#34;</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span>,</li>
+<li>		<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span>,</li>
+<li>		<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+<li>			<span class='semtok-variable'>Pos</span>:     <span class='semtok-variable'>unary</span>.<span class='semtok-variable'>X</span>.<span class='semtok-function'>End</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span>,</li>
+<li>			<span class='semtok-variable'>End</span>:     <span class='semtok-variable'>unary</span>.<span class='semtok-variable'>X</span>.<span class='semtok-function'>End</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span>,</li>
+<li>			<span class='semtok-variable'>NewText</span>: <span class='semtok-bracket  semtok-mod-level3 semtok-mod-bracket'>[</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-bracket'>]</span><span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>byte</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-string'>&#34;)&#34;</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span>,</li>
+<li>		<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span>,</li>
+<li>	<span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+<li><span class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>}</span></li>
+				</ol></code></pre>
+				</section>
+
+				<section>
+				    <p>Part 3:</p>
+					<p class="r-fit-text"><strong>アノテーション</strong></p>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
+				<li><span class='semtok-keyword semtok-mod-control'>if</span> <span class='semtok-operator'>!</span><span class='semtok-namespace'>strings</span>.<span class='semtok-function semtok-mod-signature'>Contains</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span></li>
+<li>	<span class='semtok-variable'>decl</span>.<span class='semtok-variable'>Doc</span>.<span class='semtok-function'>Text</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span>,</li>
+<li>	<span class='semtok-string'>&#34;go:fix inline&#34;</span>,</li>
+<li><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>{</span></li>
+<li>	<span class='semtok-variable semtok-mod-slice'>edits</span> <span class='semtok-operator'>=</span> <span class='semtok-function semtok-mod-defaultLibrary'>append</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-variable semtok-mod-slice'>edits</span>, <span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>TextEdit</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+<li>		<span class='semtok-variable'>Pos</span>:     <span class='semtok-variable'>decl</span>.<span class='semtok-function'>Pos</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span>,</li>
+<li>		<span class='semtok-variable'>End</span>:     <span class='semtok-variable'>decl</span>.<span class='semtok-function'>Pos</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span>,</li>
+<li>		<span class='semtok-variable'>NewText</span>: <span class='semtok-bracket  semtok-mod-level3 semtok-mod-bracket'>[</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-bracket'>]</span><span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>byte</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-string'>&#34;//go:fix inline\n&#34;</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span>,</li>
+<li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span></li>
+<li><span class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>}</span></li>
+				</ol></code></pre>
+				</section>
+
+				<section>
+				    <p>Part 3:</p>
+					<p class="r-fit-text"><strong>呼び出し箇所の対応</strong></p>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
+				<li><span class='semtok-keyword semtok-mod-control'>if</span> <span class='semtok-function semtok-mod-defaultLibrary'>len</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-variable semtok-mod-slice'>edits</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span> <span class='semtok-operator'>&gt;</span> <span class='semtok-number'>0</span> <span class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>{</span></li>
+<li>	<span class='semtok-parameter'>pass</span>.<span class='semtok-function'>Report</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>Diagnostic</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+<li>		<span class='semtok-variable'>Pos</span>: <span class='semtok-variable'>decl</span>.<span class='semtok-variable'>Name</span>.<span class='semtok-function'>Pos</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span>,</li>
+<li>		<span class='semtok-variable'>End</span>: <span class='semtok-variable'>decl</span>.<span class='semtok-variable'>Name</span>.<span class='semtok-function'>End</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span>,</li>
+<li>		<span class='semtok-variable'>Message</span>: <span class='semtok-namespace'>fmt</span>.<span class='semtok-function semtok-mod-signature'>Sprintf</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span></li>
+<li>			<span class='semtok-string'>&#34;<span class='semtok-string semtok-mod-format'>%s</span> can be an inlinable&#34;</span><span class='semtok-operator'>+</span></li>
+<li>				<span class='semtok-string'>&#34; wrapper around new(expr)&#34;</span>,</li>
+<li>			<span class='semtok-variable'>decl</span>.<span class='semtok-variable'>Name</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span>,</li>
+<li>		<span class='semtok-variable'>SuggestedFixes</span>: <span class='semtok-bracket  semtok-mod-level3 semtok-mod-bracket'>[</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-bracket'>]</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>SuggestedFix</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>{</span><div style="display:inline" class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</div></li>
+<li>			<span class='semtok-variable'>Message</span>: <span class='semtok-string'>&#34;Make <span class='semtok-string semtok-mod-format'>%s</span> an inlinable&#34;</span> <span class='semtok-operator'>+</span></li>
+<li>				<span class='semtok-string'>&#34; wrapper around new(expr)&#34;</span>,</li>
+<li>			<span class='semtok-variable'>TextEdits</span>: <span class='semtok-variable semtok-mod-slice'>edits</span>,</li>
+<li>		<span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span><div style="display:inline" class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>}</div>,</li>
+<li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span></li>
+<li><span class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>}</span></li>
+				</ol></code></pre>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
+<li>							<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span></li>
+<li>						<span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+<li>					<span class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>}</span></li>
+<li>				<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span></li>
+<li>			<span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+<li>		<span class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>}</span></li>
+<li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span></li>
+				</ol></code></pre>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
+				<li><span class='semtok-keyword semtok-mod-control'>for</span> <span class='semtok-variable semtok-mod-definition'>curCall</span> := <span class='semtok-keyword semtok-mod-control'>range</span> <span class='semtok-variable'>inspect</span>.<span class='semtok-function'>Root</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span>.</li>
+<li>	<span class='semtok-function'>Preorder</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-operator'>*</span><span class='semtok-namespace'>ast</span>.<span class='semtok-type semtok-mod-struct'>CallExpr</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-variable semtok-mod-defaultLibrary semtok-mod-readonly'>nil</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+<li>	<span class='semtok-variable semtok-mod-definition'>call</span> <span class='semtok-operator'>:=</span> <span class='semtok-variable'>curCall</span>.<span class='semtok-function'>Node</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span>.<span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-operator'>*</span><span class='semtok-variable'>ast</span>.<span class='semtok-variable'>CallExpr</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span></li>
+<li>	<span class='semtok-keyword'>var</span> <span class='semtok-variable semtok-mod-definition semtok-mod-struct'>fact</span> <span class='semtok-type semtok-mod-struct'>newLike</span></li>
+<li>	<span class='semtok-keyword semtok-mod-control'>if</span> <span class='semtok-variable semtok-mod-definition'>fn</span>, <span class='semtok-variable semtok-mod-definition'>ok</span> <span class='semtok-operator'>:=</span> <span class='semtok-namespace'>typeutil</span>.<span class='semtok-function'>Callee</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-variable'>info</span>, <span class='semtok-variable'>call</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span>.<br>		<span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-operator'>*</span><span class='semtok-variable'>types</span>.<span class='semtok-variable'>Func</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span>; <span class='semtok-variable'>ok</span> <span class='semtok-operator'>&amp;&amp;</span></li>
+<li>		<span class='semtok-parameter'>pass</span>.<span class='semtok-function'>ImportObjectFact</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-variable'>fn</span>, <span class='semtok-operator'>&amp;</span><span class='semtok-variable semtok-mod-struct'>fact</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>{</span></li>
+				</ol></code></pre>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
+<li><span class='semtok-variable semtok-mod-definition'>file</span> <span class='semtok-operator'>:=</span> <span class='semtok-namespace'>astutil</span>.<span class='semtok-function'>EnclosingFile</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-variable'>curCall</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span></li>
+<li><span class='semtok-keyword semtok-mod-control'>if</span> <span class='semtok-operator'>!</span><span class='semtok-namespace'>analyzerutil</span>.<span class='semtok-function'>FileUsesGoVersion</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span></li>
+<li>	<span class='semtok-parameter'>pass</span>, <span class='semtok-variable'>file</span>, <span class='semtok-namespace'>versions</span>.<span class='semtok-variable'>Go1_26</span>,</li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li>	<span class='semtok-keyword semtok-mod-control'>continue</span></li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+<li></li>
+<li><span class='semtok-keyword semtok-mod-control'>if</span> <span class='semtok-function'>lookup</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-variable'>info</span>, <span class='semtok-variable'>curCall</span>, <span class='semtok-string'>&#34;new&#34;</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-operator'>!=</span> <span class='semtok-variable'>builtinNew</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li>	<span class='semtok-keyword semtok-mod-control'>continue</span></li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+				</ol></code></pre>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
+<li><span class='semtok-keyword'>var</span> <span class='semtok-variable semtok-mod-definition semtok-mod-interface'>targ</span> <span class='semtok-namespace'>types</span>.<span class='semtok-type semtok-mod-interface'>Type</span></li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li>	<span class='semtok-variable semtok-mod-definition'>arg</span> <span class='semtok-operator'>:=</span> <span class='semtok-variable'>call</span>.<span class='semtok-variable'>Args</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>[</span><span class='semtok-number'>0</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>]</span></li>
+<li>	<span class='semtok-variable semtok-mod-definition'>tvarg</span> <span class='semtok-operator'>:=</span> <span class='semtok-variable'>info</span>.<span class='semtok-variable'>Types</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>[</span><span class='semtok-variable'>arg</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>]</span></li>
+				</ol></code></pre>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
+				<li><span class='semtok-keyword semtok-mod-control'>if</span> <span class='semtok-variable'>tvarg</span>.<span class='semtok-variable'>Value</span> <span class='semtok-operator'>!=</span> <span class='semtok-variable semtok-mod-defaultLibrary semtok-mod-readonly'>nil</span> <span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+<li>	<span class='semtok-variable semtok-mod-definition semtok-mod-pointer'>info2</span> <span class='semtok-operator'>:=</span> <span class='semtok-operator'>&amp;</span><span class='semtok-namespace'>types</span>.<span class='semtok-type semtok-mod-struct'>Info</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>{</span></li>
+<li>		<span class='semtok-variable semtok-mod-map'>Types</span>: <span class='semtok-function semtok-mod-defaultLibrary'>make</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-keyword'>map</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>[</span><span class='semtok-namespace'>ast</span>.<span class='semtok-type semtok-mod-interface'>Expr</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>]</span><span class='semtok-namespace'>types</span>.<span class='semtok-type semtok-mod-struct'>TypeAndValue</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span>,</li>
+<li>	<span class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>}</span></li>
+<li>	<span class='semtok-keyword semtok-mod-control'>if</span> <span class='semtok-variable semtok-mod-definition semtok-mod-interface'>err</span> <span class='semtok-operator'>:=</span> <span class='semtok-namespace'>types</span>.<span class='semtok-function semtok-mod-signature'>CheckExpr</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span></li>
+<li>		<span class='semtok-namespace'>token</span>.<span class='semtok-function semtok-mod-signature'>NewFileSet</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span>, <span class='semtok-parameter'>pass</span>.<span class='semtok-variable'>Pkg</span>,</li>
+<li>		<span class='semtok-namespace'>token</span>.<span class='semtok-variable semtok-mod-number semtok-mod-readonly'>NoPos</span>, <span class='semtok-variable'>arg</span>, <span class='semtok-variable semtok-mod-pointer'>info2</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span>; <span class='semtok-variable semtok-mod-interface'>err</span> <span class='semtok-operator'>!=</span> <span class='semtok-variable semtok-mod-defaultLibrary semtok-mod-readonly'>nil</span> <span class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>{</span></li>
+<li>		<span class='semtok-keyword semtok-mod-control'>continue</span></li>
+<li>	<span class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>}</span></li>
+<li>	<span class='semtok-variable'>tvarg</span> <span class='semtok-operator'>=</span> <span class='semtok-variable semtok-mod-pointer'>info2</span>.<span class='semtok-variable semtok-mod-map'>Types</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-bracket'>[</span><span class='semtok-variable'>arg</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-bracket'>]</span></li>
+<li><span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span></li>
+				</ol></code></pre>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
+				<li>	<span class='semtok-variable semtok-mod-interface'>targ</span> <span class='semtok-operator'>=</span> <span class='semtok-namespace'>types</span>.<span class='semtok-function semtok-mod-signature'>Default</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-variable'>tvarg</span>.<span class='semtok-variable'>Type</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span></li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+				</ol></code></pre>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
+<li><span class='semtok-keyword semtok-mod-control'>if</span> <span class='semtok-operator'>!</span><span class='semtok-namespace'>types</span>.<span class='semtok-function semtok-mod-signature'>Identical</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span></li>
+<li>	<span class='semtok-namespace'>types</span>.<span class='semtok-function semtok-mod-signature'>NewPointer</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-variable semtok-mod-interface'>targ</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span>,</li>
+<li>	<span class='semtok-variable'>info</span>.<span class='semtok-function'>TypeOf</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span><span class='semtok-variable'>call</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span>,</li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span> <span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</span></li>
+<li>	<span class='semtok-keyword semtok-mod-control'>continue</span></li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+				</ol></code></pre>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
+<li><span class='semtok-parameter'>pass</span>.<span class='semtok-function'>Report</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>Diagnostic</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
+<li>	<span class='semtok-variable'>Pos</span>:     <span class='semtok-variable'>call</span>.<span class='semtok-function'>Pos</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span>,</li>
+<li>	<span class='semtok-variable'>End</span>:     <span class='semtok-variable'>call</span>.<span class='semtok-function'>End</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span>,</li>
+<li>	<span class='semtok-variable'>Message</span>: <span class='semtok-namespace'>fmt</span>.<span class='semtok-function semtok-mod-signature'>Sprintf</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span></li>
+<li>		<span class='semtok-string'>&#34;call of </span><span class='semtok-string semtok-mod-format'>%s</span><span class='semtok-string'>(x) can be simplified to new(x)&#34;</span>,</li>
+<li>		<span class='semtok-variable'>fn</span>.<span class='semtok-function'>Name</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span>,</li>
+<li>	<span class='semtok-variable'>SuggestedFixes</span>: <span class='semtok-bracket  semtok-mod-level3 semtok-mod-bracket'>[</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-bracket'>]</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>SuggestedFix</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>{</span><div style="display:inline" class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>{</div></li>
+<li>		<span class='semtok-variable'>Message</span>: <span class='semtok-namespace'>fmt</span>.<span class='semtok-function semtok-mod-signature'>Sprintf</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>(</span></li>
+<li>			<span class='semtok-string'>&#34;Simplify </span><span class='semtok-string semtok-mod-format'>%s</span><span class='semtok-string'>(x) to new(x)&#34;</span>, <span class='semtok-variable'>fn</span>.<span class='semtok-function'>Name</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-paren'>)</span>,</li>
+<li>		<span class='semtok-variable'>TextEdits</span>: <span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>[</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-bracket'>]</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>TextEdit</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span><div style="display:inline" class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>{</span></li>
+<li>			<span class='semtok-variable'>Pos</span>:     <span class='semtok-variable'>call</span>.<span class='semtok-variable'>Fun</span>.<span class='semtok-function'>Pos</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span>,</li>
+<li>			<span class='semtok-variable'>End</span>:     <span class='semtok-variable'>call</span>.<span class='semtok-variable'>Fun</span>.<span class='semtok-function'>End</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span>,</li>
+<li>			<span class='semtok-variable'>NewText</span>: <span class='semtok-bracket  semtok-mod-level1 semtok-mod-bracket'>[</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-bracket'>]</span><span class='semtok-type semtok-mod-number semtok-mod-defaultLibrary'>byte</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-string'>&#34;new&#34;</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span>,</li>
+<li>		<span class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>}</span><div style="display:inline" class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</div>,</li>
+<li>	<span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span><div style="display:inline" class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>}</div>,</li>
+<li><span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span></li>
+				</ol></code></pre>
+				</section>
+
+				<section>
+				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
+<li>		<span class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>}</span></li>
+<li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span></li>
+<li>	<span class='semtok-keyword semtok-mod-control'>return</span> <span class='semtok-variable semtok-mod-defaultLibrary semtok-mod-readonly'>nil</span>, <span class='semtok-variable semtok-mod-defaultLibrary semtok-mod-readonly'>nil</span></li>
+<li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
+<li></li>
+				</ol></code></pre>
+				</section>
+
+				<section>
+					<p class="r-fit-text"><strong>ご清聴ありがとうございました！</strong></p>
+					<div>Dennis Metzger</div>
+					<div class="occasion weak"><time>2026-02-25</time><div class="event">Go 1.26 Release Party</div></div>
+				</section>
+
+			</div>
+		</div>
+
+		<script src="static/revealjs/dist/reveal.js"></script>
+		<script src="static/revealjs/plugin/notes/notes.js"></script>
+		<script>
+			Reveal.initialize({
+				hash: true,
+				hashOneBasedIndex: true,
+				transition: 'none',
+				progress: false,
+				slideNumber: true,
+				showSlideNumber: 'all',
+				controls: true,
+
+				plugins: [ RevealNotes ],
+			});
+		</script>
+	</body>
+</html>
