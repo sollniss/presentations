@@ -652,11 +652,6 @@
 				</section>
 
 				<section>
-				    <p>Part 3:</p>
-					<p class="r-fit-text"><strong>呼び出し箇所の対応</strong></p>
-				</section>
-
-				<section>
 				<pre class="pre"><code class="code" style="font-size: 32px;"><ol class="no-numbering">
 				<li><span class='semtok-keyword semtok-mod-control'>if</span> <span class='semtok-function semtok-mod-defaultLibrary'>len</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>(</span><span class='semtok-variable semtok-mod-slice'>edits</span><span class='semtok-bracket  semtok-mod-level3 semtok-mod-paren'>)</span> <span class='semtok-operator'>&gt;</span> <span class='semtok-number'>0</span> <span class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>{</span></li>
 <li>	<span class='semtok-parameter'>pass</span>.<span class='semtok-function'>Report</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>(</span><span class='semtok-namespace'>analysis</span>.<span class='semtok-variable'>Diagnostic</span><span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>{</span></li>
@@ -674,6 +669,11 @@
 <li>	<span class='semtok-bracket  semtok-mod-level2 semtok-mod-brace'>}</span><span class='semtok-bracket  semtok-mod-level1 semtok-mod-paren'>)</span></li>
 <li><span class='semtok-bracket  semtok-mod-level3 semtok-mod-brace'>}</span></li>
 				</ol></code></pre>
+				</section>
+
+				<section>
+				    <p>Part 3:</p>
+					<p class="r-fit-text"><strong>呼び出し箇所の対応</strong></p>
 				</section>
 
 				<section>
@@ -786,6 +786,15 @@
 <li><span class='semtok-bracket  semtok-mod-level1 semtok-mod-brace'>}</span></li>
 <li></li>
 				</ol></code></pre>
+				</section>
+
+				<section>
+					<p><strong>覚えてほしいこと</strong></p>
+					<ul>
+	                    <li style="padding-top:0.75em">リンターは1パッケージずつのASTしか見れない</li>
+					    <li style="padding-top:0.75em"><span class="semtok-variable">Requires</span> と <span class="semtok-parameter">pass</span>.<span class="semtok-variable">ResultOf</span> で別のリンターの <span class="semtok-variable">ResultType</span> を受けることができる</li>
+						<li style="padding-top:0.75em"><span class="semtok-parameter">pass</span>.<span class="semtok-function">ExportObjectFact</span> と <span class="semtok-parameter">pass</span>.<span class="semtok-function">ImportObjectFact</span> で<br>事実を共有することができる</li>
+					</ul>
 				</section>
 
 				<section>
