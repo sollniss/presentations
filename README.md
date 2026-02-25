@@ -1,6 +1,6 @@
 # presentations
 
-## [2026-02-25] [そのエラー本当に必要ですか？](https://sollniss.github.io/presentations/20260225_release.party/)
+## [2026-02-25] [go fix の裏側 — modernize analyzer を読み解く](https://sollniss.github.io/presentations/20260225_release.party/)
 
 ### Event: [Go 1.26 リリースパーティ](https://gocon.connpass.com/event/381405/)
 
